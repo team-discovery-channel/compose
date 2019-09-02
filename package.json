@@ -20,7 +20,7 @@
     "dev": "nodemon --watch src -e ts,ejs --exec npm run dev:start",
     "start": "node .",
     "pretest": "npm run build",
-    "test": "Jest",
+    "test": "jest",
     "prepare": "npm run build"
   },
   "devDependencies": {
