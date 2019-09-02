@@ -18,4 +18,3 @@ install:
 
 script: 
         - npm run test
-
