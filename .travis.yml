@@ -15,6 +15,7 @@ install:
           - npm uninstall typescript --no-save   
           - npm uninstall tslint --no-save   
           - npm install
+          - npm install --save-dev jest
 
 script: 
         - npm run test
