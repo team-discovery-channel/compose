@@ -9,7 +9,11 @@ const storage = multer.memoryStorage();
 const upload: multer.Instance = multer({
   storage,
   fileFilter: (req, file, cb) => {
-    cb(null, file.mimetype === 'application/zip');
+    const acceptedMimeTypes: string[] = [
+      'application/x-zip-compressed',
+      'application/zip',
+    ];
+    cb(null, acceptedMimeTypes.includes(file.mimetype));
   },
 });
 
