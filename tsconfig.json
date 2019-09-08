@@ -10,5 +10,9 @@
   },
   "include": [
     "src/**/*"
-  ]
+  ],
+  "typedocOptions": {
+      "mode": "modules",
+      "out": "dist/src/documentation"
+  }
 }
