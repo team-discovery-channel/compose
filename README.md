@@ -1,6 +1,26 @@
-COMPOSE
-=======
+#COMPOSE
 
+## Install
+### Required installations:
+* NodeJS
+
+### How To Install
+1. `git clone https://github.com/team-discovery-channel/compose/tree/develop`
+2. `cd *compose_folder*`
+3.  Create file ".env" with the following text under *compose_folder*
+  * NODE_ENV=development
+  * SERVER_PORT=8080
+3. `npm install`
+4. `npm run dev:start`
+5. Browse to "localhost:8080/" on your browser
+  * Browse to "localhost:8080/docs" to view documentation
+
+
+## Run
+## Purpose
+## Further develop
+## Tests
+## Raise Issues
 * To install: `npm install`
 * To run dev server: `npm run dev`
 * To run prod server: `npm start`
