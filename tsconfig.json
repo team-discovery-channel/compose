@@ -13,6 +13,6 @@
   ],
   "typedocOptions": {
       "mode": "modules",
-      "out": "dist/src/documentation"
+      "out": "dist/src/docs"
   }
 }
