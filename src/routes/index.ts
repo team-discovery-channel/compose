@@ -50,4 +50,6 @@ export const register = (app: express.Application) => {
       res.json({ error: 'Zip files only.' });
     }
   });
+
+  app.use('/docs', express.static('dist/src/docs'));
 };
