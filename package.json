@@ -9,6 +9,15 @@
   ],
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
+  "jest": {
+    "roots": [
+      "src",
+      "test"
+    ],
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    }
+  },
   "scripts": {
     "build": "npm-run-all clean lint check tsc copy-assets typedoc",
     "check": "gts check",
@@ -20,7 +29,7 @@
     "prepare": "npm run build",
     "start": "node .",
     "pretest": "npm run build",
-    "test": "Jest",
+    "test": "jest",
     "tsc": "tsc -p tsconfig.json",
     "typedoc": "typedoc"
   },
