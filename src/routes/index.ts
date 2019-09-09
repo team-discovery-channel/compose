@@ -2,6 +2,7 @@ import express from 'express';
 import multer from 'multer';
 import AdmZip from 'adm-zip';
 import stream from 'stream';
+import { languages } from '../api/language';
 
 import { compose } from '../api';
 
@@ -25,6 +26,10 @@ const upload: multer.Instance = multer({
 export const register = (app: express.Application) => {
   app.get('/', (req, res) => {
     res.render('index');
+  });
+
+  app.get('/wireframe', (req, res) => {
+    res.render('wireframe', languages);
   });
 
   app.post('/combine', upload.single('file'), (req: any, res) => {
