@@ -13,6 +13,10 @@ const upload: multer.Instance = multer({
   },
 });
 
+/**
+ * @param combine  Comment for parameter combine.
+ * @returns      Comment for special return value.
+ */
 export const register = (app: express.Application) => {
   app.get('/', (req, res) => {
     res.render('index');
