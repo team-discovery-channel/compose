@@ -6,6 +6,7 @@ import stream from 'stream';
 import { compose } from '../api';
 
 const storage = multer.memoryStorage();
+
 const upload: multer.Instance = multer({
   storage,
   fileFilter: (req, file, cb) => {
