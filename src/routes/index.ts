@@ -2,20 +2,34 @@ import express from 'express';
 import multer from 'multer';
 import AdmZip from 'adm-zip';
 import stream from 'stream';
+import { languages } from '../api/language';
 
 import { compose } from '../api';
 
 const storage = multer.memoryStorage();
+
 const upload: multer.Instance = multer({
   storage,
   fileFilter: (req, file, cb) => {
-    cb(null, file.mimetype === 'application/zip');
+    const acceptedMimeTypes: string[] = [
+      'application/x-zip-compressed',
+      'application/zip',
+    ];
+    cb(null, acceptedMimeTypes.includes(file.mimetype));
   },
 });
 
+/**
+ * @param combine  Comment for parameter combine.
+ * @returns      Comment for special return value.
+ */
 export const register = (app: express.Application) => {
   app.get('/', (req, res) => {
     res.render('index');
+  });
+
+  app.get('/wireframe', (req, res) => {
+    res.render('wireframe', languages);
   });
 
   app.post('/combine', upload.single('file'), (req: any, res) => {
@@ -50,4 +64,6 @@ export const register = (app: express.Application) => {
       res.json({ error: 'Zip files only.' });
     }
   });
+
+  app.use('/docs', express.static('dist/src/docs'));
 };

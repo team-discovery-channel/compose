@@ -2,26 +2,44 @@
   "name": "compose",
   "version": "0.1.0",
   "description": "",
-  "main": "dist/src/index.js",
-  "types": "dist/src/index.d.ts",
+  "keywords": [],
+  "license": "Apache-2.0",
   "files": [
     "dist/src"
   ],
-  "license": "Apache-2.0",
-  "keywords": [],
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "jest": {
+    "roots": [
+      "src",
+      "test"
+    ],
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    }
+  },
   "scripts": {
+    "build": "npm-run-all clean lint check tsc copy-assets typedoc",
     "check": "gts check",
     "clean": "gts clean",
     "copy-assets": "ts-node tools/copyAssets",
-    "lint": "gts fix && tslint -c tslint.json -p tsconfig.json --fix",
-    "tsc": "tsc -p tsconfig.json",
-    "build": "npm-run-all clean lint check tsc copy-assets",
-    "dev:start": "npm-run-all build start",
     "dev": "nodemon --watch src -e ts,ejs --exec npm run dev:start",
+    "dev:start": "npm-run-all build start",
+    "lint": "gts fix && tslint -c tslint.json -p tsconfig.json --fix",
+    "prepare": "npm run build",
     "start": "node .",
     "pretest": "npm run build",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "prepare": "npm run build"
+    "test": "jest",
+    "tsc": "tsc -p tsconfig.json",
+    "typedoc": "typedoc"
+  },
+  "dependencies": {
+    "adm-zip": "^0.4.13",
+    "dotenv": "^8.1.0",
+    "ejs": "^2.6.2",
+    "express": "^4.17.1",
+    "multer": "^1.4.2",
+    "typedoc": "^0.15.0"
   },
   "devDependencies": {
     "@types/adm-zip": "^0.4.32",
@@ -39,12 +57,5 @@
     "ts-node": "^8.3.0",
     "tslint": "^5.18.0",
     "typescript": "~3.5.0"
-  },
-  "dependencies": {
-    "adm-zip": "^0.4.13",
-    "dotenv": "^8.1.0",
-    "ejs": "^2.6.2",
-    "express": "^4.17.1",
-    "multer": "^1.4.2"
   }
 }
