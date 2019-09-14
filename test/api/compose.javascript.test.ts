@@ -4,6 +4,7 @@ import { compose } from '../../src/api';
 
 const language = javascript;
 const name = "javascript"
+const ext = ".js"
 
 function getAllFuncs(obj :{}) :string[] {
     /*
@@ -50,4 +51,12 @@ test(`is ${name} composable`,()=>{
 test(`is ${name}'s compose function returning JSON object`,()=>{
     const run = (()=>{language.compose({})})
     expect(run).not.toThrow()
+})
+
+test(`${name} object name() returns correct name`,()=>{
+    expect(language.getName()).toEqual(name)
+})
+
+test(`${name} object isValidExt() returns true for ${ext}`,()=>{
+    expect(language.isValidExt(ext)).toBe(true)
 })

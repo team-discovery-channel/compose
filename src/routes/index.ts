@@ -12,9 +12,6 @@ const languages = {
   list: [javascript],
 };
 
-console.log('PRINTINGINGSIONGOIJISGISJGOIJGOIS');
-console.log(javascript.getName());
-
 const upload: multer.Instance = multer({
   storage,
   fileFilter: (req, file, cb) => {
