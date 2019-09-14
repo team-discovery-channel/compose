@@ -2,11 +2,18 @@ import express from 'express';
 import multer from 'multer';
 import AdmZip from 'adm-zip';
 import stream from 'stream';
-import { languages } from '../api/language';
+import { javascript } from '../api/compose.javascript';
 
 import { compose } from '../api';
 
 const storage = multer.memoryStorage();
+
+const languages = {
+  list: [javascript],
+};
+
+console.log('PRINTINGINGSIONGOIJISGISJGOIJGOIS');
+console.log(javascript.getName());
 
 const upload: multer.Instance = multer({
   storage,
