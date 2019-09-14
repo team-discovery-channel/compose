@@ -12,7 +12,7 @@ class Javascript extends Language implements Composable {
   }
 
   isValidExt(ext: string): boolean {
-    return ext in this.exts;
+    return this.exts.includes(ext);
   }
 }
 export const javascript = new Javascript();
