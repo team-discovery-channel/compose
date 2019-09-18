@@ -3,7 +3,6 @@ import multer from 'multer';
 import AdmZip from 'adm-zip';
 import stream from 'stream';
 import { javascript } from '../api/compose.javascript';
-
 import { compose } from '../api';
 
 const storage = multer.memoryStorage();
@@ -29,11 +28,24 @@ const upload: multer.Instance = multer({
  */
 export const register = (app: express.Application) => {
   app.get('/', (req, res) => {
-    res.render('index');
+    res.render('index', languages);
   });
 
-  app.get('/wireframe', (req, res) => {
-    res.render('wireframe', languages);
+  app.post('/entry', upload.single('file'), (req: any, res) => {
+    if (req.file !== undefined) {
+      const zip = new AdmZip(req.file.buffer);
+      const files = zip.getEntries().filter(entry => !entry.isDirectory);
+      const filenames: string[] = [];
+      files.forEach(f => {
+        filenames.push(f.name);
+      });
+      res.render('entry', {
+        filenames,
+        language: req.body.selectLanguage,
+      });
+    } else {
+      res.json({ error: 'Zip files only.' });
+    }
   });
 
   app.post('/combine', upload.single('file'), (req: any, res) => {

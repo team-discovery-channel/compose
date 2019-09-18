@@ -8,27 +8,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script type="text/javascript">
+    </script>
 </head>
 
 <body>
     <div class="container">
-        <form action="combine" method="post" enctype="multipart/form-data">
+        <form action="entry" method="post" enctype="multipart/form-data">
             <div class="row">
-                <div class="file-field input-field">
-                    <div class="btn">
-                        <span>Browse</span>
-                        <input type="file" name="file"/>
-                    </div>
-                    <div class="file-path-wrapper">
-                        <input class="file-path validate" type="text" placeholder="Upload source zip" name="file" />
-                    </div>
+                
+            </div>
+            <div class="row">
+                <div class="col m2" style="text-align:right;margin-left:17.5%;">
+                    <label style="line-height:36px;">Select Language</label>
                 </div>
+                <div class="col m5">
+                    <select class="browser-default" name="selectLanguage">
+                        <option value="" disabled selected>No langauge selected</option>
+                        <% list.forEach(function(language) { %>
+                            <option><%= language.name %></option>
+                        <% }); %>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                    <div class= "col m2" style="text-align:right;margin-left:17.5%;">
+                        <label style="line-height:64px;">Folder</label> 
+                    </div>
+                    <div class="col m5">
+                        <div class="file-field input-field">
+                                <div class="btn m2" style="float:right">
+                                        <span>Browse</span>
+                                        <input type="file" name="file"/>
+                                    </div>
+                            <div class="file-path-wrapper m10">
+                                <input class="file-path validate" type="text">
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <div id="submit" class="row" style="text-align:center">
                 <button class="btn waves-effect waves-light" type="submit" name="action">Submit
                     <i class="material-icons right"></i>
                 </button>
             </div>
+            <div  id="download" class="row" style="text-align:center"> 
+
+            </div>
         </form>
     </div>
 </body>
-
-</html>
