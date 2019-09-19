@@ -65,10 +65,14 @@ export const register = (app: express.Application) => {
     if (req.body.zipId !== undefined) {
       const zid = req.body.zipId;
       const zip = new AdmZip(app.locals[zid.substring(0, zid.length - 1)]);
+      const main: string = req.body.selectedEntry;
       const files = zip
         .getEntries()
         .filter(entry => !entry.isDirectory)
         .reduce<{ [index: string]: string[] }>((acc, entry) => {
+          if (entry.name === main) {
+            acc['entry'] = [entry.entryName];
+          }
           acc[entry.entryName] = entry
             .getData()
             .toString('utf-8')
