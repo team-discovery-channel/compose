@@ -26,8 +26,8 @@ const upload: multer.Instance = multer({
 });
 
 /**
- * @param combine  Comment for parameter combine.
- * @returns      Comment for special return value.
+ * registers routes to the express application
+ * @param app  express application object, see src/index.ts
  */
 export const register = (app: express.Application) => {
   app.get('/', (req, res) => {
