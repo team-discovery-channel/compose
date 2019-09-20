@@ -15,7 +15,7 @@ branches:
         only:
                 - master
                 - develop
-                - /feature\//i
+                - /feature\/*/i
 
 install:
           - npm uninstall typescript --no-save   
