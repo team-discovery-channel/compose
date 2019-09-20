@@ -1,7 +1,7 @@
 import { Composable, Language } from './compose.language';
 class Javascript extends Language implements Composable {
   constructor() {
-    super('javascript', ['.js']);
+    super('javascript', ['.js', '', '/index.js']);
   }
   compose(config: {}): string {
     return JSON.stringify({});
@@ -13,6 +13,10 @@ class Javascript extends Language implements Composable {
 
   isValidExt(ext: string): boolean {
     return this.exts.includes(ext);
+  }
+
+  getExtensions(): string[] {
+    return this.exts;
   }
 }
 export const javascript = new Javascript();
