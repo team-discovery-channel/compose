@@ -16,6 +16,18 @@
     ],
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
+    },
+    "collectCoverageFrom": [
+      "src/api/**/*"
+    ],
+    "collectCoverage":true,
+    "coverageThreshold": {
+      "global": {
+        "branches": 100,
+        "functions": 100,
+        "lines": 95,
+        "statements": -10
+      }
     }
   },
   "scripts": {
