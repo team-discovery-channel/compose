@@ -5,11 +5,11 @@ node_js:
         - '10'
         - '8'
 
-env:   
-	- workerCount=3 timeout=600000  
+env:
+        - workerCount=3 timeout=600000  
 
-matrix:   
-	fast_finish: true  
+matrix:
+        fast_finish: true  
 
 branches:
         only:
