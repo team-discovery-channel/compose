@@ -13,8 +13,26 @@ export const compose = (files: { [index: string]: string[] }) => {
 /**
  * Ensures module extracted from code is valid and in the filelist
  * @param filename File to verify
- * @param ext Array of valid file extensions
+ * @param extensions Array of valid file extensions
  * @param filelist Array of known files
  * @returns Returns either a truthy value(the filename with its extension) or false
  */
-export const findModule = (filename: string, ext: string[], filelist: string[]) => {};
+export const findModule = (
+  filename: string,
+  extensions: string[],
+  filelist: string[]
+) => {
+  let exts: string[];
+  if (/\.js$/.test(filename)) {
+    exts = [''];
+  } else {
+    exts = extensions;
+  }
+
+  for (const ext of exts) {
+    if (filelist.includes(filename + ext)) {
+      return filename + ext;
+    }
+  }
+  return false;
+};

@@ -21,5 +21,5 @@ test("Expected 'help.ts' to return false", ()=>
 
 test("Expected 'alive' to return !false", ()=>
 {
-  expect(findModule("alive", extensions, filelist)).toBeFalsy();
+  expect(findModule("alive", extensions, filelist)).not.toBeFalsy();
 });
