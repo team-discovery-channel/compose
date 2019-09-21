@@ -29,6 +29,14 @@ export class Language {
   isValidExt(ext: string): boolean {
     return this.exts.includes(ext);
   }
+
+  /**
+   * returns array of extensions
+   * @returns
+   */
+  getExtensions(): string[] {
+    return this.exts;
+  }
 }
 export interface Composable {
   /**
