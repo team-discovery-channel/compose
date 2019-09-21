@@ -97,7 +97,6 @@ export const register = (app: express.Application) => {
 
   app.post('/combine', upload.single('file'), (req: any, res) => {
     if (req.body.zipId !== undefined) {
-
       let entryFilename: string | string[] = req.body.selectedEntry;
       if (entryFilename instanceof Array) {
         entryFilename = entryFilename[0];

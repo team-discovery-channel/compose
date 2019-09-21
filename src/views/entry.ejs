@@ -12,9 +12,16 @@
 
     <script type="text/javascript">
         function setHiddenElementTo(filenameAnchor){
+            var anchors = Array.from(document.getElementsByTagName("a"));
+            anchors.map(function(anchor){
+                anchor.style.color = "white"
+                if(anchor == filenameAnchor){
+                    anchor.style.color = "black"
+                }
+            })
             document.getElementsByName("selectedEntry")[0].setAttribute("value",filenameAnchor.innerHTML)
         }
-        
+
         function init(){
             document.getElementById("directoryTree").style.visibility = "visible"
             document.getElementById("directoryTree").style.display = "block"
