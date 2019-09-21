@@ -1,8 +1,8 @@
 import {findModule} from '../../src/api/index';
 import {javascript} from '../../src/api/compose.javascript'
 
-var extensions = javascript.getExtensions();
-var filelist = ["help.js", "alive/index.js"]
+const extensions = javascript.getExtensions();
+const filelist = ["help.js", "alive/index.js"]
 
 test("Expected 'help.js' to return !false", () =>
 {
