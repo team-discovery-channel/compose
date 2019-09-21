@@ -7,6 +7,7 @@ import { javascript } from '../api/compose.javascript';
 import { v1 } from 'uuid';
 import { compose } from '../api';
 import { O_NOFOLLOW } from 'constants';
+import { isString } from 'util';
 
 const storage = multer.memoryStorage();
 
@@ -37,8 +38,40 @@ export const register = (app: express.Application) => {
   app.post('/entry', upload.single('file'), (req: any, res) => {
     if (req.file !== undefined) {
       const zip = new AdmZip(req.file.buffer);
-      const files = zip.getEntries().filter(entry => !entry.isDirectory);
+
+      const fileDirectory = zip
+        .getEntries()
+        .sort((a: AdmZip.IZipEntry, b: AdmZip.IZipEntry): number => {
+          const aDirCount: number = a.entryName.split('/').length;
+          const bDirCount: number = b.entryName.split('/').length;
+          if (aDirCount < bDirCount) {
+            return -1;
+          }
+          if (aDirCount > bDirCount) {
+            return 1;
+          }
+          return 0;
+        })
+        .reverse()
+        .reduce<string>((acc, entry): string => {
+          if (entry.isDirectory) {
+            const dirArray = entry.entryName.split('/');
+            const dirName: string = dirArray[dirArray.length - 2];
+            let defaultToOpen = '';
+            if (dirArray.length === 2) {
+              defaultToOpen = 'checked disabled';
+            }
+            acc =
+              `<li><label for="${dirName}">${dirName}</label> <input type="checkbox" ${defaultToOpen} id="${dirName}" /><ol>` +
+              acc +
+              '</ol></li>';
+          } else {
+            acc += `<li class="file"><a href="#" onclick="setHiddenElementTo(this)">${entry.name}</a></li>`;
+          }
+          return acc;
+        }, '');
       const filenames: string[] = [];
+      const files = zip.getEntries().filter(entry => !entry.isDirectory);
       const zid: string = v1({
         node: [0x01, 0x23, 0x45, 0x67, 0x89, 0xab],
         clockseq: 0x1234,
@@ -55,6 +88,7 @@ export const register = (app: express.Application) => {
         filenames,
         language: req.body.selectLanguage,
         buffer: zid,
+        directoryHTML: fileDirectory,
       });
     } else {
       res.json({ error: 'Zip files only.' });
@@ -63,14 +97,20 @@ export const register = (app: express.Application) => {
 
   app.post('/combine', upload.single('file'), (req: any, res) => {
     if (req.body.zipId !== undefined) {
+
+      let entryFilename: string | string[] = req.body.selectedEntry;
+      if (entryFilename instanceof Array) {
+        entryFilename = entryFilename[0];
+      }
       const zid = req.body.zipId;
+
       const zip = new AdmZip(app.locals[zid.substring(0, zid.length - 1)]);
-      const main: string = req.body.selectedEntry;
+
       const files = zip
         .getEntries()
         .filter(entry => !entry.isDirectory)
         .reduce<{ [index: string]: string[] }>((acc, entry) => {
-          if (entry.name === main) {
+          if (entry.name === entryFilename) {
             acc['entry'] = [entry.entryName];
           }
           acc[entry.entryName] = entry
@@ -100,4 +140,5 @@ export const register = (app: express.Application) => {
   });
 
   app.use('/docs', express.static('dist/src/docs'));
+  app.use('/css', express.static('dist/src/css'));
 };
