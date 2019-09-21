@@ -1,4 +1,4 @@
-import {findModule} from '../../src/api/index';
+import {findModule} from '../../src/api/compose.utils';
 import {javascript} from '../../src/api/compose.javascript'
 
 const extensions = javascript.getExtensions();
