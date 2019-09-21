@@ -32,7 +32,7 @@ export const findModule = (
   for (const ext of exts) {
     if (filelist.includes(filename + ext)) {
       return filename + ext;
-    }
+    } 
   }
   return false;
 };
