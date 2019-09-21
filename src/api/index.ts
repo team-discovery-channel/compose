@@ -21,7 +21,7 @@ export const findModule = (
   filename: string,
   extensions: string[],
   filelist: string[]
-) => {
+): string | boolean => {
   let exts: string[];
   if (/\.js$/.test(filename)) {
     exts = [''];
