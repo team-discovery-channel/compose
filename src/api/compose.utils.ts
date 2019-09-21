@@ -2,8 +2,7 @@
  * Utility meathods for use with compose.
  * Should be language independant
  */
-import {Language} from './compose.language';
-
+import { Language } from './compose.language';
 
 /**
  * Ensures module extracted from code is valid and in the filelist
@@ -41,15 +40,40 @@ export const findModule = (
  * @returns Returns an array of needed filenames
  */
 export const filterFiles = (
-	files: {[index: string]: string[]},
-	curlang : Language,
-	entryPoint : string,
-	regex : string[]
+  files: { [index: string]: string[] },
+  curlang: Language,
+  entryPoint: string,
+  regex: RegExp[],
+  includedFiles: string[]
 ): string[] => {
-	var neededFiles: string[] = [entryPoint]
-	for(const re in regex){
-		
-	}
-	return neededFiles
+  let neededFiles: string[] = [entryPoint];
+  const curfile: string[] = files[entryPoint];
+  for (const line of curfile) {
+    for (const reg of regex) {
+      const re = reg;
+      const m = re.exec(line);
+      if (m !== null) {
+        const requireName = findModule(
+          m[2],
+          curlang.getExtensions(),
+          Object.keys(files)
+        );
+        if (
+          requireName &&
+          requireName !== true &&
+          !includedFiles.includes(requireName)
+        ) {
+          delete files[entryPoint];
+          neededFiles = filterFiles(
+            files,
+            curlang,
+            requireName,
+            regex,
+            includedFiles
+          ).concat(neededFiles);
+        }
+      }
+    }
+  }
+  return neededFiles;
 };
-
