@@ -12,13 +12,13 @@
 
     <script type="text/javascript">
         function setHiddenElementTo(filenameAnchor){
-            var anchors = Array.from(document.getElementsByTagName("a"));
-            anchors.map(function(anchor){
-                anchor.style.color = "white"
-                if(anchor == filenameAnchor){
-                    anchor.style.color = "black"
+            var anchors = document.getElementsByTagName("a");
+            for(var i = 0; i < anchors.length; i++){
+                anchors[i].style.color = "white"
+                if(anchors[i] == filenameAnchor){
+                    anchors[i].style.color = "black"
                 }
-            })
+            }
             document.getElementsByName("selectedEntry")[0].setAttribute("value",filenameAnchor.innerHTML)
         }
 
