@@ -57,11 +57,7 @@ export const filterFiles = (
           curlang.getExtensions(),
           Object.keys(files)
         );
-        if (
-          requireName &&
-          requireName !== true &&
-          !neededFiles.includes(requireName)
-        ) {
+        if (requireName && requireName !== true) {
           delete files[entryPoint];
           neededFiles = filterFiles(files, curlang, requireName, regex).concat(
             neededFiles
@@ -70,5 +66,5 @@ export const filterFiles = (
       }
     }
   }
-  return neededFiles;
+  return [...new Set(neededFiles)];
 };
