@@ -45,16 +45,6 @@ export const filterFiles = (
   entryPoint: string,
   regex: RegExp[]
 ): string[] => {
-  return filterFilesHelper(files, curlang, entryPoint, regex, []);
-};
-
-const filterFilesHelper = (
-  files: { [index: string]: string[] },
-  curlang: Language,
-  entryPoint: string,
-  regex: RegExp[],
-  includedFiles: string[]
-): string[] => {
   let neededFiles: string[] = [entryPoint];
   const curfile: string[] = files[entryPoint];
   for (const line of curfile) {
@@ -73,13 +63,9 @@ const filterFilesHelper = (
           !neededFiles.includes(requireName)
         ) {
           delete files[entryPoint];
-          neededFiles = filterFilesHelper(
-            files,
-            curlang,
-            requireName,
-            regex,
-            includedFiles
-          ).concat(neededFiles);
+          neededFiles = filterFiles(files, curlang, requireName, regex).concat(
+            neededFiles
+          );
         }
       }
     }
