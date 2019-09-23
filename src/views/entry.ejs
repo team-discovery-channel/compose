@@ -30,13 +30,11 @@
         
            
         });
-        $('#directoryTree').on("changed.jstree", function (e, data) {
-            console.log('here0')
-        });
         
         
 
         function setHiddenElementTo(filenameAnchor, entryFullPath){
+
             document.getElementsByName("selectedEntry")[0].setAttribute("value",entryFullPath)
         }
 
