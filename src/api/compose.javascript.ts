@@ -9,8 +9,9 @@ class Javascript extends Language implements Composable {
   }
 
   /**
-   * @param config object of options for javascript language
-   * @returns
+   * @param filelist ordered list of files returned by filterFiles. Last index is the entrypoint
+   * @param files the files from the zip
+   * @returns composedFile the combined file of 
    */
   compose(filelist: string[], files: { [index: string]: string[] }): string {
     let content = `(function (require, modules) {
