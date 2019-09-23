@@ -31,7 +31,7 @@ export class Language {
   }
 
   /**
-   * returns array of extensions
+   * returns array of extensions. extension at index 0 is the base file extension (.js, .py, etc)
    * @returns
    */
   getExtensions(): string[] {
