@@ -20,9 +20,9 @@ class Javascript extends Language implements Composable {
     var module_cache = {};
     const builtin_require = require;
     const find_module = function(path) {
-        if (/\.js$/.test(path)) 
+        if (/\.js$/.test(path))
             exts = ['']
-        else 
+        else
             exts = ['', '.js', '/index.js']
         for(let module_name of Object.keys(modules))
         {
@@ -62,7 +62,8 @@ class Javascript extends Language implements Composable {
 //  End ${filename}
     })`,
       ];
-      const curfile: string[] = files[filename];
+      const filenameExFiles: string = 'exfiles/' + filename;
+      const curfile: string[] = files[filenameExFiles];
       const fileString: string =
         contentWrapper[0] + curfile.join('\n') + contentWrapper[1];
       content += fileString;

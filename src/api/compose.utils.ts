@@ -47,7 +47,8 @@ export const filterFiles = (
   regex: RegExp[]
 ): string[] => {
   let neededFiles: string[] = [entryPoint];
-  const curfile: string[] = files[entryPoint];
+  const entryPointExFiles: string = 'exfiles/' + entryPoint;
+  const curfile: string[] = files[entryPointExFiles];
   for (const line of curfile) {
     for (const reg of regex) {
       const re = reg;
@@ -58,8 +59,8 @@ export const filterFiles = (
           curlang.getExtensions(),
           Object.keys(files)
         );
-        if (requireName && requireName !== true) {
-          delete files[entryPoint];
+        if (typeof requireName !== 'boolean') {
+          // delete files[test];
           neededFiles = filterFiles(files, curlang, requireName, regex).concat(
             neededFiles
           );
