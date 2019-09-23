@@ -8,6 +8,7 @@ import { v1 } from 'uuid';
 import { compose } from '../api';
 import { O_NOFOLLOW } from 'constants';
 import { isString } from 'util';
+import { filterFiles } from '../api/compose.utils';
 
 const storage = multer.memoryStorage();
 
@@ -119,10 +120,21 @@ export const register = (app: express.Application) => {
           return acc;
         }, {});
 
+      const lang: string = req.body.selectedLanguage;
+      const filenames: string[] = filterFiles(
+        files,
+        javascript,
+        entryFilename,
+        javascript.getRegex()
+      );
+      const combinedFile: string = javascript.compose(
+        filenames,
+        files
+      );
 
       // TODO: Implement call to compose functionality.
-      const contents = Buffer.from(compose(files), 'utf-8');
-      const name = 'files.json';
+      const contents = Buffer.from(combinedFile, 'utf-8');
+      const name = 'files.' + javascript.getExtensions()[0];
 
       // File Download from buffer
       const reader = new stream.PassThrough();
@@ -131,7 +143,7 @@ export const register = (app: express.Application) => {
       res.set('Content-disposition', 'attachment; filename=' + name);
 
       // TODO: Content-Type should change based on lang.
-      res.set('Content-type', 'application/json');
+      res.set('Content-type', 'application/' + javascript.getName());
 
       reader.pipe(res);
     } else {

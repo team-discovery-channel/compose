@@ -40,6 +40,6 @@ export class Language {
 export interface Composable {
   /**
    */
-	compose(filelist: string[], files: { [index: string]: string[] }): string;
-	getRegex(): RegExp[]
+  compose(filelist: string[], files: { [index: string]: string[] }): string;
+  getRegex(): RegExp[];
 }
