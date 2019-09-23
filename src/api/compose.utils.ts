@@ -25,7 +25,7 @@ export const findModule = (
   }
 
   for (const ext of exts) {
-    if (filelist.includes(moduleName + ext)) {
+    if (filelist.includes('exfiles/' + moduleName + ext)) {
       return moduleName + ext;
     }
   }
