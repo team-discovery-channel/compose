@@ -3,7 +3,7 @@ import { Composable, Language } from './compose.language';
 /**
  * composes javascript source files.
  */
-class Javascript extends Language implements Composable {
+class Javascript extends Language {
   constructor() {
     super('javascript', ['.js', '/index.js', '']);
   }
