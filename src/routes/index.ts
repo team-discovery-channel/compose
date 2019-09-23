@@ -105,6 +105,7 @@ export const register = (app: express.Application) => {
       const zid = req.body.zipId;
 
       const zip = new AdmZip(app.locals[zid.substring(0, zid.length - 1)]);
+
       const files = zip
         .getEntries()
         .filter(entry => !entry.isDirectory)
