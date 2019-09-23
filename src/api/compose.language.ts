@@ -13,7 +13,6 @@ export class Language {
     this.name = name;
     this.exts = exts;
   }
-
   /**
    * getter method for language name
    * @returns
@@ -40,8 +39,7 @@ export class Language {
 }
 export interface Composable {
   /**
-   * @param config  object holds language specific options
-   * @returns composed file as string
    */
-  compose(config: {}): string;
+  compose(filelist: string[], files: { [index: string]: string[] }): string;
+  getRegex(): RegExp[];
 }
