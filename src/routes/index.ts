@@ -115,6 +115,7 @@ export const register = (app: express.Application) => {
               .slice(1)
               .join('/')
           ] = entry
+
             .getData()
             .toString('utf-8')
             .split('\n');
