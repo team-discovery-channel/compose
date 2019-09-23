@@ -7,7 +7,9 @@ class Javascript extends Language implements Composable {
   constructor() {
     super('javascript', ['.js', '/index.js', '']);
   }
-
+	getRegex(): RegExp[]{
+	   return [/require\((['"])([^'"]+)\1\)/]
+	}
   /**
    * @param filelist ordered list of files returned by filterFiles. Last index is the entrypoint
    * @param files the files from the zip

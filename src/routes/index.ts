@@ -119,6 +119,7 @@ export const register = (app: express.Application) => {
           return acc;
         }, {});
 
+
       // TODO: Implement call to compose functionality.
       const contents = Buffer.from(compose(files), 'utf-8');
       const name = 'files.json';
