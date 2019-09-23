@@ -25,7 +25,7 @@ export const findModule = (
   }
 
   for (const ext of exts) {
-    if (filelist.includes('exfiles/' + moduleName + ext)) {
+    if (filelist.includes(moduleName + ext)) {
       return moduleName + ext;
     }
   }
@@ -47,8 +47,7 @@ export const filterFiles = (
   regex: RegExp[]
 ): string[] => {
   let neededFiles: string[] = [entryPoint];
-  const entryPointExFiles: string = 'exfiles/' + entryPoint;
-  const curfile: string[] = files[entryPointExFiles];
+  const curfile: string[] = files[entryPoint];
   for (const line of curfile) {
     for (const reg of regex) {
       const re = reg;
