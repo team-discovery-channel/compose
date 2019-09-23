@@ -73,14 +73,13 @@ export const register = (app: express.Application) => {
             const dirName: string = dirArray[dirArray.length - 2];
             let defaultToOpen = '';
             if (dirArray.length === 2) {
-              defaultToOpen = 'checked disabled';
+              defaultToOpen = 'data-jstree=\'{"opened":true}\'';
             }
-            acc =
-              `<li><label for="${dirName}">${dirName}</label> <input type="checkbox" ${defaultToOpen} id="${dirName}" /><ol>` +
-              acc +
-              '</ol></li>';
+            acc = `<li ${defaultToOpen}>${dirName}<ul>` + acc + '</ul></li>';
           } else {
-            acc += `<li class="file"><a href="#" onclick="setHiddenElementTo(this, '${entry.entryName
+            acc += `<li id="${
+              entry.name
+            }" data-jstree='{"icon":"material-icons tiny"}'><a href="#" onclick="setHiddenElementTo(this, '${entry.entryName
               .split('/')
               .slice(1)
               .join('/')}')">${entry.name}</a></li>`;
