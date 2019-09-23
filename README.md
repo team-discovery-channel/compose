@@ -42,7 +42,7 @@ see: https://www.npmjs.com/package/dotenv **
 ### Setup
 * Sign into travis-ci.com using your GitHub account.
 * Activate your repository through Travis CI.
-* Builds can either be triggered manually or will automatically build during the next update to the repository.
+* Builds can either be triggered manually or will automatically build during the next update to the repository. 
 
 ## TypeDoc
 ### Run
@@ -50,3 +50,6 @@ see: https://www.npmjs.com/package/dotenv **
   * Builds Docs folder in Dist folder
 2. `npm run dev:start`
   * Builds and Runs in localhost:8080/docs with documentation
+
+## Source - CSS File Tree View
+ 1. https://www.thecssninja.com/css/css-tree-menu by Ryan Seddon

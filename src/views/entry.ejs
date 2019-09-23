@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Compose</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" type="text/css" href="/css/_styles.css" media="screen" />
+
+    <script type="text/javascript">
+        function setHiddenElementTo(filenameAnchor){
+            var anchors = document.getElementsByTagName("a");
+            for(var i = 0; i < anchors.length; i++){
+                anchors[i].style.color = "white"
+                if(anchors[i] == filenameAnchor){
+                    anchors[i].style.color = "black"
+                }
+            }
+            document.getElementsByName("selectedEntry")[0].setAttribute("value",filenameAnchor.innerHTML)
+        }
+
+        function init(){
+            document.getElementById("directoryTree").style.visibility = "visible"
+            document.getElementById("directoryTree").style.display = "block"
+        }
+    </script>
+</head>
+
+<body onload="init()"> 
+    <div class="container">
+        <form action="combine" method="post" enctype="multipart/form-data">
+            <div class="row">
+            </div>
+            <div class="row">
+                <div class="col m2" style="text-align:right;margin-left:17.5%;">
+                    <label style="line-height:36px;">Selected Language</label>
+                </div>
+                <div class="col m5">
+                    <select class="browser-default">
+                        <option value=<%= language %> disabled selected><%= language %></option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="row center-align">
+                <div class="col m2" style="text-align:right;margin-left:17.5%;">
+                    <label>Select Entry File</label>
+                </div>
+            </div>
+            <div class="row">
+                <div id="directoryTree" class="col m5 card-panel teal lighten-2" style="margin-left:35%;margin-top:-4%;visibility:hidden;display:none;">
+                    <ol class="tree">
+                        <%- directoryHTML %>
+                    </ol>
+                </div>
+            </div>
+            <noscript>
+                <div id="entry" class="row" style="text-align:center">
+                    <div class="col m2" style="text-align:right;margin-left:17.5%;">
+                        <label style="line-height:36px;">Entry File</label>
+                    </div>
+                    <select class="browser-default col m5" name="selectedEntry">
+                            <option value="" disabled selected>No entry selected</option>
+                        <% filenames.forEach(function(filename) { %>
+                            <option><%= filename %></option>
+                        <% }); %>
+                    </select>
+                </div>
+            </noscript>
+            <div  id="download" class="row" style="text-align:center">
+                    <input type=hidden name="selectedEntry" value=""/>
+                    <input type="hidden" name="selectedLanguage" value=<%= language %>/>
+                    <input type=hidden name="zipId" value=<%= buffer %>/>
+                    <button class="btn waves-effect waves-light" type="submit" name="action">Download
+                            <i class="material-icons right"></i>
+                    </button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
