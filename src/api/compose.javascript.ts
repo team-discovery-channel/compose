@@ -63,6 +63,10 @@ class Javascript extends Language implements Composable {
     })`,
       ];
       const curfile: string[] = files[filename];
+<<<<<<< HEAD
+=======
+
+>>>>>>> feature/oops
       const fileString: string =
         contentWrapper[0] + curfile.join('\n') + contentWrapper[1];
       content += fileString;

@@ -67,7 +67,10 @@ export const register = (app: express.Application) => {
               acc +
               '</ol></li>';
           } else {
-            acc += `<li class="file"><a href="#" onclick="setHiddenElementTo(this)">${entry.name}</a></li>`;
+            acc += `<li class="file"><a href="#" onclick="setHiddenElementTo(this, '${entry.entryName
+              .split('/')
+              .slice(1)
+              .join('/')}')">${entry.name}</a></li>`;
           }
           return acc;
         }, '');
@@ -83,7 +86,12 @@ export const register = (app: express.Application) => {
       app.locals[zid] = req.file.buffer;
 
       files.forEach(f => {
-        filenames.push(f.name);
+        filenames.push(
+          f.entryName
+            .split('/')
+            .slice(1)
+            .join('/')
+        );
       });
       res.render('entry', {
         filenames,

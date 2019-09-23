@@ -11,7 +11,11 @@
     <link rel="stylesheet" type="text/css" href="/css/_styles.css" media="screen" />
 
     <script type="text/javascript">
+<<<<<<< HEAD
         function setHiddenElementTo(filenameAnchor){
+=======
+        function setHiddenElementTo(filenameAnchor, entryFullPath){
+>>>>>>> feature/oops
             var anchors = document.getElementsByTagName("a");
             for(var i = 0; i < anchors.length; i++){
                 anchors[i].style.color = "white"
@@ -19,7 +23,11 @@
                     anchors[i].style.color = "black"
                 }
             }
+<<<<<<< HEAD
             document.getElementsByName("selectedEntry")[0].setAttribute("value",filenameAnchor.innerHTML)
+=======
+            document.getElementsByName("selectedEntry")[0].setAttribute("value",entryFullPath)
+>>>>>>> feature/oops
         }
 
         function init(){
@@ -65,7 +73,11 @@
                     <select class="browser-default col m5" name="selectedEntry">
                             <option value="" disabled selected>No entry selected</option>
                         <% filenames.forEach(function(filename) { %>
+<<<<<<< HEAD
                             <option><%= filename %></option>
+=======
+                            <option ><%= filename %></option>
+>>>>>>> feature/oops
                         <% }); %>
                     </select>
                 </div>
