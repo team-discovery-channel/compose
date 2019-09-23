@@ -110,9 +110,6 @@ export const register = (app: express.Application) => {
         .getEntries()
         .filter(entry => !entry.isDirectory)
         .reduce<{ [index: string]: string[] }>((acc, entry) => {
-          if (entry.name === entryFilename) {
-            acc['entry'] = [entry.entryName];
-          }
           acc[entry.entryName] = entry
             .getData()
             .toString('utf-8')
@@ -134,7 +131,7 @@ export const register = (app: express.Application) => {
 
       // TODO: Implement call to compose functionality.
       const contents = Buffer.from(combinedFile, 'utf-8');
-      const name = 'files.' + javascript.getExtensions()[0];
+      const name = 'files' + javascript.getExtensions()[0];
 
       // File Download from buffer
       const reader = new stream.PassThrough();
