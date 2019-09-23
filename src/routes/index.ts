@@ -9,6 +9,7 @@ import { compose } from '../api';
 import { O_NOFOLLOW } from 'constants';
 import { isString } from 'util';
 import { filterFiles } from '../api/compose.utils';
+import { Language } from '../api/compose.language';
 
 const storage = multer.memoryStorage();
 
@@ -26,6 +27,18 @@ const upload: multer.Instance = multer({
     cb(null, acceptedMimeTypes.includes(file.mimetype));
   },
 });
+
+const languageFactory = (name: string): Language => {
+  const lang: Language[] = languages.list.filter(
+    (lang: Language) => lang.getName() === name
+  );
+  if (lang.length === 0) {
+    throw new Error(
+      `languageFactory in routes/index.ts has no instance for ${name}`
+    );
+  }
+  return lang[0];
+};
 
 /**
  * registers routes to the express application
@@ -131,20 +144,21 @@ export const register = (app: express.Application) => {
         }, {});
 
       const lang: string = req.body.selectedLanguage.split('/')[0];
+      const languageInstance: Language = languageFactory(lang);
       const filenames: string[] = filterFiles(
         files,
-        javascript,
+        languageInstance,
         entryFilename,
         javascript.getRegex()
       );
-      const combinedFile: string = javascript.compose(
+      const combinedFile: string = languageInstance.compose(
         filenames,
         files
       );
 
       // TODO: Implement call to compose functionality.
       const contents = Buffer.from(combinedFile, 'utf-8');
-      const name = 'files' + javascript.getExtensions()[0];
+      const name = 'files' + languageInstance.getExtensions()[0];
 
       // File Download from buffer
       const reader = new stream.PassThrough();
@@ -153,7 +167,7 @@ export const register = (app: express.Application) => {
       res.set('Content-disposition', 'attachment; filename=' + name);
 
       // TODO: Content-Type should change based on lang.
-      res.set('Content-type', 'application/' + javascript.getName());
+      res.set('Content-type', 'application/' + languageInstance.getName());
 
       reader.pipe(res);
     } else {

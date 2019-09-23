@@ -1,7 +1,13 @@
 /**
  * Language is the parent class for all languages
  */
-export class Language {
+export interface Composable {
+  /**
+   */
+  compose(filelist: string[], files: { [index: string]: string[] }): string;
+  getRegex(): RegExp[];
+}
+export abstract class Language implements Composable {
   protected name: string;
   protected exts: string[];
 
@@ -36,10 +42,10 @@ export class Language {
   getExtensions(): string[] {
     return this.exts;
   }
-}
-export interface Composable {
-  /**
-   */
-  compose(filelist: string[], files: { [index: string]: string[] }): string;
-  getRegex(): RegExp[];
+
+  abstract compose(
+    filelist: string[],
+    files: { [index: string]: string[] }
+  ): string;
+  abstract getRegex(): RegExp[];
 }
