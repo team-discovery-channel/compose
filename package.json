@@ -46,6 +46,7 @@
     "typedoc": "typedoc"
   },
   "dependencies": {
+    "@types/jest": "^24.0.18",
     "@types/uuid": "^3.4.5",
     "adm-zip": "^0.4.13",
     "dotenv": "^8.1.0",
