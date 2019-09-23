@@ -35,22 +35,26 @@ test(`is ${name} a language`,()=>{
 
 
 test(`is ${name} composable`,()=>{
-    class ImplComposable implements Composable{
-        compose(config: {}): string{
-            return JSON.stringify({});
-        }
+    const isComposable = ()=>{
+        const isA:Composable = language;
     }
-    const composableProperties :string[] = getAllFuncs(new ImplComposable());
-    const languageProperties :string[] = getAllFuncs(language);
-    composableProperties.forEach((property)=>{
-        expect(languageProperties).toContainEqual(property)
-    })
+    expect(isComposable).not.toThrow();
 })
 
 
 test(`is ${name}'s compose function returning JSON object`,()=>{
-    const run = (()=>{language.compose({})})
+    const run = (()=>{language.compose([""],{"":["",""]})})
     expect(run).not.toThrow()
+})
+
+test(`is regex of ${name} correct`,()=>{
+    const cmp = language.getRegex()[0].exec("require(\"module1\")");
+    if(cmp !== null){
+        expect(cmp[2] === "module1").toBe(true);
+    }
+    else{
+        expect(cmp === null).toBe(true);
+    }
 })
 
 test(`${name} object name() returns correct name`,()=>{
