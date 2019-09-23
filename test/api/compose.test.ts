@@ -25,6 +25,6 @@ const jsfilenames1 = [ 'file3.js', 'file4/index.js', 'file2', 'file1' ]
 
 test("first test for javascript compose", ()=>
   {
-    console.log(javascript.compose(jsfilenames1, jsfiles1))
+    //console.log(javascript.compose(jsfilenames1, jsfiles1))
   }
 ) 
