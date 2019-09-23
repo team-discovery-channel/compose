@@ -117,7 +117,7 @@ export const register = (app: express.Application) => {
           return acc;
         }, {});
 
-      const lang: string = req.body.selectedLanguage.split("/")[0];
+      const lang: string = req.body.selectedLanguage.split('/')[0];
       const filenames: string[] = filterFiles(
         files,
         javascript,
