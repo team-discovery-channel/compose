@@ -54,7 +54,6 @@ export const filterFiles = (
 ): string[] => {
   let neededFiles: string[] = [entryPoint];
   const curfile: string[] = files[entryPoint];
-
   for (const line of curfile) {
     for (const reg of regex) {
       const re = reg;
