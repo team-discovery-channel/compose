@@ -9,6 +9,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script type="text/javascript">
+        function insert_input_file_text(element){
+            var filename = element.value;
+            filename = filename.split('\\').pop().split('/').pop();
+            document.getElementById("filename_input").setAttribute("value",filename)
+        }
     </script>
 </head>
 
@@ -39,10 +44,10 @@
                         <div class="file-field input-field">
                                 <div class="btn m2" style="float:right">
                                         <span>Browse</span>
-                                        <input type="file" name="file"/>
+                                        <input type="file" name="file" onchange="insert_input_file_text(this)"/>
                                     </div>
                             <div class="file-path-wrapper m10">
-                                <input class="file-path validate" type="text">
+                                <input class="file-path validate" type="text" id="filename_input">
                             </div>
                         </div>
                     </div>
