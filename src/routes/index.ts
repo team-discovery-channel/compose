@@ -148,7 +148,7 @@ export const register = (app: express.Application) => {
         files,
         languageInstance,
         entryFilename,
-        javascript.getRegex()
+        languageInstance.getRegex()
       );
       const combinedFile: string = languageInstance.compose(
         filenames,
