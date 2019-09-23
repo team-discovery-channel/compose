@@ -86,7 +86,7 @@ export const register = (app: express.Application) => {
       });
       res.render('entry', {
         filenames,
-        language: req.body.selectLanguage,
+        language: req.body.selectedLanguage,
         buffer: zid,
         directoryHTML: fileDirectory,
       });
