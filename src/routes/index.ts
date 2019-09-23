@@ -110,7 +110,13 @@ export const register = (app: express.Application) => {
         .getEntries()
         .filter(entry => !entry.isDirectory)
         .reduce<{ [index: string]: string[] }>((acc, entry) => {
-          acc[entry.entryName] = entry
+          acc[
+            entry.entryName
+              .split('/')
+              .slice(1)
+              .join('/')
+          ] = entry
+
             .getData()
             .toString('utf-8')
             .split('\n');
