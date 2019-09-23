@@ -60,7 +60,6 @@ test(`is regex of ${name} correct`,()=>{
     }
 })
 
-
 test(`${name} object name() returns correct name`,()=>{
     expect(language.getName()).toEqual(name)
 })
