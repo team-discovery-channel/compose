@@ -8,17 +8,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" type="text/css" href="/css/_styles.css" media="screen" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
     <script type="text/javascript">
+        
+        $(function () { $('#directoryTree').jstree(); 
+        $('#directoryTree').on("ready.jstree", function (e, data) {
+            var li = $('#directoryTree').find("i.material-icons")
+            li.map(function(index,element){
+                element.innerHTML = "insert_drive_file"
+            })
+        });
+        $('#directoryTree').on("after_open.jstree", function (e, data) {
+            var li = $('#directoryTree').find("i.material-icons")
+            li.map(function(index,element){
+                element.innerHTML = "insert_drive_file"
+            })
+        });
+        
+           
+        });
+        
+        
+
         function setHiddenElementTo(filenameAnchor, entryFullPath){
-            var anchors = document.getElementsByTagName("a");
-            for(var i = 0; i < anchors.length; i++){
-                anchors[i].style.color = "white"
-                if(anchors[i] == filenameAnchor){
-                    anchors[i].style.color = "black"
-                }
-            }
+
             document.getElementsByName("selectedEntry")[0].setAttribute("value",entryFullPath)
         }
 
@@ -52,9 +68,9 @@
             </div>
             <div class="row">
                 <div id="directoryTree" class="col m5 card-panel teal lighten-2" style="margin-left:35%;margin-top:-4%;visibility:hidden;display:none;">
-                    <ol class="tree">
+                    <ul>
                         <%- directoryHTML %>
-                    </ol>
+                    </ul>
                 </div>
             </div>
             <noscript>
