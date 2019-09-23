@@ -62,8 +62,7 @@ class Javascript extends Language implements Composable {
 //  End ${filename}
     })`,
       ];
-      const filenameExFiles: string = 'exfiles/' + filename;
-      const curfile: string[] = files[filenameExFiles];
+      const curfile: string[] = files[filename];
       const fileString: string =
         contentWrapper[0] + curfile.join('\n') + contentWrapper[1];
       content += fileString;
