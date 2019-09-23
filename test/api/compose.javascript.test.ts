@@ -35,17 +35,14 @@ test(`is ${name} a language`,()=>{
 
 
 test(`is ${name} composable`,()=>{
-
     const isComposable = ()=>{
         const isA:Composable = language;
     }
     expect(isComposable).not.toThrow();
-
 })
 
 
 test(`is ${name}'s compose function returning JSON object`,()=>{
-
     const run = (()=>{language.compose([""],{"":["",""]})})
     expect(run).not.toThrow()
 })
@@ -59,7 +56,6 @@ test(`is regex of ${name} correct`,()=>{
         expect(cmp === null).toBe(true);
     }
 })
-
 
 test(`${name} object name() returns correct name`,()=>{
     expect(language.getName()).toEqual(name)
