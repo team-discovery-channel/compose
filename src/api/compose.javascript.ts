@@ -54,16 +54,19 @@ class Javascript extends Language {
     return main;
 })(require, {`;
     for (const filename of filelist) {
+      const modname = filename
+        .split('/')
+        .slice(-1)
+        .join('/');
       const contentWrapper = [
         `
-    '${filename}': (function(module, exports, require) {
+    '${modname}': (function(module, exports, require) {
 //  Begin ${filename}\n`,
         `
 //  End ${filename}
-    })`,
+}),`,
       ];
       const curfile: string[] = files[filename];
-
       const fileString: string =
         contentWrapper[0] + curfile.join('\n') + contentWrapper[1];
       content += fileString;
