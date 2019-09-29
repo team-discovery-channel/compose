@@ -4,6 +4,7 @@ import { Composable, Language } from './compose.language';
  * composes javascript source files.
  */
 class Javascript extends Language {
+  comment = '//';
   constructor() {
     super('javascript', ['.js', '/index.js', '']);
   }
@@ -61,9 +62,9 @@ class Javascript extends Language {
       const contentWrapper = [
         `
     '${modname}': (function(module, exports, require) {
-//  Begin ${filename}\n`,
+${this.comment}${this.getBeginGuard()} ${filename}\n`,
         `
-//  End ${filename}
+${this.comment}${this.getEndGuard()} ${filename}
 }),`,
       ];
       const curfile: string[] = files[filename];
