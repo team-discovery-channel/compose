@@ -80,10 +80,34 @@ export const filterFiles = (
   return [...new Set(neededFiles)];
 };
 
+/*
+ * Directory object for mock-fs
+ * { 
+ *     "/":{
+ *         "file_name.ext":"file as string",
+ *         "file_name.ext":"second root dir file"
+ *          "subdir_name": {
+ *              "file_name.ext":"another file as string"
+ *               .
+ *               .
+ *               .
+ *           },
+ *           .
+ *           .
+ *           .
+ *      }
+ * }
+ */
 interface Directory {
   [index: string]: any;
 }
 
+/**
+ * builds a directory object for mock-fs
+ * @param paths any path string starting from root
+ * @param dirs Directory object with root directory as only key
+ * @returns the last subdir as Directory object from the paths parameter
+ */
 const constructDirectoryObject = (
   paths: string[],
   dirs: Directory
@@ -118,6 +142,12 @@ const constructDirectoryObject = (
   return undefined; //should never get here
 };
 
+/**
+ * Uncomposes a file into its corresponding file tree
+ * @param lines composed file as lines in a string array
+ * @param langauge the langauge of the composed file
+ * @returns a buffer representing the zip of the file tree
+ */
 export const uncompose = (lines: string[], language: Language): Buffer => {
   const comment = language.getCommentLiteral();
   const BEGIN = comment + language.getBeginGuard();
