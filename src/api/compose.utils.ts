@@ -2,6 +2,9 @@
  * Utility meathods for use with compose.
  * Should be language independant
  */
+import AdmZip from 'adm-zip';
+import mock from 'mock-fs';
+import { EOL } from 'os';
 import { Language } from './compose.language';
 
 /**
@@ -75,4 +78,105 @@ export const filterFiles = (
     }
   }
   return [...new Set(neededFiles)];
+};
+
+interface Directory {
+  [index: string]: any;
+}
+
+const constructDirectoryObject = (
+  paths: string[],
+  dirs: Directory
+): Directory | undefined => {
+  const nextDir = paths.pop();
+  if (nextDir === undefined) {
+    return dirs['/']; //case - root level file
+  }
+  if (nextDir === '') {
+    return constructDirectoryObject(paths, dirs['/']); //for valid subdirs, this is return of root...
+  }
+  if (paths.length === 0) {
+    if (nextDir && nextDir in dirs) {
+      return dirs[nextDir]; //case - sub dir file
+    } else {
+      if (nextDir) {
+        dirs[nextDir] = {};
+        return dirs[nextDir]; //case - sub dir file, sub dir didnt exist
+      }
+    }
+    return undefined;
+  } else {
+    if (nextDir && nextDir in dirs) {
+      return constructDirectoryObject(paths, dirs); //subdir
+    } else {
+      if (nextDir) {
+        dirs[nextDir] = {};
+        return constructDirectoryObject(paths, dirs); //subdir didnt exist
+      }
+    }
+  }
+  return undefined; //should never get here
+};
+
+export const uncompose = (
+  lines: string[],
+  language: Language
+): Buffer => {
+  const comment = language.getCommentLiteral()
+  const BEGIN = comment+language.getBeginGuard()
+  const END = comment+language.getEndGuard()
+  
+  const stack: number[] = new Array<number>();
+
+  const mockdir: { [index: string]: any } = {};
+  mockdir['/'] = {};
+
+  lines
+    .filter((line: string, index: number) => {
+      if (line.match(BEGIN)) {
+        stack.push(index + 1);
+        return true;
+      }
+      if (line.match(END)) {
+        stack.push(index);
+        return false;
+      }
+      return false;
+    })
+    .map((line: string) => {
+      return line.split(BEGIN)[1].trim();
+    })
+    .reverse()
+    .map((dir: string) => {
+      const end: number | undefined = stack.pop();
+      const begin: number | undefined = stack.pop();
+      if (begin && end) {
+        if (dir.indexOf('/') !== -1) {
+          dir = '/' + dir;
+        }
+        const dirObj = constructDirectoryObject(
+          dir
+            .split('/')
+            .slice(0, -1)
+            .reverse(),
+          mockdir
+        );
+        if (dirObj) {
+          dirObj[dir.split('/').slice(-1)[0]] = lines
+            .slice(begin, end)
+            .join(EOL);
+        }
+      }
+    });
+
+  const dirs = {};
+  Object.assign(dirs, mockdir);
+  mock(dirs, { createCwd: false, createTmp: false });
+
+  const fzip = new AdmZip();
+  fzip.addLocalFolder('/');
+  const zipBuffer: Buffer = fzip.toBuffer();
+
+  mock.restore();
+  return zipBuffer;
 };
