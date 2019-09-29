@@ -54,7 +54,7 @@ export abstract class Language implements Composable {
     return Language.endGuard;
   }
 
-  getCommentLiteral(): string{
+  getCommentLiteral(): string {
     return this.comment;
   }
 

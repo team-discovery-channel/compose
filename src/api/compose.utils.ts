@@ -118,14 +118,11 @@ const constructDirectoryObject = (
   return undefined; //should never get here
 };
 
-export const uncompose = (
-  lines: string[],
-  language: Language
-): Buffer => {
-  const comment = language.getCommentLiteral()
-  const BEGIN = comment+language.getBeginGuard()
-  const END = comment+language.getEndGuard()
-  
+export const uncompose = (lines: string[], language: Language): Buffer => {
+  const comment = language.getCommentLiteral();
+  const BEGIN = comment + language.getBeginGuard();
+  const END = comment + language.getEndGuard();
+
   const stack: number[] = new Array<number>();
 
   const mockdir: { [index: string]: any } = {};
