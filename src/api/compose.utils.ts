@@ -155,7 +155,7 @@ export const uncompose = (lines: string[], language: Language): Buffer => {
 
   const stack: number[] = new Array<number>();
 
-  const mockdir: { [index: string]: any } = {};
+  const mockdir: Directory = {};
   mockdir['/'] = {};
 
   lines
