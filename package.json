@@ -51,12 +51,13 @@
     "ejs": "^2.6.2",
     "express": "^4.17.1",
     "jest": "^24.9.0",
+    "mock-fs": "^4.10.1",
     "multer": "^1.4.2",
-    "ts-jest": "^24.1.0",
     "typedoc": "^0.15.0",
     "uuid": "^3.3.3"
   },
   "devDependencies": {
+    "@types/mock-fs": "^3.6.30",
     "@types/uuid": "^3.4.5",
     "@types/jest": "^24.0.18",
     "@types/adm-zip": "^0.4.32",
