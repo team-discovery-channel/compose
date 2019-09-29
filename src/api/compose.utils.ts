@@ -143,12 +143,12 @@ const constructDirectoryObject = (
 };
 
 /**
- * Uncomposes a file into its corresponding file tree
+ * Reverts a file into its corresponding file tree
  * @param lines composed file as lines in a string array
  * @param langauge the langauge of the composed file
  * @returns a buffer representing the zip of the file tree
  */
-export const uncompose = (lines: string[], language: Language): Buffer => {
+export const revert = (lines: string[], language: Language): Buffer => {
   const comment = language.getCommentLiteral();
   const BEGIN = comment + language.getBeginGuard();
   const END = comment + language.getEndGuard();

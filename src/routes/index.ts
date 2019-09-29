@@ -8,7 +8,7 @@ import { v1 } from 'uuid';
 import { compose } from '../api';
 import { O_NOFOLLOW } from 'constants';
 import { isString } from 'util';
-import { filterFiles, uncompose } from '../api/compose.utils';
+import { filterFiles, revert } from '../api/compose.utils';
 import { Language } from '../api/compose.language';
 
 const storage = multer.memoryStorage();
@@ -51,10 +51,10 @@ export const register = (app: express.Application) => {
   app.get('/', (req, res) => {
     res.render('index', languages);
   });
-  app.get('/uncompose', (req, res) => {
-    res.render('uncompose', languages);
+  app.get('/revert', (req, res) => {
+    res.render('revert', languages);
   });
-  app.post('/uncompose/file', upload.single('file'), (req: any, res) => {
+  app.post('/revert/file', upload.single('file'), (req: any, res) => {
     if (req.file !== undefined) {
       const data: string[] = req.file.buffer
         .toString()
@@ -64,7 +64,7 @@ export const register = (app: express.Application) => {
       const languageInstance: Language = languageFactory(
         req.body.selectedLanguage
       );
-      const contents: Buffer = uncompose(data, languageInstance);
+      const contents: Buffer = revert(data, languageInstance);
 
       const name = 'files.zip';
       // File Download from buffer
