@@ -8,6 +8,9 @@ export interface Composable {
   getRegex(): RegExp[];
 }
 export abstract class Language implements Composable {
+  private static beginGuard = '>>>BEGIN<<<';
+  private static endGuard = '>>>END<<<';
+  protected comment = '//';
   protected name: string;
   protected exts: string[];
 
@@ -41,6 +44,18 @@ export abstract class Language implements Composable {
    */
   getExtensions(): string[] {
     return this.exts;
+  }
+
+  getBeginGuard(): string {
+    return Language.beginGuard;
+  }
+
+  getEndGuard(): string {
+    return Language.endGuard;
+  }
+
+  getCommentLiteral(): string{
+    return this.comment;
   }
 
   abstract compose(
