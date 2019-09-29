@@ -82,7 +82,7 @@ export const filterFiles = (
 
 /*
  * Directory object for mock-fs
- * { 
+ * {
  *     "/":{
  *         "file_name.ext":"file as string",
  *         "file_name.ext":"second root dir file"
@@ -104,7 +104,7 @@ interface Directory {
 
 /**
  * builds a directory object for mock-fs
- * @param paths any path string starting from root
+ * @param paths any path string starting from root and split into array
  * @param dirs Directory object with root directory as only key
  * @returns the last subdir as Directory object from the paths parameter
  */
