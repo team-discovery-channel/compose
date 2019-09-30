@@ -153,9 +153,10 @@ export const register = (app: express.Application) => {
       if (entryFilename instanceof Array) {
         entryFilename = entryFilename[0];
       }
-      const zid = req.body.zipId;
+      const zip = new AdmZip(app.locals[req.body.zipId.replace('/', '')]);
 
-      const zip = new AdmZip(app.locals[zid.substring(0, zid.length - 1)]);
+      //TODO: abstract AdmZip from routes
+      //======================
       const files = zip
         .getEntries()
         .filter(entry => !entry.isDirectory)
@@ -166,12 +167,12 @@ export const register = (app: express.Application) => {
               .slice(1)
               .join('/')
           ] = entry
-
             .getData()
             .toString('utf-8')
             .split('\n');
           return acc;
         }, {});
+      //======================
 
       const lang: string = req.body.selectedLanguage.split('/')[0];
       const languageInstance: Language = languageFactory(lang);
