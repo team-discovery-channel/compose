@@ -14,8 +14,8 @@
       "src",
       "test"
     ],
-    "testEnvironment":"node",
-    "testPathIgnorePatterns":[
+    "testEnvironment": "node",
+    "testPathIgnorePatterns": [
       "test/files"
     ],
     "transform": {

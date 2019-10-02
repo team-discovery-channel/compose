@@ -111,14 +111,17 @@ export interface Directory {
  */
 export const constructDirectoryObject = (
   paths: string[],
-  dirs: Directory
+  dirs: Directory,
+  root: Directory
 ): Directory => {
   const nextDir = paths.pop();
+
   if (nextDir === undefined) {
-    return dirs['/']; //case - root level file
+    return root;
   }
+
   if (nextDir === '') {
-    return constructDirectoryObject(paths, dirs['/']); //for valid subdirs, this is return of root...
+    return constructDirectoryObject(paths, dirs['/'], root); //for valid subdirs, this is return of root...
   }
   if (paths.length === 0) {
     if (nextDir in dirs) {
@@ -128,10 +131,10 @@ export const constructDirectoryObject = (
     return dirs[nextDir]; //case - sub dir file, sub dir didnt exist
   } else {
     if (nextDir in dirs) {
-      return constructDirectoryObject(paths, dirs[nextDir]); //subdir
+      return constructDirectoryObject(paths, dirs[nextDir], root); //subdir
     }
     dirs[nextDir] = {};
-    return constructDirectoryObject(paths, dirs[nextDir]); //subdir didnt exist
+    return constructDirectoryObject(paths, dirs[nextDir], root); //subdir didnt exist
   }
 };
 
@@ -170,15 +173,15 @@ export const revert = (lines: string[], language: Language): Buffer => {
     .map((dir: string) => {
       const end: number = stack.pop() as number;
       const begin: number = stack.pop() as number;
-      if (dir.indexOf('/') !== -1) {
-        dir = '/' + dir;
-      }
+      dir = '/' + dir;
+
       const dirObj = constructDirectoryObject(
         dir
           .split('/')
           .slice(0, -1)
           .reverse(),
-        mockdir
+        mockdir,
+        mockdir['/']
       );
       dirObj[dir.split('/').slice(-1)[0]] = lines.slice(begin, end).join(EOL);
     });
@@ -194,61 +197,3 @@ export const revert = (lines: string[], language: Language): Buffer => {
   mock.restore();
   return zipBuffer;
 };
-/*
-(()=>{
-  const zip = new AdmZip("./test/files/js_test_sub.zip");
-    
-    const files = zip
-        .getEntries()
-        .filter(entry => !entry.isDirectory)
-        .reduce<{ [index: string]: string[] }>((acc, entry) => {
-          acc[
-            entry.entryName
-              .split('/')
-              .slice(1)
-              .join('/')
-          ] = entry
-            .getData()
-            .toString('utf-8')
-            .split('\n');
-          return acc;
-        }, {});
-    const filenames: string[] = filterFiles(
-        files,
-        javascript,
-        "main.js",
-        javascript.getRegex()
-    );
-
-    const composedFile: string = javascript.compose(
-        filenames,
-        files
-    );
-
-    const cmp:Buffer = revert(composedFile.split("\r").join("").split("\n"),javascript);
-    
-    const rzip = new AdmZip(cmp);
-    let zipRoot = "";
-    const zipFiles = zip.getEntries().map((entry)=>{
-        zipRoot = entry.entryName.split("/")[0]
-        return entry.entryName.split("/").slice(1).join("/")
-    })
-    rzip.getEntries().filter((entry)=>!entry.isDirectory).forEach((entry)=>{
-        console.log(entry.entryName)
-    })
-    rzip.getEntries().filter((entry)=>!entry.isDirectory).forEach((entry)=>{
-        //expect(zipFiles).toContainEqual(entry.entryName)
-        if(zipFiles.indexOf(entry.entryName)!==-1){
-          console.log(entry.entryName)
-        }
-        else{
-          console.log("what")
-        }
-        const rzipFile = entry.getData().toString("utf-8").trim();
-        const zipFile = zip.getEntry(zipRoot+"/"+entry.entryName)
-                                .getData()
-                                .toString("utf-8")
-                                .trim()
-        //expect(rzipFile === zipFile)
-    })
-})()*/
