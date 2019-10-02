@@ -6,6 +6,7 @@ import AdmZip from 'adm-zip';
 import mock from 'mock-fs';
 import { EOL } from 'os';
 import { Language } from './compose.language';
+import { javascript } from './compose.javascript';
 
 /**
  * Ensures module extracted from code is valid and in the filelist
@@ -98,7 +99,7 @@ export const filterFiles = (
  *      }
  * }
  */
-interface Directory {
+export interface Directory {
   [index: string]: any;
 }
 
@@ -108,11 +109,11 @@ interface Directory {
  * @param dirs Directory object with root directory as only key
  * @returns the last subdir as Directory object from the paths parameter
  */
-const constructDirectoryObject = (
+export const constructDirectoryObject = (
   paths: string[],
   dirs: Directory
-): Directory | undefined => {
-  const nextDir = paths.pop();
+): Directory => {
+  const nextDir = paths.pop() as string;
   if (nextDir === undefined) {
     return dirs['/']; //case - root level file
   }
@@ -120,26 +121,18 @@ const constructDirectoryObject = (
     return constructDirectoryObject(paths, dirs['/']); //for valid subdirs, this is return of root...
   }
   if (paths.length === 0) {
-    if (nextDir && nextDir in dirs) {
+    if (nextDir in dirs) {
       return dirs[nextDir]; //case - sub dir file
-    } else {
-      if (nextDir) {
-        dirs[nextDir] = {};
-        return dirs[nextDir]; //case - sub dir file, sub dir didnt exist
-      }
     }
-    return undefined;
+    dirs[nextDir] = {};
+    return dirs[nextDir]; //case - sub dir file, sub dir didnt exist
   } else {
-    if (nextDir && nextDir in dirs) {
-      return constructDirectoryObject(paths, dirs); //subdir
-    } else {
-      if (nextDir) {
-        dirs[nextDir] = {};
-        return constructDirectoryObject(paths, dirs); //subdir didnt exist
-      }
+    if (nextDir in dirs) {
+      return constructDirectoryObject(paths, dirs[nextDir]); //subdir
     }
+    dirs[nextDir] = {};
+    return constructDirectoryObject(paths, dirs[nextDir]); //subdir didnt exist
   }
-  return undefined; //should never get here
 };
 
 /**
@@ -175,25 +168,19 @@ export const revert = (lines: string[], language: Language): Buffer => {
     })
     .reverse()
     .map((dir: string) => {
-      const end: number | undefined = stack.pop();
-      const begin: number | undefined = stack.pop();
-      if (begin && end) {
-        if (dir.indexOf('/') !== -1) {
-          dir = '/' + dir;
-        }
-        const dirObj = constructDirectoryObject(
-          dir
-            .split('/')
-            .slice(0, -1)
-            .reverse(),
-          mockdir
-        );
-        if (dirObj) {
-          dirObj[dir.split('/').slice(-1)[0]] = lines
-            .slice(begin, end)
-            .join(EOL);
-        }
+      const end: number = stack.pop() as number;
+      const begin: number = stack.pop() as number;
+      if (dir.indexOf('/') !== -1) {
+        dir = '/' + dir;
       }
+      const dirObj = constructDirectoryObject(
+        dir
+          .split('/')
+          .slice(0, -1)
+          .reverse(),
+        mockdir
+      );
+      dirObj[dir.split('/').slice(-1)[0]] = lines.slice(begin, end).join(EOL);
     });
 
   const dirs = {};
@@ -207,3 +194,17 @@ export const revert = (lines: string[], language: Language): Buffer => {
   mock.restore();
   return zipBuffer;
 };
+
+/*(()=>{
+  const ext = javascript.getExtensions()[0]
+    const paths = [ `/root/main${ext}`,
+                    `/root/files/module1${ext}`,
+                    `/root/files/module2${ext}`,
+                    `/root/files/module3${ext}`,
+                    `/root/files/subs/module1${ext}`]
+    const dir:Directory = {}
+    dir["/"] = {}
+    paths.forEach((path)=>{
+        constructDirectoryObject(path.split("/").slice(0,-1).reverse(),dir)
+    })
+})()*/
