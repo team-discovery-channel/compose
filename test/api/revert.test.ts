@@ -51,9 +51,6 @@ test("compose is revertable",()=>{
         return entry.entryName.split("/").slice(1).join("/")
     })
     rzip.getEntries().filter((entry)=>!entry.isDirectory).forEach((entry)=>{
-        console.log(entry.entryName)
-    })
-    rzip.getEntries().filter((entry)=>!entry.isDirectory).forEach((entry)=>{
         expect(zipFiles).toContain(entry.entryName)
         const rzipFile = entry.getData().toString("utf-8").trim();
         const zipFile = zip.getEntry(zipRoot+"/"+entry.entryName)

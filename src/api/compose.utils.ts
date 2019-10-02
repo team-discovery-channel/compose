@@ -113,7 +113,7 @@ export const constructDirectoryObject = (
   paths: string[],
   dirs: Directory
 ): Directory => {
-  const nextDir = paths.pop() as string;
+  const nextDir = paths.pop();
   if (nextDir === undefined) {
     return dirs['/']; //case - root level file
   }
