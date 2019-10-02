@@ -6,7 +6,6 @@ import AdmZip from 'adm-zip';
 import mock from 'mock-fs';
 import { EOL } from 'os';
 import { Language } from './compose.language';
-import { javascript } from './compose.javascript';
 
 /**
  * Ensures module extracted from code is valid and in the filelist

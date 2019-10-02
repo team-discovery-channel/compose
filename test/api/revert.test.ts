@@ -12,7 +12,6 @@ test("uncompose returns buffer object", ()=>{
 })
 
 test("compose is revertable",()=>{
-    //console.log(fs.readdirSync("./test/files/multiple_sub_dirs.zip"))
     const zip = new AdmZip("./test/files/js_test_sub.zip");
     
     const files = zip
@@ -72,7 +71,7 @@ test("Valid directory object is formed from list of paths", ()=>{
     let dir:Directory = {}
     dir["/"] = {}
     paths.forEach((path)=>{
-        constructDirectoryObject(path.split("/").slice(0,-1).reverse(),dir)
+        constructDirectoryObject(path.split("/").slice(0,-1).reverse(),dir, dir["/"])
     })
     
     dir = dir["/"]
