@@ -8,7 +8,9 @@ class Python extends Language {
     super('python', ['.py', '__init__.py', '']);
   }
   getRegex(): RegExp[] {
-    return [];
+
+//    import\s+([A-Z,a-z]+)
+    return [/import\s+([A-Z,a-z]+)/];
   }
 
   compose(filelist: string[], files: { [index: string]: string[] }): string {
