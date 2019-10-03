@@ -8,7 +8,7 @@ import { v1 } from 'uuid';
 import { compose } from '../api';
 import { O_NOFOLLOW } from 'constants';
 import { isString } from 'util';
-import { filterFiles } from '../api/compose.utils';
+import { filterFiles, revert } from '../api/compose.utils';
 import { Language } from '../api/compose.language';
 
 const storage = multer.memoryStorage();
@@ -23,6 +23,9 @@ const upload: multer.Instance = multer({
     const acceptedMimeTypes: string[] = [
       'application/x-zip-compressed',
       'application/zip',
+      'text/plain',
+      'text/javascript',
+      'application/x-javascript',
     ];
     cb(null, acceptedMimeTypes.includes(file.mimetype));
   },
@@ -48,8 +51,36 @@ export const register = (app: express.Application) => {
   app.get('/', (req, res) => {
     res.render('index', languages);
   });
+  app.get('/revert', (req, res) => {
+    res.render('revert', languages);
+  });
+  app.post('/revert/file', upload.single('file'), (req: any, res) => {
+    if (req.file !== undefined) {
+      const data: string[] = req.file.buffer
+        .toString()
+        .split('\r')
+        .join('')
+        .split('\n');
+      const languageInstance: Language = languageFactory(
+        req.body.selectedLanguage
+      );
+      const contents: Buffer = revert(data, languageInstance);
 
-  app.post('/entry', upload.single('file'), (req: any, res) => {
+      const name = 'files.zip';
+      // File Download from buffer
+      const reader = new stream.PassThrough();
+      reader.end(contents);
+      res.set('Content-disposition', 'attachment; filename=' + name);
+
+      // TODO: Content-Type should change based on lang.
+      res.set('Content-type', 'application/zip');
+
+      reader.pipe(res);
+    } else {
+      res.json({ error: 'The Server cannot serve.' });
+    }
+  });
+  app.post('/compose/postzip', upload.single('file'), (req: any, res) => {
     if (req.file !== undefined) {
       const zip = new AdmZip(req.file.buffer);
 
@@ -116,7 +147,7 @@ export const register = (app: express.Application) => {
     }
   });
 
-  app.post('/combine', upload.single('file'), (req: any, res) => {
+  app.post('/compose/files', upload.single('file'), (req: any, res) => {
     if (req.body.zipId !== undefined) {
       let entryFilename: string | string[] = req.body.selectedEntry;
       if (entryFilename instanceof Array) {
