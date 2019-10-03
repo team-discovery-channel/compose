@@ -175,5 +175,5 @@ export const register = (app: express.Application) => {
   });
 
   app.use('/docs', express.static('dist/src/docs'));
-  app.use('/css', express.static('dist/src/css'));
+  app.use('/scripts', express.static('dist/src/scripts'));
 };
