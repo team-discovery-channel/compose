@@ -1,14 +1,8 @@
 import express from 'express';
 import multer from 'multer';
-import AdmZip from 'adm-zip';
 import stream from 'stream';
-import fs from 'fs';
-import { javascript } from '../api/compose.javascript';
 import { v1 } from 'uuid';
-import { O_NOFOLLOW } from 'constants';
-import { isString } from 'util';
-import { filterFiles, languages, compose } from '../api/compose.utils';
-import { Language } from '../api/compose.language';
+import { languages, compose } from '../api/compose.utils';
 
 const storage = multer.memoryStorage();
 
@@ -49,7 +43,7 @@ export const register = (app: express.Application) => {
         }),
       };
 
-      if (req.body.outfile !== undefined) {
+      if (req.body.outfile !== '' && req.body.outfile !== undefined) {
         out.filename = req.body.outfile;
       }
       const composed = compose(

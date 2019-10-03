@@ -5,7 +5,6 @@
 import AdmZip from 'adm-zip';
 import { Language } from './compose.language';
 import { javascript } from './compose.javascript';
-import fs from 'fs';
 
 export const languages: { [index: string]: Language[] } = {
   list: [javascript],
@@ -135,19 +134,3 @@ export const filterFiles = (
   }
   return [...new Set(neededFiles)];
 };
-
-/*
-(() => {
-  console.log(__filename);
-  const file: Buffer = fs.readFileSync(
-    '/Users/neigh/Desktop/MSUDenver/Fall2019/CS4360/compose_view/compose/test/files/js_test_sub_1.zip'
-  );
-  const output: { [index: string]: string } = { filename: 'output' };
-
-  compose(
-    'javascript',
-    file,
-    'main.js',
-    output
-  );
-})();*/
