@@ -105,9 +105,12 @@
             var out = $("input[name='outfile']").clone(true,true)
             file.attr("name","zip")
             file.css("display","hidden")
+            out.attr("name","out")
+            out.css("display","hidden")
             var selectedLangauge = $("select[name='languageSelect']").children(":selected").text()
             $("input[name='language']:hidden").attr("value",selectedLangauge)
             var test = $("input[name='zip']:hidden")[0]
+
             $("input[name='zip']:hidden").replaceWith(file)
             $("input[name='out']:hidden").replaceWith(out)
             $('#request').submit()

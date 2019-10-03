@@ -43,8 +43,8 @@ export const register = (app: express.Application) => {
         }),
       };
 
-      if (req.body.outfile !== '' && req.body.outfile !== undefined) {
-        out.filename = req.body.outfile;
+      if (req.body.out !== '' && req.body.out !== undefined) {
+        out.filename = req.body.out;
       }
       const composed = compose(
         req.body.language,
