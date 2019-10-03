@@ -3,11 +3,11 @@
 
 <head>
     <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <title>Compose</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -63,26 +63,18 @@
                     initJsTree()
 
                     $("button[name='action']").html("Download<i class=\"material-icons right\"></i>")
-                    $("button[name='action']").on("click",fillHiddenForm)
-
+                    
+                    $("button[name='action']").off("click")
+                    $("button[name='action']").on("click",submitHiddenForm)
+                    
                     $(".progress").css("display","none")
-                    // get first entry content as text
-                    entries[1].getData(new zip.TextWriter(), function(text) {
-                    // text contains the entry data as a String
-                    //console.log(text);
-                    // close the zip reader
-                    reader.close(function() {
-                        // onclose callback
-                    });
+                    $(".outform").css("display","block")
 
                     
-                    }, function(current, total) {
-                    // onprogress callback
-                    });
                 }
             });
             }, function(error) {
-                console.log("why")
+                console.log("Zipjs was unable to process the file")
             });
         }
 
@@ -108,11 +100,17 @@
             })
         });
 
-        function fillHiddenForm(){
+        function submitHiddenForm(){
+            var file = $("input[name='file']").clone(true,true)
+            var out = $("input[name='outfile']").clone(true,true)
+            file.attr("name","zip")
+            file.css("display","hidden")
             var selectedLangauge = $("select[name='languageSelect']").children(":selected").text()
             $("input[name='language']:hidden").attr("value",selectedLangauge)
-            $("input[name='zip']:hidden").attr("value", $("input[name='file']")[0].files)
-
+            var test = $("input[name='zip']:hidden")[0]
+            $("input[name='zip']:hidden").replaceWith(file)
+            $("input[name='out']:hidden").replaceWith(out)
+            $('#request').submit()
         }
         function initJsTree(){
             $(function () { 
@@ -185,6 +183,15 @@
                     </ul>
                 </div>
             </div></div>
+
+            <div class="row outform" style="display:none;">
+                <div class="col m2" style="text-align:right;margin-left:17.5%;">
+                    <label style="line-height:36px;">Output filename</label>
+                </div>
+                <div class="col m5">
+                    <input type="text" name="outfile">
+                </div>
+            </div>
             <div id="submit" class="row" style="text-align:center">
                 <button class="btn waves-effect waves-light" type="button" name="action">Submit
                     <i class="material-icons right"></i>
@@ -202,6 +209,7 @@
     <form id="request" action="compose" method="post" enctype="multipart/form-data">
         <input type="text" name="language" value=""/>
         <input type="text" name="entry" value=""/>
+        <input type="text" name="out" value=""/>
         <input type="file" name="zip" value=""/>
     </form>
     </div>
