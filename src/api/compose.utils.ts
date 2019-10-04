@@ -25,10 +25,10 @@ const languageFactory = (name: string): Language => {
 };
 
 export const compose = (
-  language: string,
   file: Buffer,
+  language: string,
+  out: { [index: string]: string },
   entry: string,
-  out: { [index: string]: string }
 ): Buffer => {
   const languageInstance: Language = languageFactory(language);
   out.filename = out.filename + languageInstance.getExtensions()[0];
@@ -200,10 +200,17 @@ export const constructDirectoryObject = (
  * @param langauge the langauge of the composed file
  * @returns a buffer representing the zip of the file tree
  */
-export const revert = (lines: string[], language: Language): Buffer => {
-  const comment = language.getCommentLiteral();
-  const BEGIN = comment + language.getBeginGuard();
-  const END = comment + language.getEndGuard();
+export const revert = (file: Buffer, language: string, out:{[index:string]:string}): Buffer => {
+  const languageInstance: Language = languageFactory(language);
+  out.filename = out.filename + languageInstance.getExtensions()[0];
+
+  const comment = languageInstance.getCommentLiteral();
+  const BEGIN = comment + languageInstance.getBeginGuard();
+  const END = comment + languageInstance.getEndGuard();
+
+  
+
+  const lines:string[] = file.toString().split('\r').join('').split('\n');
 
   const stack: number[] = new Array<number>();
 

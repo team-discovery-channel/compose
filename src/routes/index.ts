@@ -26,66 +26,40 @@ export const register = (app: express.Application) => {
     res.render('index', languages);
   });
   app.post('/revert', upload.single('file'), (req: any, res) => {
-    if (req.file !== undefined) {
-      const data: string[] = req.file.buffer
-        .toString()
-        .split('\r')
-        .join('')
-        .split('\n');
-      const languageInstance: Language = languageFactory(
-        req.body.selectedLanguage
-      );
-      const contents: Buffer = revert(data, languageInstance);
+    const error: { [index: string]: string } = {
+      file: req.file !== undefined ? '' : 'Zip files only.',
+      language: req.body.language !== undefined ? '' : 'Language must be set',
+    };
 
-      const name = 'files.zip';
+    if (!(error.file || error.langauge)) {
+      const out: { [index: string]: string } = {
+        filename: v1({
+          node: [0x01, 0x23, 0x45, 0x67, 0x89, 0xab],
+          clockseq: 0x1234,
+          msecs: Date.now(),
+          nsecs: 5678,
+        }),
+      };
+
+      if (req.body.out !== '' && req.body.out !== undefined) {
+        out.filename = req.body.out;
+      }
+
+      const decomposed:Buffer = revert(req.file.buffer,req.body.language,out)
       // File Download from buffer
       const reader = new stream.PassThrough();
-      reader.end(contents);
-      res.set('Content-disposition', 'attachment; filename=' + name);
+      reader.end(decomposed);
+      res.set('Content-disposition', 'attachment; filename=' + out.filename);
 
       // TODO: Content-Type should change based on lang.
       res.set('Content-type', 'application/zip');
 
+      reader.pipe(res);
 
-
-      const error: { [index: string]: string } = {
-        file: req.file !== undefined ? '' : 'Zip files only.',
-        language: req.body.language !== undefined ? '' : 'Language must be set',
-      };
-  
-      if (!(error.file || error.langauge)) {
-        const out: { [index: string]: string } = {
-          filename: v1({
-            node: [0x01, 0x23, 0x45, 0x67, 0x89, 0xab],
-            clockseq: 0x1234,
-            msecs: Date.now(),
-            nsecs: 5678,
-          }),
-        };
-  
-        if (req.body.out !== '' && req.body.out !== undefined) {
-          out.filename = req.body.out;
-        }
-        const composed = compose(
-          req.body.language,
-          req.file.buffer,
-          req.body.entry,
-          out
-        );
-        // File Download from buffer
-        const reader = new stream.PassThrough();
-        reader.end(composed);
-  
-        res.set('Content-disposition', 'attachment; filename=' + out.filename);
-  
-        // TODO: Content-Type should change based on lang.
-        res.set('Content-type', 'text/plain');
-  
-        reader.pipe(res);
-      } else {
-        res.json({ errors: error });
-      }
+    } else {
+      res.json({ errors: error });
     }
+  });
 
   app.post('/compose', upload.single('zip'), (req: any, res) => {
     const error: { [index: string]: string } = {
@@ -108,10 +82,10 @@ export const register = (app: express.Application) => {
         out.filename = req.body.out;
       }
       const composed = compose(
-        req.body.language,
         req.file.buffer,
-        req.body.entry,
-        out
+        req.body.language,
+        out,
+        req.body.entry
       );
       // File Download from buffer
       const reader = new stream.PassThrough();
