@@ -6,6 +6,64 @@ import AdmZip from 'adm-zip';
 import mock from 'mock-fs';
 import { EOL } from 'os';
 import { Language } from './compose.language';
+import { javascript } from './compose.javascript';
+
+export const languages: { [index: string]: Language[] } = {
+  list: [javascript],
+};
+
+const languageFactory = (name: string): Language => {
+  const lang: Language[] = languages.list.filter(
+    (lang: Language) => lang.getName() === name
+  );
+  if (lang.length === 0) {
+    throw new RangeError(
+      `languageFactory in routes/index.ts has no instance for ${name}`
+    );
+  }
+  return lang[0];
+};
+
+export const compose = (
+  language: string,
+  file: Buffer,
+  entry: string,
+  out: { [index: string]: string }
+): Buffer => {
+  const languageInstance: Language = languageFactory(language);
+  out.filename = out.filename + languageInstance.getExtensions()[0];
+
+  const zip = new AdmZip(file);
+  const files = zip
+    .getEntries()
+    .filter(entry => !entry.isDirectory)
+    .reduce<{ [index: string]: string[] }>((acc, entry) => {
+      acc[
+        entry.entryName
+          .split('/')
+          .slice(1)
+          .join('/')
+      ] = entry
+
+        .getData()
+        .toString('utf-8')
+        .split('\n');
+      return acc;
+    }, {});
+
+  const filenames: string[] = filterFiles(
+    files,
+    languageInstance,
+    entry,
+    languageInstance.getRegex()
+  );
+
+  const combinedFile: string = languageInstance.compose(
+    filenames,
+    files
+  );
+  return Buffer.from(combinedFile);
+};
 
 /**
  * Ensures module extracted from code is valid and in the filelist
@@ -57,7 +115,6 @@ export const filterFiles = (
 ): string[] => {
   let neededFiles: string[] = [entryPoint];
   const curfile: string[] = files[entryPoint];
-
   for (const line of curfile) {
     for (const reg of regex) {
       const re = reg;

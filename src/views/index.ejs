@@ -3,43 +3,154 @@
 
 <head>
     <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <title>Compose</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+
+    <script type="text/javascript" src="scripts/zip/zip.js"></script>
     <script type="text/javascript">
-        function insert_input_file_text(element){
-            var filename = element.value;
-            filename = filename.split('\\').pop().split('/').pop();
-            document.getElementById("filename_input").setAttribute("value",filename)
+        //zip.useWebWorkers = false
+        zip.workerScriptsPath = 'scripts/zip/';
+        function processZipFile(blob){
+            // use a BlobReader to read the zip from a Blob object
+            zip.createReader(new zip.Data64URIReader(blob), function(reader) {
+
+            // get all entries from the zip
+            reader.getEntries(function(entries) {
+                if (entries.length) {
+                    var fileDirectory = entries.sort(function(a,b){
+                        var aDirCount = a.filename .split('/').length;
+                        var bDirCount = b.filename .split('/').length;
+                        if (aDirCount < bDirCount) {
+                            return -1;
+                        }
+                        if (aDirCount > bDirCount) {
+                            return 1;
+                        }
+                        return 0;
+                    })
+                    .reverse()
+                    .reduce(function(acc,entry){
+                        if (entry.directory ) {
+                            var dirArray = entry.filename.split('/');
+                            var dirName = dirArray[dirArray.length - 2];
+                            var defaultToOpen = '';
+                            if (dirArray.length === 2) {
+                            defaultToOpen = 'data-jstree=\'{"opened":true}\'';
+                            }
+                            acc = `<li ${defaultToOpen}>${dirName}<ul>` + acc + '</ul></li>';
+                        } else {
+                            var entryName = entry.filename.split('/').pop()
+                            acc += `<li id="${
+                                entryName
+                            }" data-jstree='{"icon":"material-icons tiny"}'><a href="#" onclick="setEntry(this, '${entry.filename
+                            .split('/')
+                            .slice(1)
+                            .join('/')}')">${entryName}</a></li>`;
+                        }
+                        return acc;
+                        
+                    },"")
+                    
+                    $("#directoryContainer").find("ul").html(fileDirectory)
+                    $("#directoryContainer").find("div").css("display","block")
+                    initJsTree()
+
+                    $("button[name='action']").html("Download<i class=\"material-icons right\"></i>")
+                    
+                    $("button[name='action']").off("click")
+                    $("button[name='action']").on("click",submitHiddenForm)
+                    
+                    $(".progress").css("display","none")
+                    $(".outform").css("display","block")
+
+                    
+                }
+            });
+            }, function(error) {
+                console.log("Zipjs was unable to process the file")
+            });
+        }
+
+        $( document ).ready(function() {
+            $("input[name='file']").on("change",function(){
+                var filename = $(this).val()
+                $("#filename").val(filename.split("\\").pop().split("/").pop())
+                
+            })
+
+            $("button[name='action']").on("click", function(){
+                
+                var file = $("input[name='file']")[0].files[0]
+                
+                if (file) {
+                    $(".progress").css("display","block")
+                    var reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = function(e) {
+                        processZipFile(e.target.result)
+                    };
+                }
+            })
+        });
+
+        function submitHiddenForm(){
+            var file = $("input[name='file']").clone(true,true)
+            var out = $("input[name='outfile']").clone(true,true)
+            file.attr("name","zip")
+            file.css("display","hidden")
+            out.attr("name","out")
+            out.css("display","hidden")
+            var selectedLangauge = $("select[name='languageSelect']").children(":selected").text()
+            $("input[name='language']:hidden").attr("value",selectedLangauge)
+            var test = $("input[name='zip']:hidden")[0]
+
+            $("input[name='zip']:hidden").replaceWith(file)
+            $("input[name='out']:hidden").replaceWith(out)
+            $('#request').submit()
+        }
+        function initJsTree(){
+            $(function () { 
+                $('#directoryTree').jstree(); 
+                $('#directoryTree').on("ready.jstree", function (e, data) {
+                    var li = $('#directoryTree').find("i.material-icons")
+                    li.map(function(index,element){
+                        element.innerHTML = "insert_drive_file"
+                    })
+                });
+                $('#directoryTree').on("after_open.jstree", function (e, data) {
+                    var li = $('#directoryTree').find("i.material-icons")
+                    li.map(function(index,element){
+                        element.innerHTML = "insert_drive_file"
+                    })
+                });
+                
+                
+            });
+        }
+        function setEntry(element, path){
+            $("input[name='entry']:hidden").attr("value",path)
         }
     </script>
 </head>
 
 <body>
     <div class="container">
-        
-    <nav>
-        <div class="nav-wrapper teal lighten-2">
-          <a href="#!" class="brand-logo center">To One</a>
-          <ul class="left hide-on-med-and-down">
-            <li class="active"><a href="/">Compose</a></li>
-            <li><a href="/revert">Revert</a></li>
-          </ul>
-        </div>
-      </nav>
-            
-        <form action="compose/postzip" method="post" enctype="multipart/form-data">
-            <div class="row">
-                
+        <form action="" method="post" enctype="multipart/form-data">
+            <div class="row">   
             </div>
             <div class="row">
                 <div class="col m2" style="text-align:right;margin-left:17.5%;">
                     <label style="line-height:36px;">Select Language</label>
                 </div>
                 <div class="col m5">
-                    <select class="browser-default" name="selectedLanguage">
+                    <select class="browser-default" name="languageSelect">
                         <option value="" disabled selected>No langauge selected</option>
                         <% list.forEach(function(language) { %>
                             <option><%= language.name %></option>
@@ -55,23 +166,55 @@
                         <div class="file-field input-field">
                                 <div class="btn m2" style="float:right">
                                         <span>Browse</span>
-                                        <input type="file" name="file" onchange="insert_input_file_text(this)"/>
+                                        <input type="file" name="file"/>
                                     </div>
                             <div class="file-path-wrapper m10">
-                                <input class="file-path validate" type="text" id="filename_input">
+                                <input class="file-path validate" type="text" id="filename">
                             </div>
                         </div>
                     </div>
             </div>
+            <div id="directoryContainer">
+            <div class="row center-align" style="display:none;">
+                <div class="col m2" style="text-align:right;margin-left:17.5%;">
+                    <label>Select Entry File</label>
+                </div>
+            </div>
+            <div class="row" style="display:none;">
+                <div id="directoryTree" class="col m5 card-panel teal lighten-2" style="margin-left:35%;margin-top:-4%;display:none;">
+                    <ul>
+                    </ul>
+                </div>
+            </div></div>
+
+            <div class="row outform" style="display:none;">
+                <div class="col m2" style="text-align:right;margin-left:17.5%;">
+                    <label style="line-height:36px;">Output filename</label>
+                </div>
+                <div class="col m5">
+                    <input type="text" name="outfile">
+                </div>
+            </div>
             <div id="submit" class="row" style="text-align:center">
-                <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+                <button class="btn waves-effect waves-light" type="button" name="action">Submit
                     <i class="material-icons right"></i>
                 </button>
             </div>
-            <div  id="download" class="row" style="text-align:center"> 
 
+            
+
+            <div class="progress" style="display:none">
+                <div class="indeterminate"></div>
             </div>
         </form>
+    </div>
+    <div style="display:none">
+    <form id="request" action="compose" method="post" enctype="multipart/form-data">
+        <input type="text" name="language" value=""/>
+        <input type="text" name="entry" value=""/>
+        <input type="text" name="out" value=""/>
+        <input type="file" name="zip" value=""/>
+    </form>
     </div>
 </body>
 </html>
