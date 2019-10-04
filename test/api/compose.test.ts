@@ -31,7 +31,8 @@ class TestObject{
 	}
 }
 const testObjects = [	new TestObject("js_test_sub_1.zip"),
-											new TestObject("js_test_sub_1.zip", "syzygy", "void.syz")]
+											new TestObject("js_test_sub_1.zip", "syzygy", "void.syz"),
+										  new TestObject("js_test_sub.zip")]
 
 test("language implementations can compose", ()=>{
 		testObjects.forEach((testObject)=>{
