@@ -15,7 +15,7 @@ const languageFactory = (name: string): Language => {
     (lang: Language) => lang.getName() === name
   );
   if (lang.length === 0) {
-    throw new Error(
+    throw new RangeError(
       `languageFactory in routes/index.ts has no instance for ${name}`
     );
   }

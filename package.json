@@ -14,6 +14,9 @@
       "src",
       "test"
     ],
+    "testPathIgnorePatterns": [
+      "test/files"
+    ],
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     },
