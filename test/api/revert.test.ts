@@ -1,14 +1,15 @@
-import {revert, constructDirectoryObject, filterFiles, Directory} from '../../src/api/compose.utils';
+import {revert, constructDirectoryObject, filterFiles, Directory, languageFactory} from '../../src/api/compose.utils';
 import {javascript} from '../../src/api/compose.javascript'
 import {Language} from '../../src/api/compose.language'
 import AdmZip from 'adm-zip'
 import mock from 'mock-fs'
 
-const languageInstance:Language = javascript
+const language = "javascript"
+const languageInstance:Language = languageFactory(language)
 
 test("uncompose returns buffer object", ()=>{
 
-    expect(revert([""],languageInstance) instanceof Buffer).toBe(true)
+    expect(revert(Buffer.from(""),language, {filename:"test"}) instanceof Buffer).toBe(true)
 })
 
 test("compose is revertable",()=>{
@@ -41,7 +42,7 @@ test("compose is revertable",()=>{
         files
     );
 
-    const cmp:Buffer = revert(composedFile.split("\r").join("").split("\n"),languageInstance);
+    const cmp:Buffer = revert(Buffer.from(composedFile),language,{filename:""});
 
     const rzip = new AdmZip(cmp);
     let zipRoot = "";

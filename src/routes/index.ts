@@ -45,7 +45,11 @@ export const register = (app: express.Application) => {
         out.filename = req.body.out;
       }
 
-      const decomposed:Buffer = revert(req.file.buffer,req.body.language,out)
+      const decomposed: Buffer = revert(
+        req.file.buffer,
+        req.body.language,
+        out
+      );
       // File Download from buffer
       const reader = new stream.PassThrough();
       reader.end(decomposed);
@@ -55,13 +59,12 @@ export const register = (app: express.Application) => {
       res.set('Content-type', 'application/zip');
 
       reader.pipe(res);
-
     } else {
       res.json({ errors: error });
     }
   });
 
-  app.post('/compose', upload.single('zip'), (req: any, res) => {
+  app.post('/compose', upload.single('file'), (req: any, res) => {
     const error: { [index: string]: string } = {
       file: req.file !== undefined ? '' : 'Zip files only.',
       language: req.body.language !== undefined ? '' : 'Language must be set',

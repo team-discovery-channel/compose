@@ -1,12 +1,10 @@
 import { TIMEOUT } from 'dns';
 import { resolve } from 'url';
+import fs from 'fs';
 import {javascript} from '../../src/api/compose.javascript'
 import {compose} from '../../src/api/compose.utils'
-import path from 'path'
-import fs from 'fs';
+import {getPathFromTestRoot} from './test.utils'
 
-const dirObj = path.parse(__dirname)
-const testFile = (filename:string) :string => dirObj.dir + path.sep + "files" + path.sep + filename
 
 class TestObject{
 	language:string;
@@ -18,7 +16,7 @@ class TestObject{
 
 	constructor(filename:string, language="javascript", entry="main.js", outFilename=""){
 		this.language = language;
-		this.file = testFile(filename);
+		this.file = getPathFromTestRoot(filename);
 		this.entry = entry
 		this.out = {filename:outFilename};
 
@@ -27,7 +25,7 @@ class TestObject{
 	}
 
 	run(){
-		this.outBuffer = compose(this.language, this.inBuffer, this.entry,this.out)
+		this.outBuffer = compose(this.inBuffer,this.language, this.out, this.entry)
 	}
 }
 const testObjects = [	new TestObject("js_test_sub_1.zip"),

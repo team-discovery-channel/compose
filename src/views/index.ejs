@@ -79,7 +79,7 @@
         }
 
         $( document ).ready(function() {
-            $("input[name='file']").on("change",function(){
+            $("input[name='zip']").on("change",function(){
                 var filename = $(this).val()
                 $("#filename").val(filename.split("\\").pop().split("/").pop())
                 
@@ -87,7 +87,7 @@
 
             $("button[name='action']").on("click", function(){
                 
-                var file = $("input[name='file']")[0].files[0]
+                var file = $("input[name='zip']")[0].files[0]
                 
                 if (file) {
                     $(".progress").css("display","block")
@@ -101,17 +101,16 @@
         });
 
         function submitHiddenForm(){
-            var file = $("input[name='file']").clone(true,true)
+            var file = $("input[name='zip']").clone(true,true)
             var out = $("input[name='outfile']").clone(true,true)
-            file.attr("name","zip")
+            file.attr("name","file")
             file.css("display","hidden")
             out.attr("name","out")
             out.css("display","hidden")
             var selectedLangauge = $("select[name='languageSelect']").children(":selected").text()
             $("input[name='language']:hidden").attr("value",selectedLangauge)
-            var test = $("input[name='zip']:hidden")[0]
 
-            $("input[name='zip']:hidden").replaceWith(file)
+            $("input[name='file']:hidden").replaceWith(file)
             $("input[name='out']:hidden").replaceWith(out)
             $('#request').submit()
         }
@@ -166,7 +165,7 @@
                         <div class="file-field input-field">
                                 <div class="btn m2" style="float:right">
                                         <span>Browse</span>
-                                        <input type="file" name="file"/>
+                                        <input type="file" name="zip"/>
                                     </div>
                             <div class="file-path-wrapper m10">
                                 <input class="file-path validate" type="text" id="filename">
@@ -213,7 +212,7 @@
         <input type="text" name="language" value=""/>
         <input type="text" name="entry" value=""/>
         <input type="text" name="out" value=""/>
-        <input type="file" name="zip" value=""/>
+        <input type="file" name="file" value=""/>
     </form>
     </div>
 </body>

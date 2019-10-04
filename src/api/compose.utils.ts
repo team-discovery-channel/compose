@@ -12,7 +12,7 @@ export const languages: { [index: string]: Language[] } = {
   list: [javascript],
 };
 
-const languageFactory = (name: string): Language => {
+export const languageFactory = (name: string): Language => {
   const lang: Language[] = languages.list.filter(
     (lang: Language) => lang.getName() === name
   );
@@ -28,7 +28,7 @@ export const compose = (
   file: Buffer,
   language: string,
   out: { [index: string]: string },
-  entry: string,
+  entry: string
 ): Buffer => {
   const languageInstance: Language = languageFactory(language);
   out.filename = out.filename + languageInstance.getExtensions()[0];
@@ -200,7 +200,11 @@ export const constructDirectoryObject = (
  * @param langauge the langauge of the composed file
  * @returns a buffer representing the zip of the file tree
  */
-export const revert = (file: Buffer, language: string, out:{[index:string]:string}): Buffer => {
+export const revert = (
+  file: Buffer,
+  language: string,
+  out: { [index: string]: string }
+): Buffer => {
   const languageInstance: Language = languageFactory(language);
   out.filename = out.filename + languageInstance.getExtensions()[0];
 
@@ -208,9 +212,11 @@ export const revert = (file: Buffer, language: string, out:{[index:string]:strin
   const BEGIN = comment + languageInstance.getBeginGuard();
   const END = comment + languageInstance.getEndGuard();
 
-  
-
-  const lines:string[] = file.toString().split('\r').join('').split('\n');
+  const lines: string[] = file
+    .toString()
+    .split('\r')
+    .join('')
+    .split('\n');
 
   const stack: number[] = new Array<number>();
 
