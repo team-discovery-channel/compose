@@ -200,13 +200,8 @@ export const constructDirectoryObject = (
  * @param langauge the langauge of the composed file
  * @returns a buffer representing the zip of the file tree
  */
-export const revert = (
-  file: Buffer,
-  language: string,
-  out: { [index: string]: string }
-): Buffer => {
+export const revert = (file: Buffer, language: string): Buffer => {
   const languageInstance: Language = languageFactory(language);
-  out.filename = out.filename + languageInstance.getExtensions()[0];
 
   const comment = languageInstance.getCommentLiteral();
   const BEGIN = comment + languageInstance.getBeginGuard();

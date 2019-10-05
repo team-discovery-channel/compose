@@ -9,7 +9,7 @@ const languageInstance:Language = languageFactory(language)
 
 test("uncompose returns buffer object", ()=>{
 
-    expect(revert(Buffer.from(""),language, {filename:"test"}) instanceof Buffer).toBe(true)
+    expect(revert(Buffer.from(""),language) instanceof Buffer).toBe(true)
 })
 
 test("compose is revertable",()=>{
@@ -42,7 +42,7 @@ test("compose is revertable",()=>{
         files
     );
 
-    const cmp:Buffer = revert(Buffer.from(composedFile),language,{filename:""});
+    const cmp:Buffer = revert(Buffer.from(composedFile),language);
 
     const rzip = new AdmZip(cmp);
     let zipRoot = "";

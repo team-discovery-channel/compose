@@ -9,10 +9,17 @@ const storage = multer.memoryStorage();
 const upload: multer.Instance = multer({
   storage,
   fileFilter: (req, file, cb) => {
+    const acceptedLanguages: string[] = [];
+    languages.list.forEach(language => {
+      acceptedLanguages.push('application/' + language.getName());
+      acceptedLanguages.push('application/x-' + language.getName());
+    });
+
     const acceptedMimeTypes: string[] = [
       'application/x-zip-compressed',
       'application/zip',
     ];
+    acceptedMimeTypes.push(...acceptedLanguages);
     cb(null, acceptedMimeTypes.includes(file.mimetype));
   },
 });
@@ -25,9 +32,12 @@ export const register = (app: express.Application) => {
   app.get('/', (req, res) => {
     res.render('index', languages);
   });
+  app.get('/undo', (req, res) => {
+    res.render('undo', languages);
+  });
   app.post('/revert', upload.single('file'), (req: any, res) => {
     const error: { [index: string]: string } = {
-      file: req.file !== undefined ? '' : 'Zip files only.',
+      file: req.file !== undefined ? '' : 'Single source file only',
       language: req.body.language !== undefined ? '' : 'Language must be set',
     };
 
@@ -45,17 +55,15 @@ export const register = (app: express.Application) => {
         out.filename = req.body.out;
       }
 
-      const decomposed: Buffer = revert(
-        req.file.buffer,
-        req.body.language,
-        out
-      );
-      // File Download from buffer
+      const decomposed: Buffer = revert(req.file.buffer, req.body.language);
+
       const reader = new stream.PassThrough();
       reader.end(decomposed);
-      res.set('Content-disposition', 'attachment; filename=' + out.filename);
+      res.set(
+        'Content-disposition',
+        'attachment; filename=' + out.filename + '.zip'
+      );
 
-      // TODO: Content-Type should change based on lang.
       res.set('Content-type', 'application/zip');
 
       reader.pipe(res);
