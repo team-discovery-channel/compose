@@ -6,6 +6,64 @@ import AdmZip from 'adm-zip';
 import mock from 'mock-fs';
 import { EOL } from 'os';
 import { Language } from './compose.language';
+import { javascript } from './compose.javascript';
+
+export const languages: { [index: string]: Language[] } = {
+  list: [javascript],
+};
+
+export const languageFactory = (name: string): Language => {
+  const lang: Language[] = languages.list.filter(
+    (lang: Language) => lang.getName() === name
+  );
+  if (lang.length === 0) {
+    throw new RangeError(
+      `languageFactory in routes/index.ts has no instance for ${name}`
+    );
+  }
+  return lang[0];
+};
+
+export const compose = (
+  file: Buffer,
+  language: string,
+  out: { [index: string]: string },
+  entry: string
+): Buffer => {
+  const languageInstance: Language = languageFactory(language);
+  out.filename = out.filename + languageInstance.getExtensions()[0];
+
+  const zip = new AdmZip(file);
+  const files = zip
+    .getEntries()
+    .filter(entry => !entry.isDirectory)
+    .reduce<{ [index: string]: string[] }>((acc, entry) => {
+      acc[
+        entry.entryName
+          .split('/')
+          .slice(1)
+          .join('/')
+      ] = entry
+
+        .getData()
+        .toString('utf-8')
+        .split('\n');
+      return acc;
+    }, {});
+
+  const filenames: string[] = filterFiles(
+    files,
+    languageInstance,
+    entry,
+    languageInstance.getRegex()
+  );
+
+  const combinedFile: string = languageInstance.compose(
+    filenames,
+    files
+  );
+  return Buffer.from(combinedFile);
+};
 
 /**
  * Ensures module extracted from code is valid and in the filelist
@@ -57,7 +115,6 @@ export const filterFiles = (
 ): string[] => {
   let neededFiles: string[] = [entryPoint];
   const curfile: string[] = files[entryPoint];
-
   for (const line of curfile) {
     for (const reg of regex) {
       const re = reg;
@@ -143,10 +200,18 @@ export const constructDirectoryObject = (
  * @param langauge the langauge of the composed file
  * @returns a buffer representing the zip of the file tree
  */
-export const revert = (lines: string[], language: Language): Buffer => {
-  const comment = language.getCommentLiteral();
-  const BEGIN = comment + language.getBeginGuard();
-  const END = comment + language.getEndGuard();
+export const revert = (file: Buffer, language: string): Buffer => {
+  const languageInstance: Language = languageFactory(language);
+
+  const comment = languageInstance.getCommentLiteral();
+  const BEGIN = comment + languageInstance.getBeginGuard();
+  const END = comment + languageInstance.getEndGuard();
+
+  const lines: string[] = file
+    .toString()
+    .split('\r')
+    .join('')
+    .split('\n');
 
   const stack: number[] = new Array<number>();
 
