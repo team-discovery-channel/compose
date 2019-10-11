@@ -8,8 +8,8 @@ import { EOL } from 'os';
 import { Language } from './compose.language';
 import { javascript } from './compose.javascript';
 
-export const languages: { [index: string]: Language[] } = {
-  list: [javascript],
+export const languages: { [index: string]: Language } = {
+  javascript,
 };
 
 export const languageFactory = (name: string): Language => {
