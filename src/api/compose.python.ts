@@ -8,8 +8,6 @@ class Python extends Language {
     super('python', ['.py', '__init__.py', '']);
   }
   getRegex(): RegExp[] {
-
-//    import\s+([A-Z,a-z]+)
     return [/^\s*import\s+([A-Z,a-z]+\1)/, /from\s+([A-Z,a-z])+\1/];
   }
 
