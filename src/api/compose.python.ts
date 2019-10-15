@@ -10,7 +10,7 @@ class Python extends Language {
   getRegex(): RegExp[] {
 
 //    import\s+([A-Z,a-z]+)
-    return [/import\s+([A-Z,a-z]+)/];
+    return [/^\s*import\s+([A-Z,a-z]+)/];
   }
 
   compose(filelist: string[], files: { [index: string]: string[] }): string {
