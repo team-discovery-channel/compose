@@ -51,17 +51,16 @@ test(`is ${name}'s compose function returning JSON object`,()=>{
 })
 
 test(`is regex of ${name} correct`,()=>{
-    const cmp = language.getRegex()[0].exec("import(\"module1\")");
+    const cmp = language.getRegex()[0].exec("import module1");
     if(cmp !== null){
         expect(cmp[2] === "module1").toBe(true);
     }
     else{
         expect(cmp === null).toBe(true);
     }
-	const cmp = language.getRegex()[1].exec("from(\"module2\")import(\"module3\")");
+	const cmp = language.getRegex()[1].exec("from module2");
 	if(cmp !== null){
 		epect(cmp[2] === "module2").toBe(true);
-		epect(cmp[3] === "module3").toBe(true);
 	}
 	else{
 		expect(cmp === null).toBe(true);
