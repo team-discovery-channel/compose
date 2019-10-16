@@ -1,4 +1,4 @@
-import (Python) from '../../src/api/compose.python';
+import {python} from '../../src/api/compose.python';
 import {Composable, Language} from '../../src/api/compose.language';
 import { compose } from '../../src/api';
 
@@ -52,15 +52,16 @@ test(`is ${name}'s compose function returning JSON object`,()=>{
 
 test(`is regex of ${name} correct`,()=>{
     const cmp = language.getRegex()[0].exec("import module1");
-    if(cmp !== null){
+	if(cmp !== null){
+		console.log(cmp)
         expect(cmp[2] === "module1").toBe(true);
     }
     else{
         expect(cmp === null).toBe(true);
     }
-	const cmp = language.getRegex()[1].exec("from module2");
+	const cmp1 = language.getRegex()[1].exec("from module2");
 	if(cmp !== null){
-		epect(cmp[2] === "module2").toBe(true);
+		expect(cmp[2] === "module2").toBe(true);
 	}
 	else{
 		expect(cmp === null).toBe(true);

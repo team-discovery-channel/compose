@@ -66,7 +66,6 @@ export const filterFiles = (
           Object.keys(files)
         );
         if (typeof requireName !== 'boolean') {
-          // delete files[test];
           neededFiles = filterFiles(files, curlang, requireName, regex).concat(
             neededFiles
           );
