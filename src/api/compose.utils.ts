@@ -135,24 +135,6 @@ export const filterFiles = (
   return [...new Set(neededFiles)];
 };
 
-/*
- * Directory object for mock-fs
- * {
- *     "/":{
- *         "file_name.ext":"file as string",
- *         "file_name.ext":"second root dir file"
- *          "subdir_name": {
- *              "file_name.ext":"another file as string"
- *               .
- *               .
- *               .
- *           },
- *           .
- *           .
- *           .
- *      }
- * }
- */
 export interface Directory {
   [index: string]: any;
 }
