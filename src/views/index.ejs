@@ -55,22 +55,22 @@
                             .join('/')}')">${entryName}</a></li>`;
                         }
                         return acc;
-                        
+
                     },"")
-                    
+
                     $("#directoryContainer").find("ul").html(fileDirectory)
                     $("#directoryContainer").find("div").css("display","block")
                     initJsTree()
 
                     $("button[name='action']").html("Download<i class=\"material-icons right\"></i>")
-                    
+
                     $("button[name='action']").off("click")
                     $("button[name='action']").on("click",submitHiddenForm)
-                    
+
                     $(".progress").css("display","none")
                     $(".outform").css("display","block")
 
-                    
+
                 }
             });
             }, function(error) {
@@ -82,13 +82,13 @@
             $("input[name='zip']").on("change",function(){
                 var filename = $(this).val()
                 $("#filename").val(filename.split("\\").pop().split("/").pop())
-                
+
             })
 
             $("button[name='action']").on("click", function(){
-                
+
                 var file = $("input[name='zip']")[0].files[0]
-                
+
                 if (file) {
                     $(".progress").css("display","block")
                     var reader = new FileReader();
@@ -115,8 +115,8 @@
             $('#request').submit()
         }
         function initJsTree(){
-            $(function () { 
-                $('#directoryTree').jstree(); 
+            $(function () {
+                $('#directoryTree').jstree();
                 $('#directoryTree').on("ready.jstree", function (e, data) {
                     var li = $('#directoryTree').find("i.material-icons")
                     li.map(function(index,element){
@@ -129,8 +129,8 @@
                         element.innerHTML = "insert_drive_file"
                     })
                 });
-                
-                
+
+
             });
         }
         function setEntry(element, path){
@@ -156,7 +156,7 @@
                     </div>
                   </nav>
         <form action="" method="post" enctype="multipart/form-data">
-            <div class="row">   
+            <div class="row">
             </div>
             <div class="row">
                 <div class="col m2" style="text-align:right;margin-left:17.5%;">
@@ -166,14 +166,14 @@
                     <select class="browser-default" name="languageSelect">
                         <option value="" disabled selected>No langauge selected</option>
                         <% list.forEach(function(language) { %>
-                            <option><%= language.name %></option>
+                            <option><%= language %></option>
                         <% }); %>
                     </select>
                 </div>
             </div>
             <div class="row">
                     <div class= "col m2" style="text-align:right;margin-left:17.5%;">
-                        <label style="line-height:64px;">Zip file</label> 
+                        <label style="line-height:64px;">Zip file</label>
                     </div>
                     <div class="col m5">
                         <div class="file-field input-field">
@@ -214,7 +214,7 @@
                 </button>
             </div>
 
-            
+
 
             <div class="progress" style="display:none">
                 <div class="indeterminate"></div>

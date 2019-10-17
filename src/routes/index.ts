@@ -10,9 +10,11 @@ const upload: multer.Instance = multer({
   storage,
   fileFilter: (req, file, cb) => {
     const acceptedLanguages: string[] = [];
-    languages.list.forEach(language => {
-      acceptedLanguages.push('application/' + language.getName());
-      acceptedLanguages.push('application/x-' + language.getName());
+    const values = Object.keys(languages);
+
+    Object.keys(languages).forEach(language => {
+      acceptedLanguages.push('application/' + languages[language].getName());
+      acceptedLanguages.push('application/x-' + languages[language].getName());
     });
 
     const acceptedMimeTypes: string[] = [
@@ -30,9 +32,11 @@ const upload: multer.Instance = multer({
  */
 export const register = (app: express.Application) => {
   app.get('/', (req, res) => {
-    res.render('index', languages);
+    const langs = Object.keys(languages);
+    res.render('index', { list: langs });
   });
   app.get('/undo', (req, res) => {
+    const langs = Object.keys(languages);
     res.render('undo', languages);
   });
   app.post('/revert', upload.single('file'), (req: any, res) => {

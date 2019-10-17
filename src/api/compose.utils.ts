@@ -8,20 +8,18 @@ import { EOL } from 'os';
 import { Language } from './compose.language';
 import { javascript } from './compose.javascript';
 
-export const languages: { [index: string]: Language[] } = {
-  list: [javascript],
+export const languages: { [index: string]: Language } = {
+  javascript,
 };
 
 export const languageFactory = (name: string): Language => {
-  const lang: Language[] = languages.list.filter(
-    (lang: Language) => lang.getName() === name
-  );
-  if (lang.length === 0) {
+  const lang: Language = languages[name];
+  if (lang === undefined) {
     throw new RangeError(
       `languageFactory in routes/index.ts has no instance for ${name}`
     );
   }
-  return lang[0];
+  return lang;
 };
 
 export const compose = (
@@ -137,24 +135,6 @@ export const filterFiles = (
   return [...new Set(neededFiles)];
 };
 
-/*
- * Directory object for mock-fs
- * {
- *     "/":{
- *         "file_name.ext":"file as string",
- *         "file_name.ext":"second root dir file"
- *          "subdir_name": {
- *              "file_name.ext":"another file as string"
- *               .
- *               .
- *               .
- *           },
- *           .
- *           .
- *           .
- *      }
- * }
- */
 export interface Directory {
   [index: string]: any;
 }
