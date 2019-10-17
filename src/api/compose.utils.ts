@@ -74,6 +74,7 @@ export const filterFiles = (
     }
   }
   return [...new Set(neededFiles)];
+
 }
 export const getModulesFromImport = (
     line : string
@@ -98,11 +99,9 @@ export const getModulesFromImport = (
 }
 
 export const filterPythonFiles = (
-	files : {[index : string]: string[]},
-	entryPoint: string,
-): {[index : string] : string[]}=> {
-	let neededFiles: string[] = [entryPoint];
-	
-	
-	return {}
-}
+  files: { [index: string]: string[] },
+  entryPoint: string
+): { [index: string]: string[] } => {
+  const neededFiles: string[] = [entryPoint];
+  return {};
+};
