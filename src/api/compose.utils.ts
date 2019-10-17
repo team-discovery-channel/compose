@@ -70,27 +70,15 @@ export const filterFiles = (
             neededFiles
           );
         }
-        if (curlang.getName() === 'python' && /^\s*from/.test(line)) {
-          const allnames = /from\s+\S+\s+import (.*)\1$/.exec(line);
-          if (allnames !== null) {
-            const names = allnames[2].split(',');
-            for (const name of names) {
-              const modname = requireName + '/' + name.trim();
-              const needed = findModule(
-                modname,
-                curlang.getExtensions(),
-                Object.keys(files)
-              );
-              if (typeof needed !== 'boolean') {
-                neededFiles = filterFiles(files, curlang, needed, regex).concat(
-                  neededFiles
-                );
-              }
-            }
-          }
-        }
       }
     }
   }
   return [...new Set(neededFiles)];
-};
+}
+
+export const filterPythonFiles = (
+	files : {[index : string]: string[]},
+	entryPoint: string
+): {[index : string] : string[]}=> {
+	return {}
+}
