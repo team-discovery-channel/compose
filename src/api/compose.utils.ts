@@ -75,8 +75,8 @@ export const filterFiles = (
   }
   return [...new Set(neededFiles)];
 };
-export const getModulesFromImport = (line: string): string => {
-  return '';
+export const getModulesFromImport = (line: string): string[] => {
+  return [];
 };
 
 export const filterPythonFiles = (
