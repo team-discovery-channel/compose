@@ -13,15 +13,13 @@ export const languages: { [index: string]: Language } = {
 };
 
 export const languageFactory = (name: string): Language => {
-  const lang: Language[] = languages.list.filter(
-    (lang: Language) => lang.getName() === name
-  );
-  if (lang.length === 0) {
+  const lang: Language = languages[name];
+  if (lang === undefined) {
     throw new RangeError(
       `languageFactory in routes/index.ts has no instance for ${name}`
     );
   }
-  return lang[0];
+  return lang;
 };
 
 export const compose = (
