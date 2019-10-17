@@ -75,10 +75,18 @@ export const filterFiles = (
   }
   return [...new Set(neededFiles)];
 }
+export const get_modules_from_import = (
+	line : string 
+) : string => (
+	return ''
+)
 
 export const filterPythonFiles = (
 	files : {[index : string]: string[]},
-	entryPoint: string
+	entryPoint: string,
 ): {[index : string] : string[]}=> {
+	let neededFiles: string[] = [entryPoint];
+	
+	
 	return {}
 }
