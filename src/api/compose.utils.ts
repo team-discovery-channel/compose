@@ -74,28 +74,26 @@ export const filterFiles = (
     }
   }
   return [...new Set(neededFiles)];
-}
-export const getModulesFromImport = (
-    line : string
-): string[] => {
-    let imports : string[] = []
-    line.trim()
-    if (line.startsWith('from ')) {
-        line = line.substr(5).trim()
-        const tempStr = line.split(' import ') 
-        const module = tempStr[0].trim()
-        for (const name of tempStr[1].split(',')){
-            imports = imports.concat(module + '.' + name.trim())
-        }
+};
+export const getModulesFromImport = (line: string): string[] => {
+  let imports: string[] = [];
+  line.trim();
+  if (line.startsWith('from ')) {
+    line = line.substr(5).trim();
+    const tempStr = line.split(' import ');
+    const module = tempStr[0].trim();
+    imports = imports.concat(module);
+    for (const name of tempStr[1].split(',')) {
+      imports = imports.concat(module + '.' + name.trim());
     }
-    else if (line.startsWith('import ')) {
-        line = line.substr(7).trim()
-        for (const module of line.split(',')) {
-            imports = imports.concat(module.trim())
-        }
+  } else if (line.startsWith('import ')) {
+    line = line.substr(7).trim();
+    for (const module of line.split(',')) {
+      imports = imports.concat(module.trim());
     }
-    return imports
-}
+  }
+  return imports;
+};
 
 export const filterPythonFiles = (
   files: { [index: string]: string[] },

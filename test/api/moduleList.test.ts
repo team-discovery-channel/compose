@@ -2,7 +2,6 @@ import {getModulesFromImport} from "../../src/api/compose.utils"
 const im0 = "import foo"
 const im1 = "from foo import bar"
 test('test 1 for get_modules_from_import, import x format', ()=>{
-	console.log(getModulesFromImport(im0))
 	expect(getModulesFromImport(im0)[0]).toEqual("foo")
 })
 
