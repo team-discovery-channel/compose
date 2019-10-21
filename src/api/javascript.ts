@@ -1,5 +1,5 @@
-import { Composable, Language } from './compose.language';
-
+import { Composable, Language } from './language';
+import { filterFiles } from './javascript.utils';
 /**
  * composes javascript source files.
  */
@@ -15,7 +15,13 @@ class Javascript extends Language {
    * @param files the files from the zip
    * @returns composedFile the combined file of
    */
-  compose(filelist: string[], files: { [index: string]: string[] }): string {
+  compose(mainfile: string, files: { [index: string]: string[] }): string {
+    const filelist = filterFiles(
+      files,
+      javascript,
+      mainfile,
+      javascript.getRegex()
+    );
     let content = `(function (require, modules) {
     var module_cache = {};
     const builtin_require = require;

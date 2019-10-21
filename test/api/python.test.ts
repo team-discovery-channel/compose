@@ -1,7 +1,7 @@
 /* Based on code from https://github.com/jasonrute/modulize
  * */
-import {python} from '../../src/api/compose.python';
-import {Composable, Language} from '../../src/api/compose.language';
+import {python} from '../../src/api/python';
+import {Composable, Language} from '../../src/api/language';
 import { compose } from '../../src/api';
 import * as utils from '../../src/api/python.utils';
 import {example} from "./pytest"
@@ -45,13 +45,6 @@ test(`is ${name} composable`,()=>{
     }
     expect(isComposable).not.toThrow();
 
-})
-
-
-test(`is ${name}'s compose function returning JSON object`,()=>{
-
-    const run = (()=>{language.compose([""],{"":["",""]})})
-    expect(run).not.toThrow()
 })
 
 test(`is regex of ${name} correct`,()=>{
@@ -127,6 +120,10 @@ def _bar(__name__):
 	const filetext = example[filename].join("\n")
 	const mod = utils.fileToModule(filename, "__main__.py")
 	const deps = utils.parseImportStructure(example, filename)
+})
+
+test('test for python combined', ()=>{
+  console.log(python.compose("__main__.py", example))
 })
 
 test(`${name} object name() returns correct name`,()=>{

@@ -1,7 +1,7 @@
 import {compose} from '../../src/api/index';
 import { TIMEOUT } from 'dns';
 import { resolve } from 'url';
-import {javascript} from '../../src/api/compose.javascript'
+import {javascript} from '../../src/api/javascript'
 
 test("Expected return from compose must be valid json", () => {
 

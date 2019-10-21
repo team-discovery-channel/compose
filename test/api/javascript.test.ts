@@ -1,6 +1,7 @@
-import {javascript} from '../../src/api/compose.javascript';
-import {Composable, Language} from '../../src/api/compose.language';
+import {javascript} from '../../src/api/javascript';
+import {Composable, Language} from '../../src/api/language';
 import { compose } from '../../src/api';
+import {findModule} from '../../src/api/javascript.utils';
 
 const language = javascript;
 const name = "javascript"
@@ -67,3 +68,26 @@ test(`${name} object name() returns correct name`,()=>{
 test(`${name} object isValidExt() returns true for ${ext}`,()=>{
     expect(language.isValidExt(ext)).toBe(true)
 })
+
+const extensions = javascript.getExtensions();
+const filelist = ["help.js", "alive/index.js"]
+
+test("Expected 'help.js' to return !false", () =>
+{
+  expect(findModule('help.js', extensions, filelist)).not.toBeFalsy();
+});
+
+test("Expected 'help' to return !false", ()=>
+{
+  expect(findModule('help', extensions, filelist)).not.toBeFalsy();
+});
+
+test("Expected 'help.ts' to return false", ()=>
+{
+  expect(findModule('help.ts', extensions, filelist)).toBeFalsy();
+});
+
+test("Expected 'alive' to return !false", ()=>
+{
+  expect(findModule("alive", extensions, filelist)).not.toBeFalsy();
+});

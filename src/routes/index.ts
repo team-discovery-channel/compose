@@ -3,18 +3,18 @@ import multer from 'multer';
 import AdmZip from 'adm-zip';
 import stream from 'stream';
 import fs from 'fs';
-import { javascript } from '../api/compose.javascript';
+import { javascript } from '../api/javascript';
+import { python } from '../api/python';
 import { v1 } from 'uuid';
 import { compose } from '../api';
 import { O_NOFOLLOW } from 'constants';
 import { isString } from 'util';
-import { filterFiles } from '../api/compose.utils';
-import { Language } from '../api/compose.language';
+import { Language } from '../api/language';
 
 const storage = multer.memoryStorage();
 
 const languages = {
-  list: [javascript],
+  list: [javascript, python],
 };
 
 const upload: multer.Instance = multer({
@@ -144,14 +144,8 @@ export const register = (app: express.Application) => {
 
       const lang: string = req.body.selectedLanguage.split('/')[0];
       const languageInstance: Language = languageFactory(lang);
-      const filenames: string[] = filterFiles(
-        files,
-        languageInstance,
-        entryFilename,
-        languageInstance.getRegex()
-      );
       const combinedFile: string = languageInstance.compose(
-        filenames,
+        entryFilename,
         files
       );
 

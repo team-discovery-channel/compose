@@ -1,4 +1,4 @@
-import {Composable, Language} from '../../src/api/compose.language';
+import {Composable, Language} from '../../src/api/language';
 
 const language = "abstract";
 const exts = [".abs"];

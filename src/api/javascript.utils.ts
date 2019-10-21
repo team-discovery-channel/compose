@@ -2,7 +2,7 @@
  * Utility meathods for use with compose.
  * Should be language independant
  */
-import { Language } from './compose.language';
+import { Language } from './language';
 
 /**
  * Ensures module extracted from code is valid and in the filelist
