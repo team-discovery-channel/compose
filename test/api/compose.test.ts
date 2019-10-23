@@ -1,30 +1,45 @@
-import {compose} from '../../src/api/index';
 import { TIMEOUT } from 'dns';
 import { resolve } from 'url';
 import {javascript} from '../../src/api/javascript'
+import fs from 'fs';
+import {compose} from '../../src/api/javascript.utils'
+import {getPathFromTestRoot} from './test.utils'
 
-test("Expected return from compose must be valid json", () => {
 
-    const validJson = () => {
-        compose({"hello_world.js":["Line 1", "Line 2","line 3","Line 4"]})
-    };
+class TestObject{
+	language:string;
+	entry:string;
+	file:string;
+	out:{[index:string]:string};
+	inBuffer:Buffer;
+	outBuffer:Buffer;
 
-    expect(validJson)
-        .not
-        .toThrow();
-});
+	constructor(filename:string, language="javascript", entry="main.js", outFilename=""){
+		this.language = language;
+		this.file = getPathFromTestRoot(filename);
+		this.entry = entry
+		this.out = {filename:outFilename};
 
-const jsfiles1: {[index: string]: string[]} ={
-	file1 : ["require('file2')", "require('file3')"],
-	file2 : ["require('file4')", "console.log('Im')"],
-	"file3.js" : ["console.log('Alive')"],
-	"file4/index.js" : ["require('file6')", "console.log('Help')"]
-};
+		this.inBuffer = fs.readFileSync(this.file)
+		this.outBuffer = Buffer.from("")
+	}
 
-const jsfilenames1 = [ 'file3.js', 'file4/index.js', 'file2', 'file1' ]
+	run(){
+		this.outBuffer = compose(this.inBuffer,this.language, this.out, this.entry)
+	}
+}
+const testObjects = [	new TestObject("js_test_sub_1.zip"),
+			new TestObject("js_test_sub_1.zip", "syzygy", "void.syz"),
+			new TestObject("js_test_sub.zip")]
 
-test("first test for javascript compose", ()=>
-  {
-    //console.log(javascript.compose(jsfilenames1, jsfiles1))
+test("language implementations can compose", ()=>{
+		testObjects.forEach((testObject)=>{
+			try{
+				testObject.run()
+			}
+			catch(e){
+       //console.log(e)
+			}
+		})
   }
 ) 

@@ -11,7 +11,7 @@ class MockLang extends Language {
     return [/require\((['"])([^'"]+)\1\)/];
   }
 
-  compose(filelist: string[], files: { [index: string]: string[] }): string {
+  compose(filelist: string, files: { [index: string]: string[] }): string {
     return "";
   }
 }

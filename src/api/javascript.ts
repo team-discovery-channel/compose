@@ -4,6 +4,7 @@ import { filterFiles } from './javascript.utils';
  * composes javascript source files.
  */
 class Javascript extends Language {
+  comment = '//';
   constructor() {
     super('javascript', ['.js', '/index.js', '']);
   }
@@ -60,16 +61,19 @@ class Javascript extends Language {
     return main;
 })(require, {`;
     for (const filename of filelist) {
+      const modname = filename
+        .split('/')
+        .slice(-1)
+        .join('/');
       const contentWrapper = [
         `
-    '${filename}': (function(module, exports, require) {
-//  Begin ${filename}\n`,
+    '${modname}': (function(module, exports, require) {
+${this.comment}${this.getBeginGuard()} ${filename}\n`,
         `
-//  End ${filename}
-    })`,
+${this.comment}${this.getEndGuard()} ${filename}
+}),`,
       ];
       const curfile: string[] = files[filename];
-
       const fileString: string =
         contentWrapper[0] + curfile.join('\n') + contentWrapper[1];
       content += fileString;

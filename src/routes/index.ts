@@ -1,44 +1,36 @@
 import express from 'express';
 import multer from 'multer';
-import AdmZip from 'adm-zip';
 import stream from 'stream';
 import fs from 'fs';
 import { javascript } from '../api/javascript';
 import { python } from '../api/python';
 import { v1 } from 'uuid';
-import { compose } from '../api';
 import { O_NOFOLLOW } from 'constants';
 import { isString } from 'util';
 import { Language } from '../api/language';
+import { languages, compose, revert } from '../api/javascript.utils';
 
 const storage = multer.memoryStorage();
-
-const languages = {
-  list: [javascript, python],
-};
 
 const upload: multer.Instance = multer({
   storage,
   fileFilter: (req, file, cb) => {
+    const acceptedLanguages: string[] = [];
+    const values = Object.keys(languages);
+
+    Object.keys(languages).forEach(language => {
+      acceptedLanguages.push('application/' + languages[language].getName());
+      acceptedLanguages.push('application/x-' + languages[language].getName());
+    });
+
     const acceptedMimeTypes: string[] = [
       'application/x-zip-compressed',
       'application/zip',
     ];
+    acceptedMimeTypes.push(...acceptedLanguages);
     cb(null, acceptedMimeTypes.includes(file.mimetype));
   },
 });
-
-const languageFactory = (name: string): Language => {
-  const lang: Language[] = languages.list.filter(
-    (lang: Language) => lang.getName() === name
-  );
-  if (lang.length === 0) {
-    throw new Error(
-      `languageFactory in routes/index.ts has no instance for ${name}`
-    );
-  }
-  return lang[0];
-};
 
 /**
  * registers routes to the express application
@@ -46,128 +38,92 @@ const languageFactory = (name: string): Language => {
  */
 export const register = (app: express.Application) => {
   app.get('/', (req, res) => {
-    res.render('index', languages);
+    const langs = Object.keys(languages);
+    res.render('index', { list: langs });
   });
-
-  app.post('/entry', upload.single('file'), (req: any, res) => {
-    if (req.file !== undefined) {
-      const zip = new AdmZip(req.file.buffer);
-
-      const fileDirectory = zip
-        .getEntries()
-        .sort((a: AdmZip.IZipEntry, b: AdmZip.IZipEntry): number => {
-          const aDirCount: number = a.entryName.split('/').length;
-          const bDirCount: number = b.entryName.split('/').length;
-          if (aDirCount < bDirCount) {
-            return -1;
-          }
-          if (aDirCount > bDirCount) {
-            return 1;
-          }
-          return 0;
-        })
-        .reverse()
-        .reduce<string>((acc, entry): string => {
-          if (entry.isDirectory) {
-            const dirArray = entry.entryName.split('/');
-            const dirName: string = dirArray[dirArray.length - 2];
-            let defaultToOpen = '';
-            if (dirArray.length === 2) {
-              defaultToOpen = 'data-jstree=\'{"opened":true}\'';
-            }
-            acc = `<li ${defaultToOpen}>${dirName}<ul>` + acc + '</ul></li>';
-          } else {
-            acc += `<li id="${
-              entry.name
-            }" data-jstree='{"icon":"material-icons tiny"}'><a href="#" onclick="setHiddenElementTo(this, '${entry.entryName
-              .split('/')
-              .slice(1)
-              .join('/')}')">${entry.name}</a></li>`;
-          }
-          return acc;
-        }, '');
-      const filenames: string[] = [];
-      const files = zip.getEntries().filter(entry => !entry.isDirectory);
-      const zid: string = v1({
-        node: [0x01, 0x23, 0x45, 0x67, 0x89, 0xab],
-        clockseq: 0x1234,
-        msecs: Date.now(),
-        nsecs: 5678,
-      });
-
-      app.locals[zid] = req.file.buffer;
-
-      files.forEach(f => {
-        filenames.push(
-          f.entryName
-            .split('/')
-            .slice(1)
-            .join('/')
-        );
-      });
-      res.render('entry', {
-        filenames,
-        language: req.body.selectedLanguage,
-        buffer: zid,
-        directoryHTML: fileDirectory,
-      });
-    } else {
-      res.json({ error: 'Zip files only.' });
-    }
+  app.get('/undo', (req, res) => {
+    const langs = Object.keys(languages);
+    res.render('undo', languages);
   });
+  app.post('/revert', upload.single('file'), (req: any, res) => {
+    const error: { [index: string]: string } = {
+      file: req.file !== undefined ? '' : 'Single source file only',
+      language: req.body.language !== undefined ? '' : 'Language must be set',
+    };
 
-  app.post('/combine', upload.single('file'), (req: any, res) => {
-    if (req.body.zipId !== undefined) {
-      let entryFilename: string | string[] = req.body.selectedEntry;
-      if (entryFilename instanceof Array) {
-        entryFilename = entryFilename[0];
+    if (!(error.file || error.langauge)) {
+      const out: { [index: string]: string } = {
+        filename: v1({
+          node: [0x01, 0x23, 0x45, 0x67, 0x89, 0xab],
+          clockseq: 0x1234,
+          msecs: Date.now(),
+          nsecs: 5678,
+        }),
+      };
+
+      if (req.body.out !== '' && req.body.out !== undefined) {
+        out.filename = req.body.out;
       }
-      const zid = req.body.zipId;
 
-      const zip = new AdmZip(app.locals[zid.substring(0, zid.length - 1)]);
-      const files = zip
-        .getEntries()
-        .filter(entry => !entry.isDirectory)
-        .reduce<{ [index: string]: string[] }>((acc, entry) => {
-          acc[
-            entry.entryName
-              .split('/')
-              .slice(1)
-              .join('/')
-          ] = entry
+      const decomposed: Buffer = revert(req.file.buffer, req.body.language);
 
-            .getData()
-            .toString('utf-8')
-            .split('\n');
-          return acc;
-        }, {});
-
-      const lang: string = req.body.selectedLanguage.split('/')[0];
-      const languageInstance: Language = languageFactory(lang);
-      const combinedFile: string = languageInstance.compose(
-        entryFilename,
-        files
+      const reader = new stream.PassThrough();
+      reader.end(decomposed);
+      res.set(
+        'Content-disposition',
+        'attachment; filename=' + out.filename + '.zip'
       );
 
-      // TODO: Implement call to compose functionality.
-      const contents = Buffer.from(combinedFile, 'utf-8');
-      const name = 'files' + languageInstance.getExtensions()[0];
-
-      // File Download from buffer
-      const reader = new stream.PassThrough();
-      reader.end(contents);
-
-      res.set('Content-disposition', 'attachment; filename=' + name);
-
-      // TODO: Content-Type should change based on lang.
-      res.set('Content-type', 'application/' + languageInstance.getName());
+      res.set('Content-type', 'application/zip');
 
       reader.pipe(res);
     } else {
-      res.json({ error: 'Zip files only.' });
+      res.json({ errors: error });
+    }
+  });
+
+  app.post('/compose', upload.single('file'), (req: any, res) => {
+    const error: { [index: string]: string } = {
+      file: req.file !== undefined ? '' : 'Zip files only.',
+      language: req.body.language !== undefined ? '' : 'Language must be set',
+      entry: req.body.entry ? '' : 'Entry file must be set',
+    };
+
+    if (!(error.file || error.langauge || error.entry)) {
+      const out: { [index: string]: string } = {
+        filename: v1({
+          node: [0x01, 0x23, 0x45, 0x67, 0x89, 0xab],
+          clockseq: 0x1234,
+          msecs: Date.now(),
+          nsecs: 5678,
+        }),
+      };
+
+      if (req.body.out !== '' && req.body.out !== undefined) {
+        out.filename = req.body.out;
+      }
+
+      const composed = compose(
+        req.file.buffer,
+        req.body.language,
+        out,
+        req.body.entry
+      );
+      // File Download from buffer
+      const reader = new stream.PassThrough();
+      reader.end(composed);
+
+      res.set('Content-disposition', 'attachment; filename=' + out.filename);
+
+      // TODO: Content-Type should change based on lang.
+      res.set('Content-type', 'text/plain');
+
+      reader.pipe(res);
+    } else {
+      res.json({ errors: error });
     }
   });
 
   app.use('/docs', express.static('dist/src/docs'));
-  app.use('/css', express.static('dist/src/css'));
+  app.use('/scripts', express.static('dist/src/scripts'));
 };

@@ -2,7 +2,6 @@
  * */
 import {python} from '../../src/api/python';
 import {Composable, Language} from '../../src/api/language';
-import { compose } from '../../src/api';
 import * as utils from '../../src/api/python.utils';
 import {example} from "./pytest"
 
