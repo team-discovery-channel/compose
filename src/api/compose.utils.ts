@@ -40,11 +40,10 @@ export const compose = (
         .getData()
         .toString('utf-8')
         .split('\r')
-        .join("")
-        .split("\n");
+        .join('')
+        .split('\n');
       return acc;
     }, {});
-  
 
   const filenames: string[] = filterFiles(
     files,
@@ -94,33 +93,36 @@ export const findModule = (
   return false;
 };
 
-const getAbsolutePath =  (parent:string, subdir:string, language:Language) => {
-  const base = parent.split("/")
-  const relative = subdir.split("/")
-  const result:string[] = []
-  
-  base.pop()
+export const getAbsolutePath = (
+  parent: string,
+  subdir: string,
+  language: Language
+) => {
+  const base = parent.split('/');
+  const relative = subdir.split('/');
+  const result: string[] = [];
 
-  while(relative.length !== 0){
-      const sub = relative.pop()
-      if(sub === "."){
-          continue
-      }
-      if(sub === ".."){
-          result.push(base.pop() as string)
-      }
-      else{
-          result.push(sub as string)
-      }
+  base.pop();
+
+  while (relative.length !== 0) {
+    const sub = relative.pop();
+    if (sub === '.') {
+      continue;
+    }
+    if (sub === '..') {
+      result.push(base.pop() as string);
+    } else {
+      result.push(sub as string);
+    }
   }
-  result[0] += (result[0].indexOf(".") !== -1)?"":language.getExtensions()[0]
-  if(result[result.length-1] !== base[0]){
-      while(base.length !== 0){
-          result.push(base.pop() as string)
-      }
+  result[0] += result[0].indexOf('.') !== -1 ? '' : language.getExtensions()[0];
+  if (result[result.length - 1] !== base[0]) {
+    while (base.length !== 0) {
+      result.push(base.pop() as string);
+    }
   }
-  return result.reverse().join("/")
-}
+  return result.reverse().join('/');
+};
 
 /**
  * Recursively filters a project file list down to those that are dependancies of the main file
@@ -142,7 +144,7 @@ export const filterFiles = (
     for (const reg of regex) {
       const re = reg;
       const m = re.exec(line);
-      
+
       if (m !== null) {
         const requireName = findModule(
           getAbsolutePath(entryPoint, m[2], curlang),
