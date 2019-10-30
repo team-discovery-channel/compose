@@ -13,10 +13,10 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
 
-    <script type="text/javascript" src="scripts/zip/zip.js"></script>
+    <script type="text/javascript" src="scripts/zip-js/WebContent/zip.js"></script>
     <script type="text/javascript">
         //zip.useWebWorkers = false
-        zip.workerScriptsPath = 'scripts/zip/';
+        zip.workerScriptsPath = 'scripts/zip-js/WebContent/';
         function processZipFile(blob){
             // use a BlobReader to read the zip from a Blob object
             zip.createReader(new zip.Data64URIReader(blob), function(reader) {
