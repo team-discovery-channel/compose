@@ -32,7 +32,7 @@ export const parseImportStructure = (
       const moduleParts = mod.split('.');
       for (const part of moduleParts) {
         modulePrefix.push(part);
-        const checkFile = modulePrefix.join();
+        const checkFile = modulePrefix.join('/');
         if (checkFile + '.py' in files) {
           moduleList = Object.assign(
             {},

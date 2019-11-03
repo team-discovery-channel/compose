@@ -1,7 +1,7 @@
 /* Based on code from https://github.com/jasonrute/modulize
  * */
 export let example:any = {}
-let main = ["import foo.bar", "fb = foo.bar.bar_func(foo.foo_var)","print(fb) # foo bar"]
+let main = ["import foo.bar","import os" ,"fb = foo.bar.bar_func(foo.foo_var)","print(fb) # foo bar"]
 example["__main__.py"] = main
 
 let init = ["foo_var = 'foo'"]
