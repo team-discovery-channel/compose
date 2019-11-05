@@ -1,5 +1,5 @@
 /**
- * Javascript Utility meathods for use with compose.
+ * Javascript Utility methods for use with Javascript Language Package.
  */
 import { Language } from './language';
 import AdmZip from 'adm-zip';
