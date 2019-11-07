@@ -11,11 +11,7 @@ import * as child from 'child_process'
 const request = require('supertest')
 import rimraf = require('rimraf');
 
-
-dotenv.config();
-
 const baseDir = "./test/files";
-const port = process.env.SERVER_PORT;
 describe('End to end REST testing per language', () => {
     jest.setTimeout(20000)
     let app:any, server:any;
@@ -26,7 +22,6 @@ describe('End to end REST testing per language', () => {
             fs.mkdirSync(tmpDir)
         }
         rimraf.sync(tmpDir+"/**/*")
-        const port = process.env.SERVER_PORT;
         app = express();
         
         app.set('views', path.join(__dirname, 'views'));
