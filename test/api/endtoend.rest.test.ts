@@ -12,10 +12,12 @@ const request = require('supertest')
 import rimraf = require('rimraf');
 
 const baseDir = "./test/files";
+
 describe('End to end REST testing per language', () => {
     jest.setTimeout(20000)
     let app:any, server:any;
     const tmpDir = `${baseDir}/tmp`
+
     beforeAll(done => {
         if(!fs.existsSync(tmpDir))
         {
@@ -70,4 +72,5 @@ describe('End to end REST testing per language', () => {
         expect(results).toEqual(expect.arrayContaining([true]))
         done()
     })
+
 });
