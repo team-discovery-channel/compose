@@ -1,11 +1,10 @@
 import {languages} from '../../src/api/compose.utils'
 import AdmZip from 'adm-zip'
-import dotenv from 'dotenv'
 import  util  from 'util'
 import express from 'express';
 import path from 'path';
 import * as routes from '../../src/routes';
-import fs, { promises } from 'fs'
+import fs from 'fs'
 import http from 'http'
 import * as child from 'child_process'
 const request = require('supertest')
