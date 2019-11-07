@@ -33,10 +33,6 @@ describe('End to end REST testing per language', () => {
         app.set('view engine', 'ejs');
         
         routes.register(app);
-        //server = app.listen(port, () => {
-          //  console.log(`server listening on http://localhost:${port}/`);
-            //done()
-         // });
         server = http.createServer(app);
 
         server.listen(done);
@@ -48,8 +44,6 @@ describe('End to end REST testing per language', () => {
 
     test("REST calls on each language over test files", async (done)=>{
         const promises:Array<Promise<boolean>> = []
-        
-        //fs.mkdirSync(tmpDir)
         Object.keys(languages).forEach((lang)=>{
             const ext:string = languages[lang].getExtensions()[0]
             const langTestFiles = `${baseDir}/${lang}`
@@ -65,7 +59,6 @@ describe('End to end REST testing per language', () => {
                         .field("entry",config.entry)
                         .attach("file",`${tmpDir}/${dir}.zip`)
                         .pipe(fs.createWriteStream(`${tmpDir}/${dir}${ext}`)).on("close",()=>{
-                            //console.log(util.format(config.command,`${langTestFiles}/${dir}${ext}`))
                             const result:string = child.execSync(util.format(config.command,`${tmpDir}/${dir}${ext}`),{cwd:".", timeout:2000}).toString()
                                 if(result === config[dir]){
                                     resolve(true)
