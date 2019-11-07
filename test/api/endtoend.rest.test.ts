@@ -9,9 +9,8 @@ import fs, { promises } from 'fs'
 import http from 'http'
 import * as child from 'child_process'
 const request = require('supertest')
-import rimaf from 'rimraf'
 import rimraf = require('rimraf');
-import { Http2SecureServer } from 'http2';
+
 
 dotenv.config();
 
