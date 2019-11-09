@@ -49,10 +49,7 @@
                             var entryName = entry.filename.split('/').pop()
                             acc += `<li id="${
                                 entryName
-                            }" data-jstree='{"icon":"material-icons tiny"}'><a href="#" onclick="setEntry(this, '${entry.filename
-                            .split('/')
-                            .slice(1)
-                            .join('/')}')">${entryName}</a></li>`;
+                            }" data-jstree='{"icon":"material-icons tiny"}'><a href="#" onclick="setEntry(this, '${entry.filename}')">${entryName}</a></li>`;
                         }
                         return acc;
 
