@@ -1,15 +1,16 @@
 /**
- * Utility meathods for use with compose.
- * Should be language independant
+ * Javascript Utility meathods for use with compose.
  */
+import { Language } from './language';
 import AdmZip from 'adm-zip';
 import mock from 'mock-fs';
 import { EOL } from 'os';
-import { Language } from './compose.language';
-import { javascript } from './compose.javascript';
+import { javascript } from './javascript';
+import { python } from './python';
 
 export const languages: { [index: string]: Language } = {
   javascript,
+  python,
 };
 
 export const languageFactory = (name: string): Language => {
@@ -45,15 +46,8 @@ export const compose = (
       return acc;
     }, {});
 
-  const filenames: string[] = filterFiles(
-    files,
-    languageInstance,
-    entry,
-    languageInstance.getRegex()
-  );
-
   const combinedFile: string = languageInstance.compose(
-    filenames,
+    entry,
     files
   );
   return Buffer.from(combinedFile);
@@ -160,7 +154,6 @@ export const filterFiles = (
           Object.keys(files)
         );
         if (typeof requireName !== 'boolean') {
-          // delete files[test];
           neededFiles = filterFiles(files, curlang, requireName, regex).concat(
             neededFiles
           );

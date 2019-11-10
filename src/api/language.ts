@@ -4,7 +4,7 @@
 export interface Composable {
   /**
    */
-  compose(filelist: string[], files: { [index: string]: string[] }): string;
+  compose(mainFile: string, files: { [index: string]: string[] }): string;
   getRegex(): RegExp[];
 }
 export abstract class Language implements Composable {
@@ -59,7 +59,7 @@ export abstract class Language implements Composable {
   }
 
   abstract compose(
-    filelist: string[],
+    mainfile: string,
     files: { [index: string]: string[] }
   ): string;
   abstract getRegex(): RegExp[];

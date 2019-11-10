@@ -1,5 +1,5 @@
-import {filterFiles} from '../../src/api/compose.utils'
-import {javascript} from '../../src/api/compose.javascript'
+import {filterFiles} from '../../src/api/javascript.utils'
+import {javascript} from '../../src/api/javascript'
 
 const jsfiles1: {[index: string]: string[]} ={
 	file1 : ["require('file2')", "require('file3')"],

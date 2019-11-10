@@ -1,8 +1,14 @@
 import express from 'express';
 import multer from 'multer';
 import stream from 'stream';
+import fs from 'fs';
+import { javascript } from '../api/javascript';
+import { python } from '../api/python';
 import { v1 } from 'uuid';
-import { languages, compose, revert } from '../api/compose.utils';
+import { O_NOFOLLOW } from 'constants';
+import { isString } from 'util';
+import { Language } from '../api/language';
+import { languages, compose, revert } from '../api/javascript.utils';
 
 const storage = multer.memoryStorage();
 
@@ -96,6 +102,7 @@ export const register = (app: express.Application) => {
       if (req.body.out !== '' && req.body.out !== undefined) {
         out.filename = req.body.out;
       }
+
       const composed = compose(
         req.file.buffer,
         req.body.language,
