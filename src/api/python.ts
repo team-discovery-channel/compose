@@ -14,6 +14,18 @@ class Python extends Language {
     let combined = `# -*- coding: utf-8 -*-
 import sys
 from types import ModuleType
+import builtins
+
+import_builtin = builtins.__import__
+
+def compose_import(name, global_context=None, local_context=None, fromlist=(), level=0):
+    if name in sys.modules:
+        return sys.modules[name]
+    else:
+        return import_builtin(name, global_context, local_context, level)
+
+builtins.__import__ = compose_import
+
 class MockModule(ModuleType):
     def __init__(self, module_name, module_doc=None):
         ModuleType.__init__(self, module_name, module_doc)
