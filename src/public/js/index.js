@@ -1,5 +1,5 @@
 //zip.useWebWorkers = false
-zip.workerScriptsPath = 'scripts/zip-js/WebContent/';
+zip.workerScriptsPath = 'js/WebContent/';
 function processZipFile(blob){
     // use a BlobReader to read the zip from a Blob object
     zip.createReader(new zip.Data64URIReader(blob), function(reader) {
