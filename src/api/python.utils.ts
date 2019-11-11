@@ -91,7 +91,7 @@ ${text}
     #End ${file}
 ${shortName}()
 `;
-  } else if (modType === 'module' || modType === 'package') {
+  } else {
     let dependencyText = '';
     if (dependencies.length > 0) {
       dependencyText = ', dependencies= (' + dependencies.join(', ') + ')';
@@ -107,5 +107,4 @@ ${text}
     return locals()
 `;
   }
-  return '';
 };
