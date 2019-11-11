@@ -40,7 +40,7 @@ describe('End to end REST testing per language', () => {
 
     test("REST calls on each language over test files", async (done)=>{
         const promises:Array<Promise<boolean>> = []
-        Object.keys(languages).filter(lang=>lang==="javascript").forEach((lang)=>{
+        Object.keys(languages).forEach((lang)=>{
             const ext:string = languages[lang].getExtensions()[0]
             const langTestFiles = `${baseDir}/${lang}`
             const testfiles:string[] = fs.readdirSync(langTestFiles).filter(fn=>fn!=="config.json");
