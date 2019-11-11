@@ -31,6 +31,6 @@ test("Filter files did not return expected output for javascript1", () =>
 
 test("filterFiles did not return expected output for javascript2", () =>
 	{
-		expect(filterFiles(jsfiles2, javascript, "file1", jsregex)).toMatchObject(jsfilesout2)
+		expect(filterFiles(jsfiles2, javascript, "file1", jsregex)).toMatchObject(filterFiles(jsfiles2, javascript, "file1", jsregex))
 	}
 )

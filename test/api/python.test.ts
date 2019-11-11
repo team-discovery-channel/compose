@@ -3,7 +3,7 @@
 import {python} from '../../src/api/python';
 import {Composable, Language} from '../../src/api/language';
 import * as utils from '../../src/api/python.utils';
-import {example} from "./pytest"
+import {example, desiredOutput} from "./pytest"
 
 const language = python;
 const name = "python"
@@ -72,8 +72,13 @@ test('test 2 for get_modules_from_import, from x format', ()=>{
 	expect(utils.getModulesFromImport(im1)[0]).toEqual("foo")
 })
 
+test('test 3 for get_modules_from_import, import x.y format', ()=>{
+	const im2 = "import foo.bar"
+	expect(utils.getModulesFromImport(im2)[0]).toEqual("foo.bar")
+})
+
 test("test for parseImportsStructure", ()=>{
-	const expected = {'foo/__init__.py': [], '__main__.py': ['foo']}
+	const expected = {'foo/__init__.py': [], 'foo/bar.py':[] , '__main__.py': ['foo', 'foo.bar']}
 	const parsed = utils.parseImportStructure(example, "__main__.py")
 	expect(parsed).toEqual(expected)
 })
@@ -92,6 +97,7 @@ test("test for block, main file", ()=>{
 def __main__():
     #Begin __main__.py
     import foo.bar
+    import os
     fb = foo.bar.bar_func(foo.foo_var)
     print(fb) # foo bar
     #End __main__.py
@@ -119,10 +125,29 @@ def _bar(__name__):
 	const filetext = example[filename].join("\n")
 	const mod = utils.fileToModule(filename, "__main__.py")
 	const deps = utils.parseImportStructure(example, filename)
+	const block = utils.block(filename, mod, filetext, deps[filename])
+	expect(block).toEqual(expected)
 })
 
+test("test for block, block file with dependancies", ()=>{
+	const expected = `
+@modulize('foo.bar', dependencies= (foo))
+def _bar(__name__):
+    #Begin foo/bar.py
+    def bar_func(x):
+        return x + ' bar2'
+    #End foo/bar.py
+    return locals()
+`
+	const filename = "foo/bar.py"
+	const filetext = example[filename].join("\n")
+	const mod = utils.fileToModule(filename, "__main__.py")
+	const deps = ['foo']
+	const block = utils.block(filename, mod, filetext, deps)
+	expect(block).toEqual(expected)
+})
 test('test for python combined', ()=>{
-  console.log(python.compose("__main__.py", example))
+  expect(python.compose("__main__.py", example)).toEqual(desiredOutput)
 })
 
 test(`${name} object name() returns correct name`,()=>{

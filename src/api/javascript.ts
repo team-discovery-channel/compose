@@ -40,15 +40,44 @@ class Javascript extends Language {
         }
         return false;
     }
-    require = function(path) {
+    getAbsolutePath = function (base, relative) {
+        var base = base.split("/")
+        base.pop()
+        var baseLength = base.length;
+        var relative = relative.split("/")
+        var result = []
+        
+        while(relative.length != 0){
+            var sub = relative.pop()
+            if(sub == ".")
+                continue
+            if(sub == ".."){
+                base.pop()
+            }
+            else{
+                result.push(sub)
+            }
+        }
+        if(result[0].slice(-3) === ".js"){
+          result[0] = result[0].slice(0,-3)
+        }
+        if(result[result.length-1] !== base[0]){
+            while(base.length != 0)
+                result.push(base.pop())
+        }
+        return result.reverse().join("/")
+    }
+    require = function(parentPath){ return function(path) {
+        
         if (module_cache[path]) {
             return module_cache[path].exports;
         }
+        path = getAbsolutePath(parentPath,path)
         module_path = find_module(path)
         if (module_path)
         {
             var module = module_cache[module_path] = {exports: {}};
-            modules[module_path].call(module.exports, module, module.exports, require);
+            modules[module_path].call(module.exports, module, module.exports, require(module_path));
         }
         else
         {
@@ -56,18 +85,18 @@ class Javascript extends Language {
         }
         return module.exports;
     }
-    main = require('${filelist[filelist.length - 1]}');
+  }
+    main = require('${filelist[filelist.length - 1]}')('${
+      filelist[filelist.length - 1].split('.')[0]
+    }');
     require = builtin_require;
     return main;
 })(require, {`;
     for (const filename of filelist) {
-      const modname = filename
-        .split('/')
-        .slice(-1)
-        .join('/');
+      const modkey = filename;
       const contentWrapper = [
         `
-    '${modname}': (function(module, exports, require) {
+    '${modkey}': (function(module, exports, require) {
 ${this.comment}${this.getBeginGuard()} ${filename}\n`,
         `
 ${this.comment}${this.getEndGuard()} ${filename}
