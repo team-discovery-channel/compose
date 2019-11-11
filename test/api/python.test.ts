@@ -131,7 +131,7 @@ def _bar(__name__):
 
 test("test for block, block file with dependancies", ()=>{
 	const expected = `
-@modulize('foo.bar', dependencies= (foo))
+@modulize('foo.bar', dependencies= ("foo"))
 def _bar(__name__):
     #Begin foo/bar.py
     def bar_func(x):
