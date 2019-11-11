@@ -29,7 +29,7 @@ export const parseImportStructure = (
   for (const line of files[file]) {
     for (const mod of getModulesFromImport(line)) {
       const modulePrefix: string[] = [];
-      const moduleParts = mod.split('.');
+      const moduleParts = mod.split('.').filter(mpart => mpart !== '');
       for (const part of moduleParts) {
         modulePrefix.push(part);
         const checkFile = modulePrefix.join('/');
@@ -61,13 +61,22 @@ export const fileToModule = (file: string, mainfile: string): string[] => {
   let name = '';
   if (file === mainfile) {
     moduleType = 'main';
-    name = file.replace('.py', '').replace('/', '.');
+    name = file
+      .replace('.py', '')
+      .split('/')
+      .join('.'); //replace('/', '.');
   } else if (file.endsWith('/__init__.py')) {
     moduleType = 'package';
-    name = file.replace('/__init__.py', '').replace('/', '.');
+    name = file
+      .replace('/__init__.py', '')
+      .split('/')
+      .join('.'); //.replace('/', '.');
   } else {
     moduleType = 'module';
-    name = file.replace('.py', '').replace('/', '.');
+    name = file
+      .replace('.py', '')
+      .split('/')
+      .join('.'); //.replace('/', '.');
   }
   return [moduleType, name];
 };
@@ -94,7 +103,7 @@ ${shortName}()
   } else {
     let dependencyText = '';
     if (dependencies.length > 0) {
-      dependencyText = ', dependencies= (' + dependencies.join(', ') + ')';
+      dependencyText = ', dependencies= ("' + dependencies.join('", "') + '")';
     } else {
       dependencyText = '';
     }
