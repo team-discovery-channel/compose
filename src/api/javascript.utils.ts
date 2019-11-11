@@ -3,7 +3,7 @@
  */
 import { Language } from './language';
 import AdmZip from 'adm-zip';
-import mock from 'mock-fs';
+import mock, { fs } from 'mock-fs';
 import { EOL } from 'os';
 import { javascript } from './javascript';
 import { python } from './python';
