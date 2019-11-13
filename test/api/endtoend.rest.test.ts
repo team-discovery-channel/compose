@@ -47,7 +47,9 @@ describe('End to end REST testing per language', () => {
             const langTestFiles = `${baseDir}/${lang}`
             const testfiles:string[] = fs.readdirSync(langTestFiles).filter(fn=>fn!=="config.json");
             const config = JSON.parse(fs.readFileSync(langTestFiles+"/config.json").toString())
-
+            if(typeof config.command !== "string"){
+                config.command = config.command[(process.platform === "win32")?"win32":"else"];
+            }
             testfiles.forEach(async(dir)=>{
                 const zip:AdmZip = new AdmZip()
                 zip.addLocalFolder(`${langTestFiles}/${dir}`)
