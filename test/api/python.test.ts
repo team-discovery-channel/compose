@@ -150,6 +150,13 @@ test('test for python combined', ()=>{
   expect(python.compose("__main__.py", example)).toEqual(desiredOutput)
 })
 
+test('test for python combined with base dir', ()=>{
+    try{
+    expect(python.compose("my_dir/__main__.py", example))
+    }
+    catch(e){}
+})
+
 test(`${name} object name() returns correct name`,()=>{
     expect(language.getName()).toEqual(name)
 })

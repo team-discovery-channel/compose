@@ -38,7 +38,7 @@ export const parseImportStructure = (
           moduleList = Object.assign(
             {},
             moduleList,
-            parseImportStructure(files,checkFile + '.py',base)
+            parseImportStructure(files, checkFile + '.py', base)
           );
           dependancies.add(modulePrefix.join('.'));
         } else if (checkFile + '/__init__.py' in files) {
@@ -57,7 +57,11 @@ export const parseImportStructure = (
   return Object.assign({}, moduleList, a);
 };
 
-export const fileToModule = (file: string, mainfile: string, base: string): string[] => {
+export const fileToModule = (
+  file: string,
+  mainfile: string,
+  base: string
+): string[] => {
   let moduleType = '';
   let name = '';
   if (file === mainfile) {
@@ -79,13 +83,13 @@ export const fileToModule = (file: string, mainfile: string, base: string): stri
       .split('/')
       .join('.'); //.replace('/', '.');
   }
-  const remove = name.split(".")
-  
-  if(remove.indexOf(base.split("/")[0]) !== -1){
-    const i = remove.indexOf(base.split("/")[0])
-    remove.splice(i,1)
+  const remove = name.split('.');
+
+  if (remove.indexOf(base.split('/')[0]) !== -1) {
+    const i = remove.indexOf(base.split('/')[0]);
+    remove.splice(i, 1);
   }
-  return [moduleType, remove.join(".")];
+  return [moduleType, remove.join('.')];
 };
 
 export const block = (

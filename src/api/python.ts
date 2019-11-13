@@ -11,7 +11,7 @@ class Python extends Language {
     return [/^\s*import\s+([A-Z,a-z]+)\1/, /from\s+([A-Z,a-z])+\1/];
   }
   compose(mainFile: string, files: { [index: string]: string[] }): string {
-  let combined = `# -*- coding: utf-8 -*-
+    let combined = `# -*- coding: utf-8 -*-
 import sys
 from types import ModuleType
 import builtins
@@ -62,8 +62,11 @@ def modulize(module_name, dependencies=[]):
 ##===========================================================================##
 
 `;
-    let base = mainFile.split("/").slice(0,-1).join("/")
-    base = (base==="")?"":base + "/"
+    let base = mainFile
+      .split('/')
+      .slice(0, -1)
+      .join('/');
+    base = base === '' ? '' : base + '/';
     const modList = utils.parseImportStructure(files, mainFile, base);
     for (const modName of Object.keys(modList)) {
       const deps = modList[modName];
