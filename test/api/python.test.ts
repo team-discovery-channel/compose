@@ -79,14 +79,14 @@ test('test 3 for get_modules_from_import, import x.y format', ()=>{
 
 test("test for parseImportsStructure", ()=>{
 	const expected = {'foo/__init__.py': [], 'foo/bar.py':[] , '__main__.py': ['foo', 'foo.bar']}
-	const parsed = utils.parseImportStructure(example, "__main__.py")
+	const parsed = utils.parseImportStructure(example, "__main__.py", "")
 	expect(parsed).toEqual(expected)
 })
 
 test("test for fileToModule", ()=>{
-	const file1 = utils.fileToModule("__main__.py", "__main__.py")
-	const file2 = utils.fileToModule("foo/bar.py", "__main__.py")
-	const file3 = utils.fileToModule("foo/__init__.py", "__main__.py")
+	const file1 = utils.fileToModule("__main__.py", "__main__.py", "")
+	const file2 = utils.fileToModule("foo/bar.py", "__main__.py", "")
+	const file3 = utils.fileToModule("foo/__init__.py", "__main__.py", "")
 	expect(file1).toEqual(["main", "__main__"])
 	expect(file2).toEqual(["module", "foo.bar"])
 	expect(file3).toEqual(["package", "foo"])
@@ -105,8 +105,8 @@ __main__()
 `
 	const filename = "__main__.py"
 	const filetext = example[filename].join("\n")
-	const mod = utils.fileToModule(filename, filename)
-	const deps = utils.parseImportStructure(example, filename)
+	const mod = utils.fileToModule(filename, filename, "")
+	const deps = utils.parseImportStructure(example, filename, "")
 	const block = utils.block(filename, mod, filetext, deps[filename])
 	expect(block).toEqual(expected)
 })
@@ -123,8 +123,8 @@ def _bar(__name__):
 `
 	const filename = "foo/bar.py"
 	const filetext = example[filename].join("\n")
-	const mod = utils.fileToModule(filename, "__main__.py")
-	const deps = utils.parseImportStructure(example, filename)
+	const mod = utils.fileToModule(filename, "__main__.py", "")
+	const deps = utils.parseImportStructure(example, filename, "")
 	const block = utils.block(filename, mod, filetext, deps[filename])
 	expect(block).toEqual(expected)
 })
@@ -141,7 +141,7 @@ def _bar(__name__):
 `
 	const filename = "foo/bar.py"
 	const filetext = example[filename].join("\n")
-	const mod = utils.fileToModule(filename, "__main__.py")
+	const mod = utils.fileToModule(filename, "__main__.py", "")
 	const deps = ['foo']
 	const block = utils.block(filename, mod, filetext, deps)
 	expect(block).toEqual(expected)
