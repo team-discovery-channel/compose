@@ -22,29 +22,30 @@ export const getModulesFromImport = (line: string): string[] => {
 
 export const parseImportStructure = (
   files: { [index: string]: string[] },
-  file: string
+  file: string,
+  base: string
 ): { [index: string]: string[] } => {
   let moduleList: { [index: string]: string[] } = {};
   const dependancies = new Set();
   for (const line of files[file]) {
     for (const mod of getModulesFromImport(line)) {
       const modulePrefix: string[] = [];
-      const moduleParts = mod.split('.');
+      const moduleParts = mod.split('.').filter(mpart => mpart !== '');
       for (const part of moduleParts) {
         modulePrefix.push(part);
-        const checkFile = modulePrefix.join('/');
+        const checkFile = base + modulePrefix.join('/');
         if (checkFile + '.py' in files) {
           moduleList = Object.assign(
             {},
             moduleList,
-            parseImportStructure(files, checkFile + '.py')
+            parseImportStructure(files, checkFile + '.py', base)
           );
           dependancies.add(modulePrefix.join('.'));
         } else if (checkFile + '/__init__.py' in files) {
           moduleList = Object.assign(
             {},
             moduleList,
-            parseImportStructure(files, checkFile + '/__init__.py')
+            parseImportStructure(files, checkFile + '/__init__.py', base)
           );
           dependancies.add(modulePrefix.join('.'));
         }
@@ -56,20 +57,39 @@ export const parseImportStructure = (
   return Object.assign({}, moduleList, a);
 };
 
-export const fileToModule = (file: string, mainfile: string): string[] => {
+export const fileToModule = (
+  file: string,
+  mainfile: string,
+  base: string
+): string[] => {
   let moduleType = '';
   let name = '';
   if (file === mainfile) {
     moduleType = 'main';
-    name = file.replace('.py', '').replace('/', '.');
+    name = file
+      .replace('.py', '')
+      .split('/')
+      .join('.'); //replace('/', '.');
   } else if (file.endsWith('/__init__.py')) {
     moduleType = 'package';
-    name = file.replace('/__init__.py', '').replace('/', '.');
+    name = file
+      .replace('/__init__.py', '')
+      .split('/')
+      .join('.'); //.replace('/', '.');
   } else {
     moduleType = 'module';
-    name = file.replace('.py', '').replace('/', '.');
+    name = file
+      .replace('.py', '')
+      .split('/')
+      .join('.'); //.replace('/', '.');
   }
-  return [moduleType, name];
+  const remove = name.split('.');
+
+  if (remove.indexOf(base.split('/')[0]) !== -1) {
+    const i = remove.indexOf(base.split('/')[0]);
+    remove.splice(i, 1);
+  }
+  return [moduleType, remove.join('.')];
 };
 
 export const block = (
@@ -94,7 +114,7 @@ ${shortName}()
   } else {
     let dependencyText = '';
     if (dependencies.length > 0) {
-      dependencyText = ', dependencies= (' + dependencies.join(', ') + ')';
+      dependencyText = ', dependencies= ("' + dependencies.join('", "') + '")';
     } else {
       dependencyText = '';
     }

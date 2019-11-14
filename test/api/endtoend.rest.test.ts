@@ -9,8 +9,10 @@ import http from 'http'
 import * as child from 'child_process'
 const request = require('supertest')
 import rimraf = require('rimraf');
+import upath from 'upath'
 
-const baseDir = "./test/files";
+
+const baseDir =  "./test/files";
 
 describe('End to end REST testing per language', () => {
     jest.setTimeout(20000)
@@ -40,30 +42,34 @@ describe('End to end REST testing per language', () => {
 
     test("REST calls on each language over test files", async (done)=>{
         const promises:Array<Promise<boolean>> = []
-        Object.keys(languages).filter(lang=>lang==="javascript").forEach((lang)=>{
+        Object.keys(languages).forEach((lang)=>{
             const ext:string = languages[lang].getExtensions()[0]
             const langTestFiles = `${baseDir}/${lang}`
             const testfiles:string[] = fs.readdirSync(langTestFiles).filter(fn=>fn!=="config.json");
             const config = JSON.parse(fs.readFileSync(langTestFiles+"/config.json").toString())
+            if(typeof config.command !== "string"){
+                config.command = config.command[(process.platform === "win32")?"win32":"else"];
+            }
             testfiles.forEach(async(dir)=>{
                 const zip:AdmZip = new AdmZip()
                 zip.addLocalFolder(`${langTestFiles}/${dir}`)
-                fs.writeFileSync(`${tmpDir}/${dir}.zip`,zip.toBuffer())
+                fs.writeFileSync(`${tmpDir}/${lang}_${dir}.zip`,zip.toBuffer())
                 promises.push(new Promise(async (resolve,reject)=>{
+                    const script:fs.WriteStream = fs.createWriteStream(`${tmpDir}/${dir}${ext}`)
+                    script.on("finish",()=>{
+                        const result:string = child.execSync(util.format(config.command,`${tmpDir}/${dir}${ext}`),{cwd:".", timeout:2000}).toString()
+                        if(result === config[dir]){
+                                resolve(true)
+                            }
+                            else{
+                                resolve(false)
+                            }
+                    })
                     request(app).post('/compose')
                         .field("language", lang)
                         .field("entry",config.entry)
-                        .attach("file",`${tmpDir}/${dir}.zip`)
-                        .pipe(fs.createWriteStream(`${tmpDir}/${dir}${ext}`)).on("close",()=>{
-                            const result:string = child.execSync(util.format(config.command,`${tmpDir}/${dir}${ext}`),{cwd:".", timeout:2000}).toString()
-                                if(result === config[dir]){
-                                    resolve(true)
-                                }
-                                else{
-                                    resolve(false)
-                                }
-                        
-                        })
+                        .attach("file",`${tmpDir}/${lang}_${dir}.zip`)
+                        .pipe(script)
                 }))
             })
         })
