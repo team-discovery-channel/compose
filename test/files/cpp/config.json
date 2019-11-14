@@ -1,0 +1,6 @@
+{
+    "command":"cd %s && make -s --no-print-directory",
+    "multiplesubdirs":"[0][1][0][0][1][2][1][0]",
+    "simple":"[0][1][2][1][0]",
+    "subdirs":"[0][1][2][1][0]"
+}

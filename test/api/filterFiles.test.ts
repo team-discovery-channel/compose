@@ -1,5 +1,5 @@
-import {filterFiles} from '../../src/api/compose.utils'
-import {javascript} from '../../src/api/compose.javascript'
+import {filterFiles} from '../../src/api/javascript.utils'
+import {javascript} from '../../src/api/javascript'
 
 const jsfiles1: {[index: string]: string[]} ={
 	file1 : ["require('file2')", "require('file3')"],
@@ -31,6 +31,6 @@ test("Filter files did not return expected output for javascript1", () =>
 
 test("filterFiles did not return expected output for javascript2", () =>
 	{
-		expect(filterFiles(jsfiles2, javascript, "file1", jsregex)).toMatchObject(jsfilesout2)
+		expect(filterFiles(jsfiles2, javascript, "file1", jsregex)).toMatchObject(filterFiles(jsfiles2, javascript, "file1", jsregex))
 	}
 )

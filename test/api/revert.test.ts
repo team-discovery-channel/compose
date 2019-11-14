@@ -1,6 +1,9 @@
-import {revert, constructDirectoryObject, filterFiles, Directory, languageFactory} from '../../src/api/compose.utils';
-import {javascript} from '../../src/api/compose.javascript'
-import {Language} from '../../src/api/compose.language'
+import {revert} from '../../src/api/revert'
+import {constructDirectoryObject, Directory} from '../../src/api/revert'
+import {filterFiles} from '../../src/api/javascript.utils';
+import {languageFactory} from "../../src/api/languages"
+import {javascript} from '../../src/api/javascript'
+import {Language} from '../../src/api/language'
 import AdmZip from 'adm-zip'
 import mock from 'mock-fs'
 
@@ -30,15 +33,10 @@ test("compose is revertable",()=>{
             .split('\n');
           return acc;
         }, {});
-    const filenames: string[] = filterFiles(
-        files,
-        languageInstance,
-        "main.js",
-        languageInstance.getRegex()
-    );
+
 
     const composedFile: string = languageInstance.compose(
-        filenames,
+        "main.js",
         files
     );
 
@@ -51,15 +49,6 @@ test("compose is revertable",()=>{
         return entry.entryName.split("/").slice(1).join("/")
     })
 
-    // rzip.getEntries().filter((entry)=>!entry.isDirectory).forEach((entry)=>{
-    //     // expect(zipFiles).toContain(entry.entryName)
-    //     const rzipFile = entry.getData().toString("utf-8").trim();
-    //     const zipFile = zip.getEntry(zipRoot+"/"+entry.entryName)
-    //                             .getData()
-    //                             .toString("utf-8")
-    //                             .trim()
-    //     expect(rzipFile === zipFile)
-    // })
 })
 
 test("Valid directory object is formed from list of paths", ()=>{

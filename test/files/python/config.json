@@ -1,0 +1,10 @@
+{
+    "command": {
+        "win32": "python %s",
+        "else": "python3 %s"
+    },
+    "entry":"__main__.py",
+    "multiplesubdirs":"[0][1][0][0][1][2][1][0]",
+    "simple":"[0][1][2][1][0]",
+    "subdirs":"[0][1][2][1][0]"
+}

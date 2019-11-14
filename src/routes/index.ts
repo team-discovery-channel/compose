@@ -1,8 +1,16 @@
 import express from 'express';
 import multer from 'multer';
 import stream from 'stream';
+import fs from 'fs';
+import { javascript } from '../api/javascript';
+import { python } from '../api/python';
 import { v1 } from 'uuid';
-import { languages, compose, revert } from '../api/compose.utils';
+import { O_NOFOLLOW } from 'constants';
+import { isString } from 'util';
+import { Language } from '../api/language';
+import { languages } from '../api/languages';
+import { compose } from '../api/compose';
+import { revert } from '../api/revert';
 
 const storage = multer.memoryStorage();
 
@@ -10,9 +18,11 @@ const upload: multer.Instance = multer({
   storage,
   fileFilter: (req, file, cb) => {
     const acceptedLanguages: string[] = [];
-    languages.list.forEach(language => {
-      acceptedLanguages.push('application/' + language.getName());
-      acceptedLanguages.push('application/x-' + language.getName());
+    const values = Object.keys(languages);
+
+    Object.keys(languages).forEach(language => {
+      acceptedLanguages.push('application/' + languages[language].getName());
+      acceptedLanguages.push('application/x-' + languages[language].getName());
     });
 
     const acceptedMimeTypes: string[] = [
@@ -30,9 +40,11 @@ const upload: multer.Instance = multer({
  */
 export const register = (app: express.Application) => {
   app.get('/', (req, res) => {
-    res.render('index', languages);
+    const langs = Object.keys(languages);
+    res.render('index', { list: langs });
   });
   app.get('/undo', (req, res) => {
+    const langs = Object.keys(languages);
     res.render('undo', languages);
   });
   app.post('/revert', upload.single('file'), (req: any, res) => {
@@ -92,6 +104,7 @@ export const register = (app: express.Application) => {
       if (req.body.out !== '' && req.body.out !== undefined) {
         out.filename = req.body.out;
       }
+
       const composed = compose(
         req.file.buffer,
         req.body.language,
@@ -114,5 +127,5 @@ export const register = (app: express.Application) => {
   });
 
   app.use('/docs', express.static('dist/src/docs'));
-  app.use('/scripts', express.static('dist/src/scripts'));
+  app.use('/js', express.static('dist/src/public/js'));
 };
