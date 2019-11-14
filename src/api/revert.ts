@@ -1,6 +1,6 @@
 import { Language } from './language';
 import { languageFactory } from './languages';
-import mock from 'mock-fs';
+import mock, { fs } from 'mock-fs';
 import AdmZip from 'adm-zip';
 import { EOL } from 'os';
 
@@ -45,7 +45,7 @@ export const constructDirectoryObject = (
 
 /**
  * Reverts a file into its corresponding file tree
- * @param lines composed file as lines in a string array
+ * @param file composed file as a buffer
  * @param langauge the langauge of the composed file
  * @returns a buffer representing the zip of the file tree
  */

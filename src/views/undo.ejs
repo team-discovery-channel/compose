@@ -11,33 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-    <script type="text/javascript">
-        $( document ).ready(function() {
-            $("input[name='source']").on("change",function(){
-                var filename = $(this).val()
-                $("#filename").val(filename.split("\\").pop().split("/").pop())
-                
-            })
-
-            $("button[name='action']").on("click", function(){
-                submitHiddenForm();
-            })
-        });
-
-        function submitHiddenForm(){
-            var file = $("input[name='source']").clone(true,true)
-            var out = $("input[name='outfile']").clone(true,true)
-            file.attr("name","file")
-            file.css("display","hidden")
-            out.attr("name","out")
-            out.css("display","hidden")
-            var selectedLangauge = $("select[name='languageSelect']").children(":selected").text()
-            $("input[name='language']:hidden").attr("value",selectedLangauge)
-            $("input[name='file']:hidden").replaceWith(file)
-            $("input[name='out']:hidden").replaceWith(out)
-            $('#request').submit()
-        }
-    </script>
+    <script src="js/undo.js" type="text/javascript"></script>
 </head>
 
 <body>
@@ -57,7 +31,7 @@
                     </div>
                   </nav>
         <form action="" method="post" enctype="multipart/form-data">
-            <div class="row">   
+            <div class="row">
             </div>
             <div class="row">
                 <div class="col m2" style="text-align:right;margin-left:17.5%;">
@@ -67,14 +41,14 @@
                     <select class="browser-default" name="languageSelect">
                         <option value="" disabled selected>No langauge selected</option>
                         <% list.forEach(function(language) { %>
-                            <option><%= language.name %></option>
+                            <option><%= language %></option>
                         <% }); %>
                     </select>
                 </div>
             </div>
             <div class="row">
                     <div class= "col m2" style="text-align:right;margin-left:17.5%;">
-                        <label style="line-height:64px;">Composed file</label> 
+                        <label style="line-height:64px;">Composed file</label>
                     </div>
                     <div class="col m5">
                         <div class="file-field input-field">
@@ -103,7 +77,7 @@
                 </button>
             </div>
 
-            
+
 
             <div class="progress" style="display:none">
                 <div class="indeterminate"></div>
@@ -111,7 +85,7 @@
         </form>
     </div>
     <div style="display:none">
-    <form id="request" action="revert" method="post" enctype="multipart/form-data">
+    <form id="request" action="api/v1/revert" method="post" enctype="multipart/form-data">
         <input type="text" name="language" value=""/>
         <input type="text" name="entry" value=""/>
         <input type="text" name="out" value=""/>

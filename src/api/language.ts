@@ -9,8 +9,8 @@ export interface Composable {
  * Base class for all Language Packages
  */
 export abstract class Language implements Composable {
-  private static beginGuard = '>>>BEGIN<<<';
-  private static endGuard = '>>>END<<<';
+  protected beginGuard = '>>>BEGIN<<<';
+  protected endGuard = '>>>END<<<';
   protected comment = '//';
   protected name: string;
   protected exts: string[];
@@ -51,14 +51,14 @@ export abstract class Language implements Composable {
    * @returns Comment string to denote begining of gaurd.
    */
   getBeginGuard(): string {
-    return Language.beginGuard;
+    return this.beginGuard;
   }
   /**
    * Returns comment string for post-pending with gaurds.
    * @returns Comment string to denote end of gaurd.
    */
   getEndGuard(): string {
-    return Language.endGuard;
+    return this.endGuard;
   }
   /**
    * Returns comment string for language to comment within the program.

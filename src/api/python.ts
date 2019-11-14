@@ -9,6 +9,9 @@ class Python extends Language {
    */
   constructor() {
     super('python', ['.py', '__init__.py', '']);
+    this.comment = '#';
+    this.beginGuard = 'Begin';
+    this.endGuard = 'End';
   }
   /**
    * @returns returns regex which filters for any "import **module** from **function**" string

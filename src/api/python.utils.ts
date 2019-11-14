@@ -1,3 +1,4 @@
+import { python } from './python';
 /* Based on code from https://github.com/jasonrute/modulize
  * */
 export const getModulesFromImport = (line: string): string[] => {
@@ -69,19 +70,19 @@ export const fileToModule = (
     name = file
       .replace('.py', '')
       .split('/')
-      .join('.'); //replace('/', '.');
+      .join('.');
   } else if (file.endsWith('/__init__.py')) {
     moduleType = 'package';
     name = file
       .replace('/__init__.py', '')
       .split('/')
-      .join('.'); //.replace('/', '.');
+      .join('.');
   } else {
     moduleType = 'module';
     name = file
       .replace('.py', '')
       .split('/')
-      .join('.'); //.replace('/', '.');
+      .join('.');
   }
   const remove = name.split('.');
 
@@ -106,9 +107,9 @@ export const block = (
   if (modType === 'main') {
     return `\n
 def ${shortName}():
-    #Begin ${file}
+    ${python.getCommentLiteral()}${python.getBeginGuard()} ${file}
 ${text}
-    #End ${file}
+    ${python.getCommentLiteral()}${python.getEndGuard()} ${file}
 ${shortName}()
 `;
   } else {
@@ -121,9 +122,9 @@ ${shortName}()
     return `
 @modulize('${modName}'${dependencyText})
 def _${shortName}(__name__):
-    #Begin ${file}
+    ${python.getCommentLiteral()}${python.getBeginGuard()} ${file}
 ${text}
-    #End ${file}
+    ${python.getCommentLiteral()}${python.getEndGuard()} ${file}
     return locals()
 `;
   }
