@@ -1,4 +1,4 @@
-#COMPOSE
+# COMPOSE
 
 ## Installation
 ### Required installations:
