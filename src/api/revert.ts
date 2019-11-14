@@ -110,18 +110,3 @@ export const revert = (file: Buffer, language: string): Buffer => {
   mock.restore();
   return zipBuffer;
 };
-
-import { compose } from './compose';
-
-/*
-(()=>{
-  const zip = new AdmZip()
-  zip.addLocalFolder("./test/files/python/multiplesubdirs");
-  const file:Buffer = compose(zip.toBuffer(), "python", {filename:"out"}, "__main__.py");
-  console.log(file.toString())
-  const rzip:AdmZip = new AdmZip(revert(file, "python"));
-
-  rzip.getEntries().forEach((entry)=>{
-    console.log(entry.entryName)
-  })
-})()*/
