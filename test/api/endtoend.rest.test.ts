@@ -26,10 +26,10 @@ describe('End to end REST testing per language', () => {
         }
         rimraf.sync(tmpDir+"/**/*")
         app = express();
-        
+
         app.set('views', path.join(__dirname, 'views'));
         app.set('view engine', 'ejs');
-        
+
         routes.register(app);
         server = http.createServer(app);
 
@@ -65,7 +65,7 @@ describe('End to end REST testing per language', () => {
                                 resolve(false)
                             }
                     })
-                    request(app).post('/compose')
+                    request(app).post('/api/v1/compose')
                         .field("language", lang)
                         .field("entry",config.entry)
                         .attach("file",`${tmpDir}/${lang}_${dir}.zip`)
