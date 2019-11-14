@@ -33,7 +33,10 @@
         "lines": 95,
         "statements": -10
       }
-    }
+    },
+    "coverageReporters": [
+      "json-summary"
+    ]
   },
   "scripts": {
     "build": "npm-run-all clean lint check tsc copy-assets typedoc",
@@ -46,7 +49,8 @@
     "prepare": "npm run build",
     "start": "node .",
     "pretest": "npm run build",
-    "test": "jest --detectOpenHandles --forceExit",
+    "test": "jest --detectOpenHandles --forceExit && npm run test:badge",
+    "test:badge": "jest-coverage-badges",
     "tsc": "tsc -p tsconfig.json",
     "typedoc": "typedoc"
   },
@@ -55,6 +59,7 @@
     "dotenv": "^8.1.0",
     "ejs": "^2.6.2",
     "express": "^4.17.1",
+    "jest-coverage-badges": "^1.1.2",
     "multer": "^1.4.2",
     "typedoc": "^0.15.0",
     "uuid": "^3.3.3",
