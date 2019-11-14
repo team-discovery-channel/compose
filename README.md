@@ -2,6 +2,7 @@ Master:[![Build Status](https://travis-ci.org/team-discovery-channel/compose.svg
 
 Develop:[![Build Status](https://travis-ci.org/team-discovery-channel/compose.svg?branch=develop)](https://travis-ci.org/team-discovery-channel/compose)
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 # COMPOSE
 
 
