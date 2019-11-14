@@ -1,4 +1,4 @@
-import {languages} from '../../src/api/javascript.utils'
+import {languages} from '../../src/api/languages'
 import AdmZip from 'adm-zip'
 import  util  from 'util'
 import express from 'express';

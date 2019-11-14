@@ -1,20 +1,29 @@
 import { Composable, Language } from './language';
 import { filterFiles } from './javascript.utils';
 /**
- * composes javascript source files.
+ * Javascript Language Package that composes javascript source files.
  */
 class Javascript extends Language {
+  /**
+   * @returns Returns comment String for Javascript
+   */
   comment = '//';
+  /**
+   * @returns Returns Language with Javascript package
+   */
   constructor() {
     super('javascript', ['.js', '/index.js', '']);
   }
+  /**
+   * @returns returns regex which filters for any "require **module**" string
+   */
   getRegex(): RegExp[] {
     return [/require\((['"])([^'"]+)\1\)/];
   }
   /**
-   * @param filelist ordered list of files returned by filterFiles. Last index is the entrypoint
-   * @param files the files from the zip
-   * @returns composedFile the combined file of
+   * @param mainfile Filename of consisting of entry point from source files
+   * @param files Filenames from source files
+   * @returns Flattened file with runnable composed functions in clear text format
    */
   compose(mainfile: string, files: { [index: string]: string[] }): string {
     const filelist = filterFiles(
@@ -110,4 +119,8 @@ ${this.comment}${this.getEndGuard()} ${filename}
     return content + `\n})`;
   }
 }
+
+/**
+ * Javascript Language Package
+ */
 export const javascript = new Javascript();

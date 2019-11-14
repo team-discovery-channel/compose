@@ -2,7 +2,7 @@ import { TIMEOUT } from 'dns';
 import { resolve } from 'url';
 import {javascript} from '../../src/api/javascript'
 import fs from 'fs';
-import {compose} from '../../src/api/javascript.utils'
+import {compose} from '../../src/api/compose'
 import {getPathFromTestRoot} from './test.utils'
 
 

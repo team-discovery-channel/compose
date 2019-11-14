@@ -8,7 +8,9 @@ import { v1 } from 'uuid';
 import { O_NOFOLLOW } from 'constants';
 import { isString } from 'util';
 import { Language } from '../api/language';
-import { languages, compose, revert } from '../api/javascript.utils';
+import { languages } from '../api/languages';
+import { compose } from '../api/compose';
+import { revert } from '../api/revert';
 
 const storage = multer.memoryStorage();
 
@@ -125,5 +127,5 @@ export const register = (app: express.Application) => {
   });
 
   app.use('/docs', express.static('dist/src/docs'));
-  app.use('/scripts', express.static('dist/src/scripts'));
+  app.use('/js', express.static('dist/src/public/js'));
 };

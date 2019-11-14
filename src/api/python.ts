@@ -4,12 +4,23 @@ import * as utils from './python.utils';
  * composes python source files
  */
 class Python extends Language {
+  /**
+   * @returns Returns Language with Python package
+   */
   constructor() {
     super('python', ['.py', '__init__.py', '']);
   }
+  /**
+   * @returns returns regex which filters for any "import **module** from **function**" string
+   */
   getRegex(): RegExp[] {
     return [/^\s*import\s+([A-Z,a-z]+)\1/, /from\s+([A-Z,a-z])+\1/];
   }
+  /**
+   * @param mainfile Filename of consisting of entry point from source files
+   * @param files Filenames from source files
+   * @returns Flattened file with runnable composed functions in clear text format
+   */
   compose(mainFile: string, files: { [index: string]: string[] }): string {
     let combined = `# -*- coding: utf-8 -*-
 import sys
