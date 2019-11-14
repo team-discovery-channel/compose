@@ -12,7 +12,32 @@ example["foo/bar.py"] = bar
 export let desiredOutput = `# -*- coding: utf-8 -*-
 import sys
 from types import ModuleType
+import builtins
+
+buildin_import = builtins.__import__
+
+
+def compose_import(name, global_context=None, local_context=None, fromlist=(), level=0):
+    if name in MockModule.mocks:
+        modparts = name.split(".")
+        modparts.reverse()
+        mod = sys.modules[modparts.pop()]
+        while(len(modparts) != 0):
+            if level == 0:
+                break
+            mod = mod.__dict__[modparts.pop()]
+            level -= 1
+        return mod
+    return buildin_import(name,global_context,local_context,fromlist,level)
+
+builtins.__import__ = compose_import
+
 class MockModule(ModuleType):
+    mocks = {}
+    @staticmethod
+    def get_mock(name):
+        return MockModule.mocks[name]
+        
     def __init__(self, module_name, module_doc=None):
         ModuleType.__init__(self, module_name, module_doc)
         if '.' in module_name:
@@ -25,6 +50,7 @@ class MockModule(ModuleType):
 def get_mock_module(module_name):
     if module_name not in sys.modules:
         sys.modules[module_name] = MockModule(module_name)
+    MockModule.mocks[module_name] = sys.modules[module_name]
     return sys.modules[module_name]
 def modulize(module_name, dependencies=[]):
     for d in dependencies:

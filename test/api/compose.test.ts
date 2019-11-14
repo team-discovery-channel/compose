@@ -2,7 +2,7 @@ import { TIMEOUT } from 'dns';
 import { resolve } from 'url';
 import {javascript} from '../../src/api/javascript'
 import fs from 'fs';
-import {compose} from '../../src/api/javascript.utils'
+import {compose} from '../../src/api/compose'
 import {getPathFromTestRoot} from './test.utils'
 
 
@@ -28,9 +28,11 @@ class TestObject{
 		this.outBuffer = compose(this.inBuffer,this.language, this.out, this.entry)
 	}
 }
-const testObjects = [	new TestObject("js_test_sub_1.zip"),
+const testObjects = [
+			new TestObject("js_test_sub_1.zip"),
 			new TestObject("js_test_sub_1.zip", "syzygy", "void.syz"),
-			new TestObject("js_test_sub.zip")]
+			new TestObject("js_test_sub.zip")
+		]
 
 test("language implementations can compose", ()=>{
 		testObjects.forEach((testObject)=>{
@@ -38,7 +40,6 @@ test("language implementations can compose", ()=>{
 				testObject.run()
 			}
 			catch(e){
-       //console.log(e)
 			}
 		})
   }

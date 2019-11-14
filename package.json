@@ -16,7 +16,8 @@
     ],
     "testEnvironment": "node",
     "testPathIgnorePatterns": [
-      "test/files"
+      "test/files",
+      "node_modules"
     ],
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
@@ -70,6 +71,7 @@
     "@types/node": "^10.14.15",
     "@types/rimraf": "^2.0.3",
     "@types/shelljs": "^0.8.5",
+    "@types/supertest": "^2.0.8",
     "@types/uuid": "^3.4.5",
     "fs-extra": "^8.1.0",
     "gts": "^1.1.0",
