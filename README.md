@@ -31,7 +31,10 @@ To simplify the process of uploading code to code competition websites.
 2. Languages in development
   * C++
 
-
+## Notes for developers/maintainers
+###To add a language:
+1. Implement the interface Language, found in src/api/language.ts
+2. Register the language to the languages dictionary found in src/api/languages.ts. Use the languages simple, lowercase, name for the key.
 
 ## TRAVIS CI
 ### Setup
