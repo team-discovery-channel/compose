@@ -8,7 +8,9 @@ import { v1 } from 'uuid';
 import { O_NOFOLLOW } from 'constants';
 import { isString } from 'util';
 import { Language } from '../api/language';
-import { languages, compose, revert } from '../api/javascript.utils';
+import { languages } from '../api/languages';
+import { compose } from '../api/compose';
+import { revert } from '../api/revert';
 
 const storage = multer.memoryStorage();
 

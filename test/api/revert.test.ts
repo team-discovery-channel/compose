@@ -1,4 +1,7 @@
-import {revert, constructDirectoryObject, filterFiles, Directory, languageFactory} from '../../src/api/javascript.utils';
+import {revert} from '../../src/api/revert'
+import {constructDirectoryObject, Directory} from '../../src/api/revert'
+import {filterFiles} from '../../src/api/javascript.utils';
+import {languageFactory} from "../../src/api/languages"
 import {javascript} from '../../src/api/javascript'
 import {Language} from '../../src/api/language'
 import AdmZip from 'adm-zip'
