@@ -79,48 +79,4 @@ describe('End to end REST testing per language', () => {
         done()
     })
 
-    test("http responses that should be errors", async (done)=>{
-        const fn = `${tmpDir}/http_response.zip`
-        const zip = new AdmZip();
-        zip.addLocalFolder(`${baseDir}/javascript/simple`)
-        
-        fs.writeFileSync(fn, zip.toBuffer())
-        
-        const forms = [{file:fn,
-                           lang:"_unlikely_lang_name_",
-                           entry:"index.js",
-                           expected:{status:200
-                           }},
-                           {file:fn,
-                            lang:"javascript",
-                            entry:"main.js",
-                            expected:{status:404
-                            }},
-                            {file:fn,
-                            lang:"javascript",
-                            entry:"index.js",
-                            expected:{status:200
-                            }}
-                        ]
-        
-        const makePromises = (form:{[index:string]:any})=>{
-            return ()=>{
-                
-                const formPromise = new Promise(async (resolve,reject)=>{
-                request(app).post('/api/v1/compose')
-                    .field("language", form.lang)
-                    .field("entry",form.entry)
-                    .attach("file",form.file)
-                    .expect(form.expected.status)})
-                };
-        }
-        
-        //we access the same file so it needs to be synchronous...
-        const results:boolean[] = []
-        for(const promise of forms.map(makePromises)){
-            await promise()
-        }
-        done()
-    })
-
 });
