@@ -1,46 +1,47 @@
-import { TIMEOUT } from 'dns';
-import { resolve } from 'url';
-import {javascript} from '../../src/api/javascript'
 import fs from 'fs';
+import AdmZip from 'adm-zip'
 import {compose} from '../../src/api/compose'
-import {getPathFromTestRoot} from './test.utils'
+import { Z_NO_COMPRESSION } from 'zlib';
 
 
 class TestObject{
 	language:string;
 	entry:string;
-	file:string;
+	folder:string;
 	out:{[index:string]:string};
 	inBuffer:Buffer;
 	outBuffer:Buffer;
 
-	constructor(filename:string, language="javascript", entry="main.js", outFilename=""){
+	constructor(dir:string, language="javascript", entry="index.js", outFilename=""){
 		this.language = language;
-		this.file = getPathFromTestRoot(filename);
+		this.folder = `./test/files/${language}/${dir}`;
 		this.entry = entry
 		this.out = {filename:outFilename};
-
-		this.inBuffer = fs.readFileSync(this.file)
-		this.outBuffer = Buffer.from("")
+		const zip = new AdmZip()
+		zip.addLocalFolder(this.folder)
+		this.inBuffer = zip.toBuffer()
 	}
 
-	run(){
-		this.outBuffer = compose(this.inBuffer,this.language, this.out, this.entry)
+	thrown(){
+		return ()=>{compose(this.inBuffer,this.language, this.out, this.entry)}
 	}
 }
+
 const testObjects = [
-			new TestObject("js_test_sub_1.zip"),
-			new TestObject("js_test_sub_1.zip", "syzygy", "void.syz"),
-			new TestObject("js_test_sub.zip")
+			{description:"Compose should throw if file not found in zip", test:(new TestObject("simple", "javascript", "main.js")).thrown(), result:{toThrowError:"404"}},
+			{description:"Compose should throw if language is not implemented", test:(new TestObject("simple", "_unlikely_language")).thrown(), result:{toThrowError:"501"}},
 		]
 
-test("language implementations can compose", ()=>{
+
+describe("Compose testing", ()=>{
 		testObjects.forEach((testObject)=>{
-			try{
-				testObject.run()
-			}
-			catch(e){
-			}
-		})
-  }
-) 
+		test(testObject.description, ()=>{
+			const toMatch = Object.keys(testObject.result)[0]
+			const result = testObject.result[toMatch]
+
+			expect(testObject.test)[toMatch](result)
+		}
+		) 
+	})
+})
+
