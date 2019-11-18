@@ -4,11 +4,6 @@ import { RESTError } from './error';
 import AdmZip from 'adm-zip';
 
 const errors = {
-  InvalidOutObject: new RESTError(
-    'out parameter to compose must be an object with filename parameter',
-    'ex: {filename:"fn"}',
-    '400'
-  ),
   notImplemented: (lang = 'undefined'): RESTError =>
     new RESTError(
       `${lang} is not implemented`,
@@ -42,9 +37,6 @@ export const compose = (
 ): Buffer => {
   if (Object.getOwnPropertyNames(languages).indexOf(language) === -1) {
     throw new Error(JSON.stringify(errors.notImplemented(language)));
-  }
-  if (Object.getOwnPropertyNames(out).indexOf('filename') === -1) {
-    throw new Error(JSON.stringify(errors.InvalidOutObject));
   }
   const languageInstance: Language = languages[language];
   out.filename = out.filename + languageInstance.getExtensions()[0];
