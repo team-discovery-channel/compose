@@ -11,7 +11,7 @@ const errors = {
       '501'
     ),
   ZIPError: new RESTError('Zip utility failed to process zip', '', '400'),
-  entryNotFound: (possible: string[] = [], entry = 'undefined'): RESTError => {
+  entryNotFound: (possible: string[], entry: string): RESTError => {
     if (possible.length === 0) {
       return new RESTError(
         `Entry file '${entry}' not found in zip`,

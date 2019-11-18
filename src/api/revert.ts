@@ -1,5 +1,5 @@
 import { Language } from './language';
-import { languageFactory } from './languages';
+import { languages } from './languages';
 import mock, { fs } from 'mock-fs';
 import AdmZip from 'adm-zip';
 import { EOL } from 'os';
@@ -50,7 +50,7 @@ export const constructDirectoryObject = (
  * @returns a buffer representing the zip of the file tree
  */
 export const revert = (file: Buffer, language: string): Buffer => {
-  const languageInstance: Language = languageFactory(language);
+  const languageInstance: Language = languages[language];
 
   const comment = languageInstance.getCommentLiteral();
   const BEGIN = comment + languageInstance.getBeginGuard();
