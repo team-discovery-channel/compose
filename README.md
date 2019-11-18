@@ -1,12 +1,13 @@
-
-# COMPOSE
-
-| Master | Dev | Statements | Branches | Functions | Lines |
-| -----------|----------|----------|----------|-----------|-------|
-| [![Master Build Status](https://travis-ci.org/team-discovery-channel/compose.svg?branch=master)](https://travis-ci.org/team-discovery-channel/compose)| [![Dev Build Status](https://travis-ci.org/team-discovery-channel/compose.svg?branch=develop)](https://travis-ci.org/team-discovery-channel/compose)| ![Statements](https://img.shields.io/badge/Coverage-99.1%25-brightgreen.svg ) | ![Branches](https://img.shields.io/badge/Coverage-96.15%25-brightgreen.svg ) | ![Functions](https://img.shields.io/badge/Coverage-100%25-brightgreen.svg ) | ![Lines](https://img.shields.io/badge/Coverage-99.09%25-brightgreen.svg ) |
+[![Master Build Status](https://travis-ci.org/team-discovery-channel/compose.svg?branch=master)](https://travis-ci.org/team-discovery-channel/compose)
+[![Dev Build Status](https://travis-ci.org/team-discovery-channel/compose.svg?branch=develop)](https://travis-ci.org/team-discovery-channel/compose)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+| Statements | Branches | Functions | Lines |
+| -----------|----------|-----------|-------|
+| ![Statements](https://img.shields.io/badge/Coverage-99.15%25-brightgreen.svg ) | ![Branches](https://img.shields.io/badge/Coverage-96.61%25-brightgreen.svg ) | ![Functions](https://img.shields.io/badge/Coverage-100%25-brightgreen.svg ) | ![Lines](https://img.shields.io/badge/Coverage-99.14%25-brightgreen.svg ) |
+
+# COMPOSE
 
 
 ## Installation

@@ -10,6 +10,7 @@ import * as child from 'child_process'
 const request = require('supertest')
 import rimraf = require('rimraf');
 import upath from 'upath'
+import { isFlowPredicate } from '@babel/types';
 
 
 const baseDir =  "./test/files";
