@@ -34,6 +34,7 @@ export abstract class Language implements Composable {
 
   /**
    * Called in revert to undo any processing done to the line during compose
+   * @param line string, line of the program
    * @returns default returns the same line, sub classes can override
    */
   processLine(line: string): string {
