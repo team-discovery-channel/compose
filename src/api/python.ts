@@ -95,6 +95,9 @@ def modulize(module_name, dependencies=[]):
     }
     return combined;
   }
+  processLine(line: string): string {
+    return line.slice(4);
+  }
 }
 
 export const python = new Python();

@@ -96,7 +96,11 @@ export const revert = (file: Buffer, language: string): Buffer => {
         mockdir,
         mockdir['/']
       );
-      dirObj[dir.split('/').slice(-1)[0]] = lines.slice(begin, end).join(EOL);
+
+      dirObj[dir.split('/').slice(-1)[0]] = lines
+        .slice(begin, end)
+        .map(languageInstance.processLine)
+        .join(EOL);
     });
 
   const dirs = {};

@@ -33,6 +33,14 @@ export abstract class Language implements Composable {
   }
 
   /**
+   * Name of language from language package
+   * @returns name of language in lowercase
+   */
+  processLine(line: string): string {
+    return line;
+  }
+
+  /**
    * Verfies if extension is valid based on Language Package. Returns True if extension is valid, else False
    */
   isValidExt(ext: string): boolean {
