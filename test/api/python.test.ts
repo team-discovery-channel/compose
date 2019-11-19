@@ -36,6 +36,9 @@ test(`is ${name} a language`,()=>{
     expect(language).toBeInstanceOf(Language);
 })
 
+test(`${name} process lines returns a string with 4 less leading spaces`, ()=>{
+    expect(language.processLine("    test")).toEqual("test")
+})
 
 test(`is ${name} composable`,()=>{
 
