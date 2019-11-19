@@ -33,8 +33,8 @@ export abstract class Language implements Composable {
   }
 
   /**
-   * Name of language from language package
-   * @returns name of language in lowercase
+   * Called in revert to undo any processing done to the line during compose
+   * @returns default returns the same line, sub classes can override
    */
   processLine(line: string): string {
     return line;
