@@ -95,6 +95,15 @@ def modulize(module_name, dependencies=[]):
     }
     return combined;
   }
+
+  /**
+   * Undoes per line modification by the python compose method
+   * @param line of the composed file
+   * @returns line minus the 4 spaces add by python compose
+   */
+  processLine(line: string): string {
+    return line.slice(4);
+  }
 }
 
 export const python = new Python();
