@@ -23,66 +23,11 @@
             }
         })
     }
-
-    $( document ).ready(function() {
-        $("input[name='zip']").on("change",function(){
-            var filename = $(this).val()
-            $("#filename").val(filename.split("\\").pop().split("/").pop())
-
-        })
-
-        $("button[name='action']").on("click", function(){
-
-            var file = $("input[name='zip']")[0].files[0]
-
-            if (file) {
-                $(".progress").css("display","block")
-                var reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = function(e) {
-                    processZipFile(e.target.result)
-                };
-            }
-        })
-    });
-
-    function submitHiddenForm(){
-        var file = $("input[name='zip']").clone(true,true)
-        var out = $("input[name='outfile']").clone(true,true)
-        file.attr("name","file")
-        file.css("display","hidden")
-        out.attr("name","out")
-        out.css("display","hidden")
-        var selectedLangauge = $("select[name='languageSelect']").children(":selected").text()
-        $("input[name='language']:hidden").attr("value",selectedLangauge)
-
-        $("input[name='file']:hidden").replaceWith(file)
-        $("input[name='out']:hidden").replaceWith(out)
-        $('#request').submit()
-    }
-    function initJsTree(){
-        $(function () {
-            $('#directoryTree').jstree();
-            $('#directoryTree').on("ready.jstree", function (e, data) {
-                var li = $('#directoryTree').find("i.material-icons")
-                li.map(function(index,element){
-                    element.innerHTML = "insert_drive_file"
-                })
-            });
-            $('#directoryTree').on("after_open.jstree", function (e, data) {
-                var li = $('#directoryTree').find("i.material-icons")
-                li.map(function(index,element){
-                    element.innerHTML = "insert_drive_file"
-                })
-            });
-
-
-        });
-    }
-    function setEntry(element, path){
-        $("input[name='entry']:hidden").attr("value",path)
-    }
 </script>
+
+<script type="text/javascript" src="js/WebContent/zip.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+
 <title>Compose - Flattening source files</title>
 </head>
 
