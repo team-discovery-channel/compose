@@ -36,7 +36,7 @@
                     <li class="active">
                     <div class="collapsible-header"><i class="material-icons">info</i>Getting Started</div>
                     <div class="collapsible-body">
-                        <div style="width:50%">
+                        <!--<div style="width:50%">
                             <div class="carousel carousel-slider">
                                 <a class="carousel-item" href="#one!"><img src="imgs/compose/1.jpg"></a>
                                 <a class="carousel-item" href="#two!"><img src="imgs/compose/2.jpg"></a>
@@ -44,6 +44,80 @@
                                 <a class="carousel-item" href="#four!"><img src="imgs/compose/4.jpg"></a>
                                 <a class="carousel-item" href="#five!"><img src="imgs/compose/5.jpg"></a>
                             </div>
+                        </div>-->
+
+                        <nav>
+                    <div class="nav-wrapper teal lighten-2">
+                      <a href="#!" class="brand-logo center">To One</a>
+                      <ul class="left hide-on-med-and-down">
+                        <li class="active"><a href="/">Compose</a></li>
+                        <li><a href="/undo">Revert</a></li>
+                      </ul>
+                    </div>
+                  </nav>
+        <form action="" method="post" enctype="multipart/form-data">
+            <div class="row">
+            </div>
+            <div class="row">
+                <div class="col m2" style="text-align:right;margin-left:17.5%;">
+                    <label style="line-height:36px;">Select Language</label>
+                </div>
+                <div class="col m5">
+                    <select class="browser-default" name="languageSelect">
+                        <option value="" disabled selected>No langauge selected</option>
+                        
+                            <option>javascript</option>
+                        
+                            <option>python</option>
+                        
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                    <div class= "col m2" style="text-align:right;margin-left:17.5%;">
+                        <label style="line-height:64px;">Zip file</label>
+                    </div>
+                    <div class="col m5">
+                        <div class="file-field input-field">
+                                <div class="btn m2" style="float:right">
+                                        <span>Browse</span>
+                                        <input type="file" name="zip"/>
+                                    </div>
+                            <div class="file-path-wrapper m10">
+                                <input class="file-path validate" type="text" id="filename">
+                            </div>
+                        </div>
+                    </div>
+                                </div>
+                                <div id="directoryContainer">
+                                <div class="row center-align" style="display:none;">
+                                    <div class="col m2" style="text-align:right;margin-left:17.5%;">
+                                        <label>Select Entry File</label>
+                                    </div>
+                                </div>
+                                <div class="row" style="display:none;">
+                                    <div id="directoryTree" class="col m5 card-panel teal lighten-2" style="margin-left:35%;margin-top:-4%;display:none;">
+                                        <ul>
+                                        </ul>
+                                    </div>
+                                </div></div>
+                                <div class="row outform" style="display:none;">
+                                    <div class="col m2" style="text-align:right;margin-left:17.5%;">
+                                        <label style="line-height:36px;">Output filename</label>
+                                    </div>
+                                    <div class="col m5">
+                                        <input type="text" name="outfile">
+                                    </div>
+                                </div>
+                                <div id="submit" class="row" style="text-align:center">
+                                    <button class="btn waves-effect waves-light" type="button" name="action">Submit
+                                        <i class="material-icons right"></i>
+                                    </button>
+                                </div>
+                                <div class="progress" style="display:none">
+                                    <div class="indeterminate"></div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                     </li>
