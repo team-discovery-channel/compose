@@ -15,6 +15,24 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/3.0.1/github-markdown.min.css" />
+
+<style>
+	.markdown-body {
+		box-sizing: border-box;
+		min-width: 200px;
+		max-width: 980px;
+		margin: 0 auto;
+		padding: 45px;
+	}
+
+	@media (max-width: 767px) {
+		.markdown-body {
+			padding: 15px;
+		}
+	}
+</style>
+
+
 <script type="text/javascript">
     function init(){
         M.AutoInit();
@@ -40,6 +58,7 @@
                     <div class="collapsible-body">
 
                         <!-- files/getting_started.md, using httpie, cmd.exe -> http -o getting_started.html POST https://api.github.com/markdown text=@getting_started.md mode=gfm -->
+                        <div class="markdown-body">
                         <h4>Requirements</h4>
                         <ul>
                         <li>Nodejs 8+</li>
@@ -64,7 +83,8 @@
                         </ul>
                         <h4>Want to add a language or new feature?</h4>
                         <p><em>see developer documentation</em></p>
-
+                        </div>
+                        
                     </div>
                     </li>
                     <li>
