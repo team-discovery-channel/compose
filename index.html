@@ -12,6 +12,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
 <script type="text/javascript">
     function init(){
         M.AutoInit();
@@ -20,6 +22,65 @@
             $('.carousel').carousel({});
             }
         })
+    }
+
+    $( document ).ready(function() {
+        $("input[name='zip']").on("change",function(){
+            var filename = $(this).val()
+            $("#filename").val(filename.split("\\").pop().split("/").pop())
+
+        })
+
+        $("button[name='action']").on("click", function(){
+
+            var file = $("input[name='zip']")[0].files[0]
+
+            if (file) {
+                $(".progress").css("display","block")
+                var reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = function(e) {
+                    processZipFile(e.target.result)
+                };
+            }
+        })
+    });
+
+    function submitHiddenForm(){
+        var file = $("input[name='zip']").clone(true,true)
+        var out = $("input[name='outfile']").clone(true,true)
+        file.attr("name","file")
+        file.css("display","hidden")
+        out.attr("name","out")
+        out.css("display","hidden")
+        var selectedLangauge = $("select[name='languageSelect']").children(":selected").text()
+        $("input[name='language']:hidden").attr("value",selectedLangauge)
+
+        $("input[name='file']:hidden").replaceWith(file)
+        $("input[name='out']:hidden").replaceWith(out)
+        $('#request').submit()
+    }
+    function initJsTree(){
+        $(function () {
+            $('#directoryTree').jstree();
+            $('#directoryTree').on("ready.jstree", function (e, data) {
+                var li = $('#directoryTree').find("i.material-icons")
+                li.map(function(index,element){
+                    element.innerHTML = "insert_drive_file"
+                })
+            });
+            $('#directoryTree').on("after_open.jstree", function (e, data) {
+                var li = $('#directoryTree').find("i.material-icons")
+                li.map(function(index,element){
+                    element.innerHTML = "insert_drive_file"
+                })
+            });
+
+
+        });
+    }
+    function setEntry(element, path){
+        $("input[name='entry']:hidden").attr("value",path)
     }
 </script>
 <title>Compose - Flattening source files</title>
