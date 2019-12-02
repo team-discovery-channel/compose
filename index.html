@@ -11,10 +11,15 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <script type="text/javascript">
 function init(){
     M.AutoInit();
+    $('.collapsible').collapsible({
+    onOpen: function() {
+      $('.carousel').carousel();
+    }
+  })
     }
 </script>
 <title>Compose - Flattening source files</title>
@@ -30,14 +35,14 @@ function init(){
                 <ul class="collapsible">
                     <li class="active">
                     <div class="collapsible-header"><i class="material-icons">info</i>Getting Started</div>
-                    <div class="collapsible-body">
-                        <div class="carousel">
+                    <span class="collapsible-body">
+                        <span class="carousel">
                             <a class="carousel-item" href="#one!"><img src="imgs/compose/1.jpg"></a>
                             <a class="carousel-item" href="#two!"><img src="imgs/compose/2.jpg"></a>
                             <a class="carousel-item" href="#three!"><img src="imgs/compose/3.jpg"></a>
                             <a class="carousel-item" href="#four!"><img src="imgs/compose/4.jpg"></a>
                             <a class="carousel-item" href="#five!"><img src="imgs/compose/5.jpg"></a>
-                        </div>
+                        </span>
                     </div>
                     </li>
                     <li>
