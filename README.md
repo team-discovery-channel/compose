@@ -72,6 +72,9 @@ To simplify the process of uploading code to code competition websites.
 2. Register the language to the languages dictionary found in src/api/languages.ts. Use the language's simple, lowercase, name for the key.
 
 ## Developer Documentation
+
+[Compose API v1](team-discovery-channel.github.io/compose)
+
 `/src/api/*.ts` includes all functions
 1. Base Classes
   1. `src\api\Language.ts`
