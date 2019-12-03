@@ -17,23 +17,29 @@ Compose allows programmers to compile a single file from multiple folders and fi
 
 ## How To Install the Project
 1. Clone the repository from Git.
+
 ```bash
 $ git clone https://github.com/team-discovery-channel/compose.git
 ```
 <br/>
 2. Change directory to cloned repository
+
 ```bash
 $ cd compose
 ```
+
 3.  Create a file called __".env"__ with the following text under *compose* folder
+
 ```bash
  NODE_ENV=development
  SERVER_PORT=8080
 ```
+
 **  Note: The file `.env.sample` can be renamed as `.env`
 For more information on dotenv files: https://www.npmjs.com/package/dotenv **
 
 4. Install necessary node packages
+
 ```bash
 npm install
 ```
