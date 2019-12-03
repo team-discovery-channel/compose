@@ -7,7 +7,7 @@
 | -----------|----------|-----------|-------|
 | ![Statements](https://img.shields.io/badge/Coverage-99.15%25-brightgreen.svg ) | ![Branches](https://img.shields.io/badge/Coverage-96.61%25-brightgreen.svg ) | ![Functions](https://img.shields.io/badge/Coverage-100%25-brightgreen.svg ) | ![Lines](https://img.shields.io/badge/Coverage-99.15%25-brightgreen.svg ) |
 
-# COMPOSE
+![Compose logo](banner_plane.jpg "Composing source files")
 
 Compose allows programmers to compile a single file from multiple folders and files for competition programming websites. Compose is implemented in typescript.
 
@@ -73,7 +73,7 @@ To simplify the process of uploading code to code competition websites.
 
 ## Developer Documentation
 
-[Compose API v1](https://team-discovery-channel.github.io/compose/files/api.html)
+[Compose API v1](api.html)
 
 `/src/api/*.ts` includes all functions
 1. Base Classes
