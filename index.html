@@ -30,7 +30,7 @@
 			padding: 15px;
 		}
 	}
-    select:focus{
+    .highlight{
         box-shadow: 0 0 10px rgba(57, 255, 20, 1);
     }
 </style>
@@ -39,6 +39,10 @@
 <script type="text/javascript">
     function init(){
         M.AutoInit();
+    }
+
+    function runUI(){
+        
     }
 </script>
 
@@ -98,11 +102,12 @@
                             <h5>Using the UI</h5>
                             <!--==============START UI===================-->
                             <div class="col s7">
+                                <a class="waves-effect waves-light btn-small" onclick="runUI()">Run Compose</a>
                                 <nav>
                                     <div class="nav-wrapper teal lighten-2">
                                     <a href="#!" class="brand-logo center">To One</a>
                                     <ul class="left hide-on-med-and-down">
-                                        <li class="active"><a href="/">Compose</a></li>
+                                        <li id="compose_0" class="active"><a href="/">Compose</a></li>
                                         <li><a href="/undo">Revert</a></li>
                                     </ul>
                                     </div>
@@ -115,7 +120,7 @@
                                             <label style="line-height:36px;">Select Language</label>
                                         </div>
                                         <div class="col m5">
-                                            <select class="browser-default" name="languageSelect">
+                                            <select id="compose_1" class="browser-default" name="languageSelect">
                                                 <option value="" disabled selected>No langauge selected</option>
                                                 
                                                     <option>javascript</option>
@@ -131,7 +136,7 @@
                                             </div>
                                             <div class="col m5">
                                                 <div class="file-field input-field">
-                                                        <div class="btn m2" style="float:right">
+                                                        <div id="compose_2" class="btn m2" style="float:right">
                                                                 <span>Browse</span>
                                                                 <input type="file" name="zip"/>
                                                             </div>
@@ -143,7 +148,7 @@
                                     </div>
                                     <div id="directoryContainer">
                                     <div class="row center-align" style="display:none;">
-                                        <div class="col m2" style="text-align:right;margin-left:17.5%;">
+                                        <div id="compose_3" class="col m2" style="text-align:right;margin-left:17.5%;">
                                             <label>Select Entry File</label>
                                         </div>
                                     </div>
@@ -155,14 +160,14 @@
                                     </div></div>
                                     <div class="row outform" style="display:none;">
                                         <div class="col m2" style="text-align:right;margin-left:17.5%;">
-                                            <label style="line-height:36px;">Output filename</label>
+                                            <label  style="line-height:36px;">Output filename</label>
                                         </div>
                                         <div class="col m5">
-                                            <input type="text" name="outfile">
+                                            <input id="compose_4" type="text" name="outfile">
                                         </div>
                                     </div>
                                     <div id="submit" class="row" style="text-align:center">
-                                        <button class="btn waves-effect waves-light" type="button" name="action">Submit
+                                        <button id="compose_5" class="btn waves-effect waves-light" type="button" name="action">Submit
                                             <i class="material-icons right"></i>
                                         </button>
                                     </div>
@@ -173,7 +178,7 @@
                             </div>
                             <div class="col s5">
                                 <!-- BEGIN description section -->
-                                <span>Place explanations here...</span>
+                                <span id="notes"></span>
                             </div>
                         </div>
                         <div class="row">
