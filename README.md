@@ -73,7 +73,7 @@ To simplify the process of uploading code to code competition websites.
 
 ## Developer Documentation
 
-[Compose API v1](team-discovery-channel.github.io/compose)
+[Compose API v1](https://team-discovery-channel.github.io/compose/files/api.html)
 
 `/src/api/*.ts` includes all functions
 1. Base Classes
