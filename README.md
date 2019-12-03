@@ -93,7 +93,7 @@ To simplify the process of uploading code to code competition websites.
 ## PRESUMPTIONS/PRECONDITIONS/ASSUMPTIONS
   #### Compose
   #### Revert
-  1. The Language methods are implemented and the comment guard wrapping source files is of the form of a single line comment followed by the begin guard and end guard.
+  1. The Language methods are implemented and the comment guard wrapping source files is of the form of a single line comment followed by the begin guard or end guard.
   2. The begin and end guard must be distinct and not a substring of one another.
   3. Any edits to the source between guards must be done in a way that it can be undone by a per-line map function. The Language class has a protected member function that can be overwritten by language imeplementations to facilitate this, an example can be found in python class.
 ##
