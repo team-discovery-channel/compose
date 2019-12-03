@@ -42,6 +42,7 @@
     //window.blob = window.atob(window.examplezip)
     function init(){
         M.AutoInit();
+        $(".nav-wrapper").addClass("highlight")
     }
 
     function runUI(appFunc){
@@ -108,7 +109,7 @@
                                 <nav>
                                     <div class="nav-wrapper teal lighten-2">
                                     <a href="#!" class="brand-logo center">To One</a>
-                                    <ul class="left hide-on-med-and-down">
+                                    <ul class="left">
                                         <li id="compose_0"><a target="_blank" onclick="runUI('compose')">Compose</a></li>
                                         <li><a target="_blank" onclick="runUI('revert')">Revert</a></li>
                                     </ul>
