@@ -1,0 +1,96 @@
+#%RAML 1.0
+---
+title: compose
+baseUri: localhost/{version}
+version: v1
+/compose:
+    description: Composes a zipped source directory into a single file
+    post:
+        queryParameters:
+            file:
+                type: file
+                fileTypes: ['application/zip']
+                description: A zip archive of a source code directory
+                required: true
+            language:
+                type: string
+                description: lowercase common name of programming language used in zip archive
+                required: true
+                example: javascript or python
+            entry:
+                type: string
+                description: full path to entry file from the root of the zip archive
+                required: true
+            out:
+                type: string
+                description: name without extension to return file as, if not provided a random id is used.
+                required: false
+        responses:
+                200:
+                    body:
+                        application/zip:
+                            type: file
+                400:
+                    body:
+                        application/json:
+                            type: string
+                            example: |
+                                {
+                                    "message": "helpful message, usually unset required parameter",
+                                    "hint": "hint to correct input if possible",
+                                    "status": "400"
+                                }
+                404:
+                    body:
+                        application/json:
+                            type: string
+                            example: |
+                                {
+                                    "message": "Entry file <filename> not found in zip",
+                                    "hint": "No suggestions | Maybe one of [list of suggestions] | Maybe this <path/filename>",
+                                    "status": "404"
+                                }
+                501:
+                    body:
+                        application/json:
+                            type: string
+                            example: |
+                                {
+                                    "message": "<language> is not implemented",
+                                    "hint": "implemented languages are [list of implemented langauges]",
+                                    "status": "501"
+                                }
+/revert:
+    description: Reverts a composed file to its directory structure
+    post:
+        queryParameters:
+            file:
+                type: file
+                fileTypes: ['text/plain', 'application/python', 'application/javascript']
+                description: single source file
+                required: true
+            language:
+                type: string
+                description: common name of programming language used in single source file
+                required: true
+                example: javascript or python
+            out:
+                type: string
+                description: name without extension to return file as, if not provided a random id is used.
+                required: false
+        responses:
+            200:
+                body:
+                    application/zip:
+                        type: file
+            400:
+                body:
+                    application/json:
+                        type: string
+                        example: |
+                            {
+                                "message": "helpful message, usually unset required parameter",
+                                "hint": "hint to correct input if possible",
+                                "status": "400"
+                            }
+    
