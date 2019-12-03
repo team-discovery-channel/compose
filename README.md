@@ -74,6 +74,7 @@ To simplify the process of uploading code to code competition websites.
 ## Developer Documentation
 
 [Compose API v1](https://team-discovery-channel.github.io/compose/files/api.html)
+  * Note: API documentation is generated from api.raml, to get most up to date api documentation run ```npm run dev``` and go to localhost:8080/docs/api.html
 
 `/src/api/*.ts` includes all functions
 1. Base Classes
