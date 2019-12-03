@@ -1,5 +1,6 @@
 /**
- *
+ * Establishes composable interface.
+ * All languages need to implement the compose function
  */
 export interface Composable {
   compose(mainFile: string, files: { [index: string]: string[] }): string;
@@ -17,7 +18,7 @@ export abstract class Language implements Composable {
 
   /**
    * @param name  language name, lowercase
-   * @param exts  list of valid extensions, with preceding dot.
+   * @param exts  list of valid extensions for the language, with preceding dot i.e. .js, .init, etc. 
    * @returns Language Package
    */
   constructor(name: string, exts: string[]) {
@@ -34,6 +35,8 @@ export abstract class Language implements Composable {
 
   /**
    * Verfies if extension is valid based on Language Package. Returns True if extension is valid, else False
+   * @param ext extension to evaluate
+   * @returns Truth value of evaluation. Is ext defined (is in list of exts)?
    */
   isValidExt(ext: string): boolean {
     return this.exts.includes(ext);

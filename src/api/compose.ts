@@ -2,6 +2,14 @@ import { languageFactory } from './languages';
 import { Language } from './language';
 import AdmZip from 'adm-zip';
 
+/**
+ * Entry point for compose functionality
+ * @param file Buffer of zip folder uploaded by user
+ * @param language Selected Language
+ * @param out 
+ * @param entry Filename of entry ("main") file
+ * @return Buffer of combined file
+ */
 export const compose = (
   file: Buffer,
   language: string,
