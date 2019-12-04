@@ -15,12 +15,7 @@
 * NodeJS (v12)
 
 ### How To Install Project
-1. `git clone https://github.com/team-discovery-channel/compose/tree/develop`
-2. `cd *compose_folder*`
-3.  Create a file called ".env" with the following text under *compose_folder*
-  * NODE_ENV=development
-  * SERVER_PORT=8080
-4. `npm install`
+###### Clone the repository using git or download as a zip
 
 **  Notes: There is a file `.env.sample` that needs to be used as a template for `.env` before it can run.
 see: https://www.npmjs.com/package/dotenv **
@@ -126,7 +121,6 @@ The compose function takes two parameters. The first is a dictionary of the user
    3. Now create the sub directories with test source files, run them, copy the outputs to the corresponding JSON property in the config.json
 
 ## PRESUMPTIONS/PRECONDITIONS/ASSUMPTIONS
-  #### Compose
   #### Revert
   1. The Language methods are implemented and the comment guard wrapping source files is of the form of a single line comment followed by the begin guard or end guard.
   2. The begin and end guard must be distinct and not a substring of one another.
