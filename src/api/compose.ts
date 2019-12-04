@@ -1,3 +1,9 @@
+/**
+ * Called by controllers
+ * Bridge point between front end/API calls and 
+ * language specific logic
+ */
+
 import { languages } from './languages';
 import { Language } from './language';
 import { RESTError } from './error';
@@ -29,6 +35,14 @@ const errors = {
   },
 };
 
+/**
+ * Entry point for compose functionality
+ * @param file Buffer of zip folder uploaded by user
+ * @param language Selected Language
+ * @param out 
+ * @param entry Filename of entry ("main") file
+ * @return Buffer of combined file
+ */
 export const compose = (
   file: Buffer,
   language: string,
