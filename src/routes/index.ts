@@ -21,6 +21,7 @@ const upload: multer.Instance = multer({
     const acceptedMimeTypes: string[] = [
       'application/x-zip-compressed',
       'application/zip',
+      'text/plain',
     ];
     acceptedMimeTypes.push(...acceptedLanguages);
     cb(null, acceptedMimeTypes.includes(file.mimetype));

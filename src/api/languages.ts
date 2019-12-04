@@ -9,7 +9,6 @@ import { Language } from './language';
 import { python } from './python';
 import { javascript } from './javascript';
 
-
 /**
  * Dictionary of languages regestered by the program.
  * New languages should be added here.

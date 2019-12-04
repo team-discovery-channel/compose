@@ -14,12 +14,6 @@ class Python extends Language {
     this.endGuard = 'End';
   }
   /**
-   * @returns returns regex which filters for any "import **module** from **function**" string
-   */
-  getRegex(): RegExp[] {
-    return [/^\s*import\s+([A-Z,a-z]+)\1/, /from\s+([A-Z,a-z])+\1/];
-  }
-  /**
    * @param mainfile Filename of consisting of entry point from source files
    * @param files Filenames from source files
    * @returns Flattened file with runnable composed functions in clear text format
@@ -94,6 +88,15 @@ def modulize(module_name, dependencies=[]):
       combined = combined.concat(blk);
     }
     return combined;
+  }
+
+  /**
+   * Undoes per line modification by the python compose method
+   * @param line of the composed file
+   * @returns line minus the 4 spaces add by python compose
+   */
+  processLine(line: string): string {
+    return line.slice(4);
   }
 }
 

@@ -7,9 +7,6 @@ class MockLang extends Language {
   constructor() {
     super('abstract', ['.abs', '/index.js', '']);
   }
-  getRegex(): RegExp[] {
-    return [/require\((['"])([^'"]+)\1\)/];
-  }
 
   compose(filelist: string, files: { [index: string]: string[] }): string {
     return "";
@@ -30,4 +27,8 @@ test(`${exts[0]} is a valid extension`, ()=>{
 
 test(`.nope is not a valid extension`, ()=>{
     expect(languageInstance.isValidExt(".nope")).toBe(false);
+})
+
+test(`Langauge default process line`, ()=>{
+  expect(languageInstance.processLine("test")).toEqual("test")
 })

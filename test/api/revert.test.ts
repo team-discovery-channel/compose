@@ -1,14 +1,14 @@
 import {revert} from '../../src/api/revert'
 import {constructDirectoryObject, Directory} from '../../src/api/revert'
 import {filterFiles} from '../../src/api/javascript.utils';
-import {languageFactory} from "../../src/api/languages"
+import {languages} from "../../src/api/languages"
 import {javascript} from '../../src/api/javascript'
 import {Language} from '../../src/api/language'
 import AdmZip from 'adm-zip'
 import mock from 'mock-fs'
 
 const language = "javascript"
-const languageInstance:Language = languageFactory(language)
+const languageInstance:Language = languages[language]
 
 test("uncompose returns buffer object", ()=>{
 
