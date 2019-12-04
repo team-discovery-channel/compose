@@ -187,7 +187,7 @@
         $(".nav-wrapper").removeClass("highlight")
         window.step = 0;
         var max = {
-            compose:5,
+            compose:6,
             revert:5
         }
         if(appFunc == "compose"){
@@ -222,7 +222,27 @@
                 function(){
                     window.setTimeout(function(){$('#compose_5').trigger('click')}, 1000);
                 }
-            ] 
+            ],
+            revert:[
+                function(){},
+                function(){
+                     //set language
+                    $("select option").each(function(){
+                        if ($(this).text() == "javascript")
+                            $(this).attr("selected","selected");
+                    });
+                },
+                function(){
+                    $("#filename").val("optional.js")
+                },
+                function(){
+                    $("input[name='outfile']").prop("value", "example")
+                },
+                function(){
+                    window.setTimeout(function(){$('#revert_4').trigger('click')}, 1000);
+                },
+                function(){}
+            ]
         }
 
         $(`#${appFunc}_0`).addClass("highlight");
