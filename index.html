@@ -61,7 +61,7 @@
         $(`#${appFunc}_0`).addClass("highlight");
         window.next = function(){
             $(`#${appFunc}_${window.step}`).removeClass("highlight");
-            if(window.step + 1 != max[appFunc]){
+            if(window.step + 1 > max[appFunc]){
                 window.step++;
                 $(`#${appFunc}_${window.step}`).addClass("highlight");
                 $("#notes").text($(`#${appFunc}_${window.step}`).attr("note"))
@@ -70,7 +70,7 @@
         }
         window.prev = function(){
             $(`#${appFunc}_${window.step}`).removeClass("highlight");
-            if(window.step - 1 != 0){
+            if(window.step - 1 < 0){
                 window.step--;
                 $(`#${appFunc}_${window.step}`).addClass("highlight");
                 $("#notes").text($(`#${appFunc}_${window.step}`).attr("note"))
