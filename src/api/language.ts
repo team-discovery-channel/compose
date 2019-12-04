@@ -48,7 +48,7 @@ export abstract class Language implements Composable {
 
   /**
    * Verfies if extension is defined in exts. Returns True if extension is defined, else False.
-   * 
+   *
    */
   isValidExt(ext: string): boolean {
     return this.exts.includes(ext);
