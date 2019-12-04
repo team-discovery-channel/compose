@@ -1,0 +1,70 @@
+<h2>Development Roadmap</h2>
+<ol>
+<li>Languages supported currently</li>
+</ol>
+<ul>
+<li>Javascript</li>
+<li>Python</li>
+</ul>
+<ol start="2">
+<li>Languages in development</li>
+</ol>
+<ul>
+<li>C++</li>
+</ul>
+<h2>Notes for developers/maintainers</h2>
+<p>This project runs off a general web MVC architecture implemented by Node Express.</p>
+<p><a href="src/api/"><code>/src/api/</code></a> contains the model logic including the language specific logic</p>
+<p><a href="src/controllers/"><code>/src/controllers</code></a> and <a href="src/views/"><code>/src/views/</code></a> contain the logic for controllers and views respectively.</p>
+<p><a href="src/routes/"><code>/src/routes/</code></a> contains HTTP routing instructions for Node Express.</p>
+<p><a href="tests/api"><code>tests/api/</code></a> Contains the tests. New tests can be added, using the JEST framework. The test suite can be run with the node command <code>npm run test</code></p>
+<h3>To Add A New Language</h3>
+<p>New languages can be easily added and registered to the program. First make a new class that extends the abstract class <a href="src/api/language.ts"><code>/src/api/language.ts</code></a>. At a minimum, the class variables name, exts, and comment are likely to need to be defined for the new language. However, the most important function is the compose function.</p>
+<p>The compose function takes two parameters. The first is a dictionary of the user uploaded zip file. The dictionary's values are the files converted to string arrays (line by line, preserving whitespacing). The keys are the full filepaths of each file including the name of the zip as the top level directory. For example, foo/__init__.py is zipped into a folder named mydir, that file's key would be my_dir/foo/__init__.py. The other parameter is the user defined entry or main filename in the same format. The function needs to return the single, combined, file as a string.</p>
+<p><a href="src/api/languages.ts"><code>src/api/languages.ts</code></a> is where the program keeps track of included languages. Simply add new languages to the dictionary and the front end will automatically incorporate it, and the backend will know how to call it. The  is how the app will recognize the language in HTTP requests and is how it will display on the view, so make sure it's recognizable.</p>
+<h3>Testing A New Language</h3>
+<h4>Unit testing</h4>
+<ul>
+<li>Compose uses Jest as the testing framework</li>
+<li>Add unit tests in the <a href="test/api/"><code>test/api/</code></a> directory in a file named <code>&lt;common language name&gt;.test.ts</code></li>
+</ul>
+<h4>Integration testing</h4>
+<ul>
+<li>Once your language is implemented create test directories and source files
+<ol>
+<li>go to <a href="test/files/"><code>test/files/</code></a> and create a directory with the name the same as the common language name</li>
+<li>In that directory create a config.json which has the following structure</li>
+</ol>
+</li>
+</ul>
+<pre><code>    {
+    "command": {"win32": string, "else": string} | string, //the command format string with a single %s
+    "entry": string, //full path from root of zip archive to the main file
+    &lt;name of test sub directories :string&gt;: string, // the expected result from running the command
+    }
+</code></pre>
+<ul>
+<li>
+<ol start="3">
+<li>Now create the sub directories with test source files, run them, copy the outputs to the corresponding JSON property in the config.json</li>
+</ol>
+</li>
+</ul>
+<h2>PRESUMPTIONS/PRECONDITIONS/ASSUMPTIONS</h2>
+<h4>Revert</h4>
+<ol>
+<li>The Language methods are implemented and the comment guard wrapping source files is of the form of a single line comment followed by the begin guard or end guard.</li>
+<li>The begin and end guard must be distinct and not a substring of one another.</li>
+<li>Any edits to the source between guards must be done in a way that it can be undone by a per-line map function. The <a href="src/api/language.ts">Language</a> class has a protected member function, processLine, that can be overwritten by language imeplementations to facilitate this, an example can be found in python class.</li>
+</ol>
+<h2></h2>
+<h3>TRAVIS CI Setup</h3>
+<ol>
+<li>Sign into travis-ci.com using your GitHub account.</li>
+<li>Activate your repository through Travis CI.</li>
+<li>Builds can either be triggered manually or will automatically build during the next update to the repository.</li>
+</ol>
+<h2>Issues</h2>
+<ul>
+<li>The revert function when using linux has a root directory named "undefined" but otherwise reproduces the source zip file. The issue was narrowed to the mock file system called in the revert function.</li>
+</ul>
