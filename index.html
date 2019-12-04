@@ -70,7 +70,7 @@
                     });
                 },
                 function(){
-                    $("#filename").text("example.zip")
+                    $("#filename").val("example.zip")
                     processZipFile(window.examplezip)
                 },
                 function(){},
@@ -180,7 +180,7 @@
                                             </div>
                                             <div class="col m5">
                                                 <div class="file-field input-field">
-                                                        <div id="compose_2" note="Hit browse button, a file open dialogue window will open to select a zip file. This tutorial uses example.zip with a simple layout." class="btn m2" style="float:right">
+                                                        <div id="compose_2" note="Hit browse button, a file open dialogue window will open to select a zip file. This tutorial uses example.zip with a simple layout. The UI loads the direcotry tree for the zip file." class="btn m2" style="float:right">
                                                                 <span>Browse</span>
                                                                 <input type="file" name="zip"/>
                                                             </div>
@@ -204,10 +204,10 @@
                                     </div></div>
                                     <div class="row outform" style="display:none;">
                                         <div class="col m2" style="text-align:right;margin-left:17.5%;">
-                                            <label  style="line-height:36px;">Output filename</label>
+                                            <label id="compose_4" note="Optionally add a filename here, without the extension. This tutorial uses 'optional`"  style="line-height:36px;">Output filename</label>
                                         </div>
                                         <div class="col m5">
-                                            <input id="compose_4" type="text" name="outfile" note="Optionally add a filename here, without the extension. This tutorial uses 'optional`">
+                                            <input  type="text" name="outfile" >
                                         </div>
                                     </div>
                                     <div id="submit" class="row" style="text-align:center">
