@@ -1,5 +1,5 @@
 /**
- *
+ * Interface for compose funciton.
  */
 export interface Composable {
   compose(mainFile: string, files: { [index: string]: string[] }): string;
@@ -7,7 +7,9 @@ export interface Composable {
 /**
  * Base class for the language specific implementations.
  * Should be extended by all languages meant to be supported by the app.
- *
+ * At a minimum, class variables comment, name, and exts will need to be overwritten,
+ * as well as the compose funciton for each new language added.
+ * comment - the 
  */
 export abstract class Language implements Composable {
   protected beginGuard = '>>>BEGIN<<<';
@@ -17,6 +19,7 @@ export abstract class Language implements Composable {
   protected exts: string[];
 
   /**
+   * Base constructor. Overwritting comment, beginGuard, and endGuard should also occur here.
    * @param name  language name, lowercase
    * @param exts  list of valid extensions, with preceding dot.
    * @returns Language Package
@@ -85,10 +88,9 @@ export abstract class Language implements Composable {
   /**
    * Creates flattened file in string format which composes all source files into a single file with runnable code.
    * @param mainFile Filename with entry point from source files.
-   * @param files List of Filenames from source files.
-   * @returns Flattened file with runnable functions from source files
+   * @param files dictionary of source files. Key is full filename and value is string array of file.
+   * @returns String of single, runnable, file
    */
-
   abstract compose(
     mainfile: string,
     files: { [index: string]: string[] }
