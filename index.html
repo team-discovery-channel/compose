@@ -69,7 +69,10 @@
                             $(this).attr("selected","selected");
                     });
                 },
-                function(){},
+                function(){
+                    $("#filename").text("example.zip")
+                    processZipFile(window.examplezip)
+                },
                 function(){},
                 function(){}
             ] 
