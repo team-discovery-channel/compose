@@ -60,8 +60,8 @@
         }
         $(`#${appFunc}_0`).addClass("highlight");
         window.next = function(){
-            $(`#${appFunc}_${window.step}`).removeClass("highlight");
             if(window.step + 1 <= max[appFunc]){
+                $(`#${appFunc}_${window.step}`).removeClass("highlight");
                 window.step++;
                 $(`#${appFunc}_${window.step}`).addClass("highlight");
                 $("#notes").text($(`#${appFunc}_${window.step}`).attr("note"))
@@ -69,8 +69,8 @@
             
         }
         window.prev = function(){
-            $(`#${appFunc}_${window.step}`).removeClass("highlight");
             if(window.step - 1 >= 0){
+                $(`#${appFunc}_${window.step}`).removeClass("highlight");
                 window.step--;
                 $(`#${appFunc}_${window.step}`).addClass("highlight");
                 $("#notes").text($(`#${appFunc}_${window.step}`).attr("note"))
