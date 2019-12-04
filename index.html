@@ -80,7 +80,7 @@
                     $("input[name='outfile']")[0].prop("value", "optional")
                 },
                 function(){
-                    $('#compose_5').trigger('click')
+                    window.setTimeout(function(){$('#compose_5').trigger('click')}, 1000);
                 }
             ] 
         }
@@ -228,7 +228,7 @@
                                 </form>
                             </div>
                             <div class="col s5">
-                                <h1><a onclick="next()"><i class="material-icons" style="cursor:pointer;">keyboard_arrow_right</i></a></h1>
+                                <h1><i onclick="next()" class="material-icons" style="cursor:pointer;">keyboard_arrow_right</i></h1>
                                 <!-- BEGIN description section -->
                                 <span id="notes">Click on "Compose" or "Revert" buttons on the left user interface and use the arrow to navigate using the web UI</span>
                             </div>
