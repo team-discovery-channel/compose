@@ -59,6 +59,7 @@
             $(`#${appFunc}_${window.step}`).removeClass("highlight");
             window.step++;
             $(`#${appFunc}_${window.step}`).addClass("highlight");
+            $("#notes").text($(`#${appFunc}_${window.step}`).attr("note"))
         }
         window.prev = function(){
             $(`#${appFunc}_${window.step}`).removeClass("highlight");
