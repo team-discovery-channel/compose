@@ -45,7 +45,7 @@ npm install
 ```
 
 ## How to Run the Project
-1. Run using developer tools (nodemon enabled).
+1. Run using developer tools (nodemon enabled). This allows changes to the source code to be reflected by the server as soon as changes are saved.
 ```bash
 npm run dev
 ```
@@ -53,7 +53,7 @@ npm run dev
 ```bash
 npm start
 ```
-3. How to access web interface
+3. How to access web interface. To use a port other than 8080 change the SERVER_PORT variable in .env.
 ```bash
 localhost:8080
 ```
@@ -61,6 +61,12 @@ localhost:8080
 ```bash
 localhost:8080/docs
 ```
+
+## HTTP API
+Users can bypass the GUI interface and make requests through HTTP and a program like cURL or HTTPie. Web API found below.
+
+[Compose API v1](https://team-discovery-channel.github.io/compose/files/api.html)
+  * Note: API documentation is generated from api.raml, to get most up to date api documentation run ```npm run dev``` and go to ```localhost:8080/docs/api.html```
 
 ## Purpose
 To simplify the process of uploading code to code competition websites.
@@ -73,11 +79,6 @@ To simplify the process of uploading code to code competition websites.
   * C++
 
 ## Notes for developers/maintainers
-### To add a language:
-1. Implement the interface Language, found in src/api/language.ts
-2. Register the language to the languages dictionary found in src/api/languages.ts. Use the language's simple, lowercase, name for the key.
-
-## Developer Documentation
 This project runs off a general web MVC architecture implemented by Node Express.
 
 [`/src/api/`](src/api/) contains the model logic including the language specific logic
@@ -86,34 +87,21 @@ This project runs off a general web MVC architecture implemented by Node Express
 
 [`/src/routes/`](src/routes/) contains HTTP routing instructions for Node Express.
 
+[`tests/api/`](tests/api) Contains the tests. New tests can be added, using the JEST framework. The test suite can be run with the node command `npm run test`
+
 ### To Add A New Language
 New languages can be easily added and registered to the program. First make a new class that extends the abstract class [`/src/api/language.ts`](src/api/language.ts). At a minimum, the class variables name, exts, and comment are likely to need to be defined for the new language. However, the most important function is the compose function.
 
-The compose function takes two parameters. The first is a dictionary of the user uploaded zip file. The dictionary's values are each file converted to a string array by line. The keys are the full filepaths of each file including the name of the zip as the top level directory. For example, foo/\_\_init\_\_.py is zipped into a folder named mydir, that file's key would be my_dir/foo/\_\_init\_\_.py. The other parameter is the user defined entry or main filename in the same format.
+The compose function takes two parameters. The first is a dictionary of the user uploaded zip file. The dictionary's values are the files converted to string arrays (line by line, preserving whitespacing). The keys are the full filepaths of each file including the name of the zip as the top level directory. For example, foo/\_\_init\_\_.py is zipped into a folder named mydir, that file's key would be my_dir/foo/\_\_init\_\_.py. The other parameter is the user defined entry or main filename in the same format. The function needs to return the single, combined, file as a string.
 
-[Compose API v1](https://team-discovery-channel.github.io/compose/files/api.html)
-  * Note: API documentation is generated from api.raml, to get most up to date api documentation run ```npm run dev``` and go to ```localhost:8080/docs/api.html```
-
-`/src/api/*.ts` includes all functions
-1. Base Classes
-  1. `src\api\Language.ts`
-    1. Typescript module used for creating other programming languages for compose
-    2. Each extended language module will include the name of the language, comment characters for language, and extensions used for language.
-1. Javascript Implementation
-  1. `src\api\Javascript.ts` is the core file for composing javascript files.
-    1. It imports `src\api\Javascript.utils.ts` which includes utility functions used by javascript.ts
-        * `filterFiles` - recursively search for dependent files based on main file
-        * `findModule` -  search for filename of a module
-        * `getAbsolutePath` - converts relative paths to absolute paths of modules
-    2. Extends `src\api\language.ts`
-  2. Order
+[`src/api/languages.ts`](src/api/languages.ts) is where the program keeps track of included languages. Simply add new languages to the dictionary and the front end will automatically incorporate it, and the backend will know how to call it. The  is how the app will recognize the language in HTTP requests and is how it will display on the view, so make sure it's recognizable.
 
 ## PRESUMPTIONS/PRECONDITIONS/ASSUMPTIONS
   #### Compose
   #### Revert
   1. The Language methods are implemented and the comment guard wrapping source files is of the form of a single line comment followed by the begin guard or end guard.
   2. The begin and end guard must be distinct and not a substring of one another.
-  3. Any edits to the source between guards must be done in a way that it can be undone by a per-line map function. The Language class has a protected member function, processline, that can be overwritten by language imeplementations to facilitate this, an example can be found in python class.
+  3. Any edits to the source between guards must be done in a way that it can be undone by a per-line map function. The [Language](src/api/language.ts) class has a protected member function, processline, that can be overwritten by language imeplementations to facilitate this, an example can be found in python class.
 ##
 
 
