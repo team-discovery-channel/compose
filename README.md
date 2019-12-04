@@ -64,8 +64,11 @@ localhost:8080/docs
 ```
 
 Other Node Commands:
+
 `npm lint` - run linting over source code.
+
 `npm run test` - run test suite and generate coverage reports.
+
 `npm run apidoc` - update the API documentation found at `server:port/docs` (i.e. `localhost:8080/docs`) and in the /dist folder.
 
 
