@@ -3,10 +3,11 @@
  */
 export interface Composable {
   compose(mainFile: string, files: { [index: string]: string[] }): string;
-  getRegex(): RegExp[];
 }
 /**
- * Base class for all Language Packages
+ * Base class for the language specific implementations.
+ * Should be extended by all languages meant to be supported by the app.
+ *
  */
 export abstract class Language implements Composable {
   protected beginGuard = '>>>BEGIN<<<';
@@ -25,7 +26,7 @@ export abstract class Language implements Composable {
     this.exts = exts;
   }
   /**
-   * Name of language from language package
+   * Name of the language. Used by the app to list the program in the front end interface and to recognize the language.
    * @returns name of language in lowercase
    */
   getName(): string {
@@ -33,7 +34,11 @@ export abstract class Language implements Composable {
   }
 
   /**
-   * Called in revert to undo any processing done to the line during compose
+   * Called in revert to undo any processing done to the line during compose.
+   * This function is called line by line and is meant to undo changes made to the whole
+   * program such as whitespacing adjustments.
+   * See python.ts for an example.
+   *
    * @param line string, line of the program
    * @returns default returns the same line, sub classes can override
    */
@@ -42,14 +47,15 @@ export abstract class Language implements Composable {
   }
 
   /**
-   * Verfies if extension is valid based on Language Package. Returns True if extension is valid, else False
+   * Verfies if extension is defined in exts. Returns True if extension is defined, else False.
+   * 
    */
   isValidExt(ext: string): boolean {
     return this.exts.includes(ext);
   }
 
   /**
-   * Prints list of valid extensions from language.
+   * Returns list of valid extensions (exts) from language.
    * @returns Array of valid extensions with 1st element as base file extension
    */
   getExtensions(): string[] {
@@ -87,5 +93,4 @@ export abstract class Language implements Composable {
     mainfile: string,
     files: { [index: string]: string[] }
   ): string;
-  abstract getRegex(): RegExp[];
 }
