@@ -58,23 +58,32 @@
         else{
             //replace innerHTML
         }
+
+        var functions = {
+            compose:[
+                function(){},
+                function(){
+                    //set language
+                    $("select option").each(function(){
+                        if ($(this).text() == "javascript")
+                            $(this).attr("selected","selected");
+                    });
+                },
+                function(){},
+                function(){},
+                function(){}
+            ] 
+        }
+
         $(`#${appFunc}_0`).addClass("highlight");
         window.next = function(){
             if(window.step + 1 <= max[appFunc]){
                 $(`#${appFunc}_${window.step}`).removeClass("highlight");
                 window.step++;
                 $(`#${appFunc}_${window.step}`).addClass("highlight");
+                functions[appFunc][window.step]()
                 $("#notes").text($(`#${appFunc}_${window.step}`).attr("note"))
-            }
-            
-        }
-        window.prev = function(){
-            if(window.step - 1 >= 0){
-                $(`#${appFunc}_${window.step}`).removeClass("highlight");
-                window.step--;
-                $(`#${appFunc}_${window.step}`).addClass("highlight");
-                $("#notes").text($(`#${appFunc}_${window.step}`).attr("note"))
-            }
+            }    
         }
     }
 </script>
@@ -209,7 +218,7 @@
                                 </form>
                             </div>
                             <div class="col s5">
-                                <h1><a onclick="prev()"><i class="material-icons" style="cursor:pointer;">keyboard_arrow_left</i></a>&nbsp;&nbsp;<a onclick="next()"><i class="material-icons" style="cursor:pointer;">keyboard_arrow_right</i></a></h1>
+                                <h1><a onclick="next()"><i class="material-icons" style="cursor:pointer;">keyboard_arrow_right</i></a></h1>
                                 <!-- BEGIN description section -->
                                 <span id="notes">Click on "Compose" or "Revert" buttons on the left user interface and use the arrows to navigate using the web UI</span>
                             </div>
