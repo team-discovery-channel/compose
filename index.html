@@ -344,14 +344,13 @@
                             <div class="card">
                                 <div class="card-content">
                                 <span class="card-title">Composing a file</span>
-                                <p>I am a very simple card. I am good at containing small bits of information.
-                                I am convenient because I require little markup to use effectively.</p>
+                                <p>Example file: simple.zip<br>use <code>cd</code> to change to the directory with the source file<br>command: <code>http --form POST localhost:8080/api/v1/compose language="javascript" entry="simple/index.js" file@simple.zip</code></p>
                                 </div>
                                 <div class="card-action">
-                                <a href="#">Response: 200</a>
-                                <a href="#">400</a>
-                                <a href="#">404</a>
-                                <a href="#">501</a>
+                                <a class="tooltipped" data-position="bottom" data-tooltip="Success - returns a plain text single source file">Response: 200</a>
+                                <a class="tooltipped" data-position="bottom" data-tooltip="Error - usually a unset required parameter">400</a>
+                                <a class="tooltipped" data-position="bottom" data-tooltip="Error - file not found in the zip archive">404</a>
+                                <a class="tooltipped" data-position="bottom" data-tooltip="Error - language provided is not implemented">501</a>
                                 </div>
                             </div>
                             <div class="card">
@@ -361,8 +360,8 @@
                                 I am convenient because I require little markup to use effectively.</p>
                                 </div>
                                 <div class="card-action">
-                                <a href="#">Responses: 200</a>
-                                <a href="#">400</a>
+                                <a class="tooltipped" data-position="bottom" data-tooltip="Success - returns a zip file using application/zip mime type">Responses: 200</a>
+                                <a class="tooltipped" data-position="bottom" data-tooltip="Error - usually a unset required parameter">400</a>
                                 </div>
                             </div>
                             
