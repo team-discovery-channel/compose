@@ -12,7 +12,7 @@
 
 ## Installation
 ### Required installations:
-* NodeJS (v12)
+* NodeJS (v8+)
 
 ### How To Install Project
 ###### Clone the repository using git or download as a zip
