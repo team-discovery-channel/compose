@@ -77,9 +77,7 @@
                     $("#index\\.js_anchor").addClass("jstree-clicked")
                 },
                 function(){
-                    $("input[name='outfile']")[0].val("optional")
-                    $("input[name='outfile']")[0].text("optional")
-                    
+                    $("input[name='outfile']")[0].attr("value", "optional")
                 },
                 function(){
                     $('#compose_5').trigger('click')
