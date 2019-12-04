@@ -19,7 +19,7 @@ export abstract class Language implements Composable {
 
   /**
    * @param name  language name, lowercase
-   * @param exts  list of valid extensions for the language, with preceding dot i.e. .js, .init, etc. 
+   * @param exts  list of valid extensions for the language, with preceding dot i.e. .js, .init, etc.
    * @returns Language Package
    */
   constructor(name: string, exts: string[]) {
