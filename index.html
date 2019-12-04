@@ -418,11 +418,12 @@
                             </ol>
                             </li>
                             </ul>
-                            <pre><code>{
-                            "command": {"win32": string, "else": string} | string, //the command format string with a single %s
-                            "entry": string, //full path from root of zip archive to the main file
-                            &lt;name of test sub directories :string&gt;: string, // the expected result from running the command
-                                }
+                            <pre><code>
+{
+"command": {"win32": string, "else": string} | string, //the command format string with a single %s
+"entry": string, //full path from root of zip archive to the main file
+&lt;name of test sub directories :string&gt;: string, // the expected result from running the command
+}
                             </code></pre>
                             <ul>
                             <li>
