@@ -44,7 +44,7 @@ For more information on dotenv files: https://www.npmjs.com/package/dotenv **
 npm install
 ```
 
-## How to Run the Project
+## How to Run the App
 1. Run using developer tools (nodemon enabled). This allows changes to the source code to be reflected by the server as soon as changes are saved.
 ```bash
 npm run dev
@@ -61,6 +61,12 @@ localhost:8080
 ```bash
 localhost:8080/docs
 ```
+
+Other Node Commands:
+`npm lint` - run linting over source code.
+`npm run test` - run test suite and generate coverage reports.
+`npm run apidoc` - update the API documentation found at `server:port/docs` (i.e. `localhost:8080/docs`) and in the /dist folder.
+
 
 ## HTTP API
 Users can bypass the GUI interface and make requests through HTTP and a program like cURL or HTTPie. Web API found below.
