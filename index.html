@@ -46,6 +46,7 @@
         $(".nav-wrapper").addClass("highlight")
     }
     function runUI(appFunc){
+        $(".nav-wrapper").removeClass("highlight")
         window.step = 0;
         if(appFunc == "compose"){
             //replace innerHTML
@@ -63,6 +64,7 @@
             $(`#${appFunc}_${window.step}`).removeClass("highlight");
             window.step--;
             $(`#${appFunc}_${window.step}`).addClass("highlight");
+            $("#notes").text($(`#${appFunc}_${window.step}`).attr("note"))
         }
     }
 </script>
