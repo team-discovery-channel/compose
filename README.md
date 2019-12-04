@@ -106,12 +106,31 @@ The compose function takes two parameters. The first is a dictionary of the user
 
 [`src/api/languages.ts`](src/api/languages.ts) is where the program keeps track of included languages. Simply add new languages to the dictionary and the front end will automatically incorporate it, and the backend will know how to call it. The  is how the app will recognize the language in HTTP requests and is how it will display on the view, so make sure it's recognizable.
 
+### Testing A New Language
+ #### Unit testing
+ * Compose uses Jest as the testing framework
+ * Add unit tests in the [`test/api/`](test/api/) directory in a file named ```<common language name>.test.ts```
+ 
+ #### Integration testing
+ * Once your language is implemented create test directories and source files
+   1. go to [`test/files/`](test/files/) and create a directory with the name the same as the common language name
+   2. In that directory create a config.json which has the following structure   
+```
+    {
+    "command": {"win32": string, "else": string} | string, //the command format string with a single %s
+    "entry": string, //full path from root of zip archive to the main file
+    <name of test sub directories :string>: string, // the expected result from running the command
+    }
+```
+ * 
+   3. Now create the sub directories with test source files, run them, copy the outputs to the corresponding JSON property in the config.json
+
 ## PRESUMPTIONS/PRECONDITIONS/ASSUMPTIONS
   #### Compose
   #### Revert
   1. The Language methods are implemented and the comment guard wrapping source files is of the form of a single line comment followed by the begin guard or end guard.
   2. The begin and end guard must be distinct and not a substring of one another.
-  3. Any edits to the source between guards must be done in a way that it can be undone by a per-line map function. The [Language](src/api/language.ts) class has a protected member function, processline, that can be overwritten by language imeplementations to facilitate this, an example can be found in python class.
+  3. Any edits to the source between guards must be done in a way that it can be undone by a per-line map function. The [Language](src/api/language.ts) class has a protected member function, processLine, that can be overwritten by language imeplementations to facilitate this, an example can be found in python class.
 ##
 
 
@@ -119,3 +138,6 @@ The compose function takes two parameters. The first is a dictionary of the user
 1. Sign into travis-ci.com using your GitHub account.
 2. Activate your repository through Travis CI.
 3. Builds can either be triggered manually or will automatically build during the next update to the repository.
+
+## Issues
+ * The revert function when using linux has a root directory named "undefined" but otherwise reproduces the source zip file. The issue was narrowed to the mock file system called in the revert function.
