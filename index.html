@@ -117,8 +117,8 @@
                     <div class="nav-wrapper teal lighten-2">
                       <a href="#!" class="brand-logo center">To Many</a>
                       <ul class="left hide-on-med-and-down">
-                        <li id="compose_0" note="How to use the compose UI..."><a target="_blank" onclick="runUI('compose')">Compose</a></li>
-                        <li id="revert_0" class="active"><a target="_blank" onclick="runUI('revert')">Revert</a></li>
+                        <li id="compose_0" ><a target="_blank" onclick="runUI('compose')">Compose</a></li>
+                        <li id="revert_0" note="How to use the revert UI..." class="active"><a target="_blank" onclick="runUI('revert')">Revert</a></li>
                       </ul>
                     </div>
                   </nav>
@@ -130,7 +130,7 @@
                     <label style="line-height:36px;">Select Language</label>
                 </div>
                 <div class="col m5">
-                    <select class="browser-default" name="languageSelect">
+                    <select id="revert_1" note="Use the drop down menu to select the language of the composed file, for this example javascript was used." class="browser-default" name="languageSelect">
                         <option value="" disabled selected>No langauge selected</option>
                         
                             <option>javascript</option>
@@ -146,9 +146,9 @@
                     </div>
                     <div class="col m5">
                         <div class="file-field input-field">
-                                <div class="btn m2" style="float:right">
+                                <div id="revert_2" note="Hit browse button, a file open dialogue window will open to select the composed file. This tutorial uses optional.js used in the compose tutorial." class="btn m2" style="float:right">
                                         <span>Browse</span>
-                                        <input type="file" name="source"/>
+                                        <!--<input type="file" name="source"/>-->
                                     </div>
                             <div class="file-path-wrapper m10">
                                 <input class="file-path validate" type="text" id="filename">
@@ -159,19 +159,17 @@
 
             <div class="row outform">
                 <div class="col m2" style="text-align:right;margin-left:17.5%;">
-                    <label style="line-height:36px;">Output filename</label>
+                    <label id="revert_3" note="Optionally add a filename here, without the extension. This tutorial uses 'example' to reproduce the zip file used in the compose tutorial." style="line-height:36px;">Output filename</label>
                 </div>
                 <div class="col m5">
                     <input type="text" name="outfile">
                 </div>
             </div>
             <div id="submit" class="row" style="text-align:center">
-                <button class="btn waves-effect waves-light" type="button" name="action">Submit
+                <a href="data:application/zip;base64,UEsDBBQAAAAAAI1igU8AAAAAAAAAAAAAAAAHAAAAc2ltcGxlL1BLAwQKAAAAAACNYoFPxwkia0cAAABHAAAAEAAAAHNpbXBsZS9hZGRvbmUuanN2YXIgcnVuID0gZnVuY3Rpb24odmFsdWUpew0KICAgIHZhbHVlWzBdICs9IDE7DQp9DQoNCmV4cG9ydHMucnVuID0gcnVuO1BLAwQUAAAACACNYoFPlgI2QJoAAABvAQAADwAAAHNpbXBsZS9pbmRleC5qc62PMQ7CMAxF90i5Q5SFRJUCO+IUjFWH0IQqqIrBdmBA3J1UURcYweP7T7b/3aPyIUCO6qAw3krCaDZu29jG7qVYFCqnL6Uxd6HVqiGVmavV7wYppBghE8zRzTBVeC555ATZBM/ePqVQda4IYyRyxAEKuwcmjkb3ulskx3BkTHkyttODtlK8PtaadrIm7WGHJa/sV7H2+7MoxRtQSwMECgAAAAAAjWKBT/dDYOJHAAAARwAAABAAAABzaW1wbGUvc3Vib25lLmpzdmFyIHJ1biA9IGZ1bmN0aW9uKHZhbHVlKXsNCiAgICB2YWx1ZVswXSAtPSAxOw0KfQ0KDQpleHBvcnRzLnJ1biA9IHJ1bjtQSwECPwAUAAAAAACNYoFPAAAAAAAAAAAAAAAABwAkAAAAAAAAABAAAAAAAAAAc2ltcGxlLwoAIAAAAAAAAQAYANBN72F8qNUB0E3vYXyo1QHl/+5hfKjVAVBLAQI/AAoAAAAAAI1igU/HCSJrRwAAAEcAAAAQACQAAAAAAAAAIAAAACUAAABzaW1wbGUvYWRkb25lLmpzCgAgAAAAAAABABgA5f/uYXyo1QHl/+5hfKjVAeX/7mF8qNUBUEsBAj8AFAAAAAgAjWKBT5YCNkCaAAAAbwEAAA8AJAAAAAAAAAAgAAAAmgAAAHNpbXBsZS9pbmRleC5qcwoAIAAAAAAAAQAYANom72F8qNUB2ibvYXyo1QHaJu9hfKjVAVBLAQI/AAoAAAAAAI1igU/3Q2DiRwAAAEcAAAAQACQAAAAAAAAAIAAAAGEBAABzaW1wbGUvc3Vib25lLmpzCgAgAAAAAAABABgA0E3vYXyo1QHQTe9hfKjVAdBN72F8qNUBUEsFBgAAAAAEAAQAfgEAANYBAAAAAA==" download="example.zip"><button class="btn waves-effect waves-light" id="revert_4" note="Click download. A download of a zip file containing the directory structure and files of the composed source. If an error occured the user will see JSON error message and a suggestion to address the error." type="button" name="action">Submit
                     <i class="material-icons right"></i>
-                </button>
+                </button></a>
             </div>
-
-
 
             <div class="progress" style="display:none">
                 <div class="indeterminate"></div>
