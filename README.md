@@ -17,9 +17,6 @@
 ### How To Install Project
 ###### Clone the repository using git or download as a zip
 
-**  Notes: There is a file `.env.sample` that needs to be used as a template for `.env` before it can run.
-see: https://www.npmjs.com/package/dotenv **
-
 ```bash
 $ cd compose
 ```
@@ -31,8 +28,8 @@ $ cd compose
  SERVER_PORT=8080
 ```
 
-**  Note: The file `.env.sample` can be renamed as `.env`
-For more information on dotenv files: https://www.npmjs.com/package/dotenv **
+**Note**: *The file `.env.sample` can be renamed as `.env`
+For more information on dotenv files: https://www.npmjs.com/package/dotenv*
 
 4. Install necessary node packages
 
