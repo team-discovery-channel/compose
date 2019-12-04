@@ -74,6 +74,9 @@
                     processZipFile(window.examplezip)
                 },
                 function(){},
+                function(){
+                    $("input[name='outfile']")[0].val("optional")
+                },
                 function(){}
             ] 
         }
@@ -182,7 +185,7 @@
                                                 <div class="file-field input-field">
                                                         <div id="compose_2" note="Hit browse button, a file open dialogue window will open to select a zip file. This tutorial uses example.zip with a simple layout. The UI loads the direcotry tree for the zip file." class="btn m2" style="float:right">
                                                                 <span>Browse</span>
-                                                                <input type="file" name="zip"/>
+                                                                <!--<input type="file" name="zip"/>-->
                                                             </div>
                                                     <div class="file-path-wrapper m10">
                                                         <input class="file-path validate" type="text" id="filename">
@@ -223,7 +226,7 @@
                             <div class="col s5">
                                 <h1><a onclick="next()"><i class="material-icons" style="cursor:pointer;">keyboard_arrow_right</i></a></h1>
                                 <!-- BEGIN description section -->
-                                <span id="notes">Click on "Compose" or "Revert" buttons on the left user interface and use the arrows to navigate using the web UI</span>
+                                <span id="notes">Click on "Compose" or "Revert" buttons on the left user interface and use the arrow to navigate using the web UI</span>
                             </div>
                         </div>
                         <div class="row">
