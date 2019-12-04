@@ -7,9 +7,6 @@ class MockLang extends Language {
   constructor() {
     super('abstract', ['.abs', '/index.js', '']);
   }
-  getRegex(): RegExp[] {
-    return [/require\((['"])([^'"]+)\1\)/];
-  }
 
   compose(filelist: string, files: { [index: string]: string[] }): string {
     return "";

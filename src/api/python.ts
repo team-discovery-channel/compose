@@ -14,12 +14,6 @@ class Python extends Language {
     this.endGuard = 'End';
   }
   /**
-   * @returns returns regex which filters for any "import **module** from **function**" string
-   */
-  getRegex(): RegExp[] {
-    return [/^\s*import\s+([A-Z,a-z]+)\1/, /from\s+([A-Z,a-z])+\1/];
-  }
-  /**
    * @param mainfile Filename of consisting of entry point from source files
    * @param files Filenames from source files
    * @returns Flattened file with runnable composed functions in clear text format

@@ -33,13 +33,10 @@
         "lines": 95,
         "statements": -10
       }
-    },
-    "coverageReporters": [
-      "json-summary"
-    ]
+    }
   },
   "scripts": {
-    "build": "npm-run-all clean lint check tsc copy-assets typedoc",
+    "build": "npm-run-all clean lint check tsc copy-assets typedoc apidoc",
     "check": "gts check",
     "clean": "gts clean",
     "copy-assets": "ts-node tools/copyAssets",
@@ -52,7 +49,8 @@
     "test": "jest --detectOpenHandles --forceExit && npm run test:badge",
     "test:badge": "node_modules/.bin/jest-badges-readme",
     "tsc": "tsc -p tsconfig.json",
-    "typedoc": "typedoc"
+    "typedoc": "typedoc",
+    "apidoc": "raml2html api.raml -o ./dist/src/docs/api.html"
   },
   "dependencies": {
     "adm-zip": "^0.4.13",
@@ -85,6 +83,7 @@
     "mock-fs": "^4.10.1",
     "nodemon": "^1.19.1",
     "npm-run-all": "^4.1.5",
+    "raml2html": "^7.5.0",
     "rimraf": "^3.0.0",
     "shelljs": "^0.8.3",
     "supertest": "^4.0.2",

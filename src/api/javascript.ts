@@ -5,22 +5,26 @@ import { filterFiles } from './javascript.utils';
  */
 class Javascript extends Language {
   /**
-   * @returns Returns comment String for Javascript
+   * Defines comment convention for javascript
    */
   comment = '//';
+
   /**
    * @returns Returns Language with Javascript package
    */
   constructor() {
     super('javascript', ['.js', '/index.js', '']);
   }
+
   /**
    * @returns returns regex which filters for any "require **module**" string
    */
   getRegex(): RegExp[] {
     return [/require\((['"])([^'"]+)\1\)/];
   }
+
   /**
+   * Defines compose behavior for javascript projects.
    * @param mainfile Filename of consisting of entry point from source files
    * @param files Filenames from source files
    * @returns Flattened file with runnable composed functions in clear text format

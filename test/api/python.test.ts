@@ -48,23 +48,6 @@ test(`is ${name} composable`,()=>{
     expect(isComposable).not.toThrow();
 
 })
-
-test(`is regex of ${name} correct`,()=>{
-    const cmp = language.getRegex()[0].exec("import module1");
-	if(cmp !== null){
-        expect(cmp[2] === "module1").toBe(true);
-    }
-    else{
-        expect(cmp === null).toBe(true)
-    }
-	const cmp1 = language.getRegex()[1].exec("from module2");
-	if(cmp !== null){
-		expect(cmp[2] === "module2").toBe(true);
-	}
-	else{
-		expect(cmp1 === null).toBe(true)
-	}
-})
 test('test 1 for get_modules_from_import, import x format', ()=>{
 	const im0 = "import foo"
 	expect(utils.getModulesFromImport(im0)[0]).toEqual("foo")
