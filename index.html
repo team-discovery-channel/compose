@@ -44,7 +44,7 @@
                                     <div class="nav-wrapper teal lighten-2">
                                     <a href="#!" class="brand-logo center">To One</a>
                                     <ul class="left">
-                                        <li id="compose_0" note="How to use the compose UI..."><a target="_blank" onclick="runUI('compose')">Compose</a></li>
+                                        <li id="compose_0" note="How to use the compose UI..." class="active"><a target="_blank" onclick="runUI('compose')">Compose</a></li>
                                         <li id="revert_0"><a target="_blank" onclick="runUI('revert')">Revert</a></li>
                                     </ul>
                                     </div>
@@ -112,6 +112,73 @@
                                         <div class="indeterminate"></div>
                                     </div>
                                 </form>`
+    window.revert_html = `
+    <nav>
+                    <div class="nav-wrapper teal lighten-2">
+                      <a href="#!" class="brand-logo center">To Many</a>
+                      <ul class="left hide-on-med-and-down">
+                        <li id="compose_0" note="How to use the compose UI..."><a target="_blank" onclick="runUI('compose')">Compose</a></li>
+                        <li id="revert_0" class="active"><a target="_blank" onclick="runUI('revert')">Revert</a></li>
+                      </ul>
+                    </div>
+                  </nav>
+        <form action="" method="post" enctype="multipart/form-data">
+            <div class="row">
+            </div>
+            <div class="row">
+                <div class="col m2" style="text-align:right;margin-left:17.5%;">
+                    <label style="line-height:36px;">Select Language</label>
+                </div>
+                <div class="col m5">
+                    <select class="browser-default" name="languageSelect">
+                        <option value="" disabled selected>No langauge selected</option>
+                        
+                            <option>javascript</option>
+                        
+                            <option>python</option>
+                        
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                    <div class= "col m2" style="text-align:right;margin-left:17.5%;">
+                        <label style="line-height:64px;">Composed file</label>
+                    </div>
+                    <div class="col m5">
+                        <div class="file-field input-field">
+                                <div class="btn m2" style="float:right">
+                                        <span>Browse</span>
+                                        <input type="file" name="source"/>
+                                    </div>
+                            <div class="file-path-wrapper m10">
+                                <input class="file-path validate" type="text" id="filename">
+                            </div>
+                        </div>
+                    </div>
+            </div>
+
+            <div class="row outform">
+                <div class="col m2" style="text-align:right;margin-left:17.5%;">
+                    <label style="line-height:36px;">Output filename</label>
+                </div>
+                <div class="col m5">
+                    <input type="text" name="outfile">
+                </div>
+            </div>
+            <div id="submit" class="row" style="text-align:center">
+                <button class="btn waves-effect waves-light" type="button" name="action">Submit
+                    <i class="material-icons right"></i>
+                </button>
+            </div>
+
+
+
+            <div class="progress" style="display:none">
+                <div class="indeterminate"></div>
+            </div>
+        </form>
+
+    `
     
     //window.blob = window.atob(window.examplezip)
     function init(){
@@ -131,7 +198,7 @@
         }
         else{
             //replace innerHTML
-            $(".col.s7").html("")
+            $(".col.s7").html(window.revert_html)
         }
 
         var functions = {
