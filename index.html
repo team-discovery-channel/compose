@@ -45,12 +45,6 @@
         M.AutoInit();
         $(".nav-wrapper").addClass("highlight")
     }
-    function next(){
-        
-    }
-    function prev(){
-
-    }
     function runUI(appFunc){
         window.step = 0;
         if(appFunc == "compose"){
@@ -60,6 +54,16 @@
             //replace innerHTML
         }
         $(`#${appFunc}_0`).addClass("highlight");
+        window.next = function(){
+            $(`#${appFunc}_${window.step}`).removeClass("highlight");
+            window.step++;
+            $(`#${appFunc}_${window.step}`).addClass("highlight");
+        }
+        window.prev = function(){
+            $(`#${appFunc}_${window.step}`).removeClass("highlight");
+            window.step--;
+            $(`#${appFunc}_${window.step}`).addClass("highlight");
+        }
     }
 </script>
 
