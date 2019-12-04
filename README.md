@@ -28,7 +28,7 @@ $ cd compose
  SERVER_PORT=8080
 ```
 
-**Note**- *The file `.env.sample` can be renamed as `.env`
+**Note** - *The file `.env.sample` can be renamed as `.env`
 For more information on dotenv files: https://www.npmjs.com/package/dotenv*
 
 4. Install necessary node packages
