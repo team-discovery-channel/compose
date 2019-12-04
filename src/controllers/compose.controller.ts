@@ -34,7 +34,6 @@ export const composeFile = (req: any, res: any) => {
     if (req.body.out !== '' && req.body.out !== undefined) {
       out.filename = req.body.out;
     }
-
     let composed: Buffer = Buffer.from([]);
     try {
       composed = compose(

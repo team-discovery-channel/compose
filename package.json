@@ -33,7 +33,10 @@
         "lines": 95,
         "statements": -10
       }
-    }
+    },
+    "coverageReporters": [
+      "json-summary"
+    ]
   },
   "scripts": {
     "build": "npm-run-all clean lint check tsc copy-assets typedoc apidoc",

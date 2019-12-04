@@ -9,7 +9,6 @@
 
 # COMPOSE
 
-
 ## Installation
 ### Required installations:
 * NodeJS (v8+)

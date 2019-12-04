@@ -39,7 +39,7 @@ const errors = {
  * Entry point for compose functionality
  * @param file Buffer of zip folder uploaded by user
  * @param language Selected Language
- * @param out
+ * @param out object with a property filename set as string output filename
  * @param entry Filename of entry ("main") file
  * @return Buffer of combined file
  */
